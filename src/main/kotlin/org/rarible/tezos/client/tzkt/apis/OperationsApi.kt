@@ -36,7 +36,6 @@ import org.rarible.tezos.client.tzkt.models.AccountParameter
 import org.rarible.tezos.client.tzkt.models.BoolParameter
 import org.rarible.tezos.client.tzkt.models.DateTimeParameter
 import org.rarible.tezos.client.tzkt.models.ExpressionParameter
-import org.rarible.tezos.client.tzkt.models.Int32Parameter
 import org.rarible.tezos.client.tzkt.models.Int64Parameter
 import org.rarible.tezos.client.tzkt.models.JsonParameter
 import org.rarible.tezos.client.tzkt.models.MigrationKindParameter
@@ -55,8 +54,6 @@ import org.rarible.tezos.client.tzkt.models.RevealOperation
 import org.rarible.tezos.client.tzkt.models.RevelationPenaltyOperation
 import org.rarible.tezos.client.tzkt.models.TransactionOperation
 
-import com.squareup.moshi.Json
-
 import org.rarible.tezos.client.tzkt.infrastructure.ApiClient
 import org.rarible.tezos.client.tzkt.infrastructure.ApiResponse
 import org.rarible.tezos.client.tzkt.infrastructure.ClientException
@@ -68,7 +65,6 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
-import org.rarible.tezos.client.tzkt.infrastructure.toMultiValue
 
 class OperationsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {

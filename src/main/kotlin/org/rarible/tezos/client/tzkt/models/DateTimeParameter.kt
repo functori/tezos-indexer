@@ -21,7 +21,7 @@
 package org.rarible.tezos.client.tzkt.models
 
 
-import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.ComparisonFilterImpl
 
 /**
  * 
@@ -37,38 +37,6 @@ import com.squareup.moshi.Json
  */
 
 data class DateTimeParameter (
-
-    /* **Equal** filter mode (optional, i.e. `param.eq=2020-01-01` is the same as `param=2020-01-01`). \\ Specify a datetime to get items where the specified field is equal to the specified value.  Example: `?timestamp=2020-02-20T02:40:57Z`. */
-    @Json(name = "eq")
-    val eq: java.time.OffsetDateTime? = null,
-
-    /* **Not equal** filter mode. \\ Specify a datetime to get items where the specified field is not equal to the specified value.  Example: `?timestamp.ne=2020-02-20T02:40:57Z`. */
-    @Json(name = "ne")
-    val ne: java.time.OffsetDateTime? = null,
-
-    /* **Greater than** filter mode. \\ Specify a datetime to get items where the specified field is greater than the specified value.  Example: `?timestamp.gt=2020-02-20T02:40:57Z`. */
-    @Json(name = "gt")
-    val gt: java.time.OffsetDateTime? = null,
-
-    /* **Greater or equal** filter mode. \\ Specify a datetime to get items where the specified field is greater than equal to the specified value.  Example: `?timestamp.ge=2020-02-20T02:40:57Z`. */
-    @Json(name = "ge")
-    val ge: java.time.OffsetDateTime? = null,
-
-    /* **Less than** filter mode. \\ Specify a datetime to get items where the specified field is less than the specified value.  Example: `?timestamp.lt=2020-02-20T02:40:57Z`. */
-    @Json(name = "lt")
-    val lt: java.time.OffsetDateTime? = null,
-
-    /* **Less or equal** filter mode. \\ Specify a datetime to get items where the specified field is less than or equal to the specified value.  Example: `?timestamp.le=2020-02-20T02:40:57Z`. */
-    @Json(name = "le")
-    val le: java.time.OffsetDateTime? = null,
-
-    /* **In list** (any of) filter mode. \\ Specify a comma-separated list of datetimes to get items where the specified field is equal to one of the specified values.  Example: `?timestamp.in=2020-02-20,2020-02-21`. */
-    @Json(name = "in")
-    val `in`: kotlin.collections.List<java.time.OffsetDateTime>? = null,
-
-    /* **Not in list** (none of) filter mode. \\ Specify a comma-separated list of datetimes to get items where the specified field is not equal to all the specified values.  Example: `?timestamp.ni=2020-02-20,2020-02-21`. */
-    @Json(name = "ni")
-    val ni: kotlin.collections.List<java.time.OffsetDateTime>? = null
-
+   val dateFilterImpl: ComparisonFilterImpl = ComparisonFilterImpl()
 )
 

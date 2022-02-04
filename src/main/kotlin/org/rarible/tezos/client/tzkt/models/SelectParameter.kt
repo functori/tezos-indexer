@@ -22,6 +22,7 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.SelectionFilterImpl
 
 /**
  * 
@@ -31,14 +32,6 @@ import com.squareup.moshi.Json
  */
 
 data class SelectParameter (
-
-    /* **Fields** selection mode (optional, i.e. `select.fields=balance` is the same as `select=balance`). \\ Specify a comma-separated list of fields to include into response.  Example: `?select=address,balance` =&gt; `[ { \"address\": \"asd\", \"balance\": 10 } ]`. */
-    @Json(name = "fields")
-    val fields: kotlin.collections.List<kotlin.String>? = null,
-
-    /* **Values** selection mode. \\ Specify a comma-separated list of fields to include their values into response.  Example: `?select.values=address,balance` =&gt; `[ [ \"asd\", 10 ] ]`. */
-    @Json(name = "values")
-    val propertyValues: kotlin.collections.List<kotlin.String>? = null
-
+    val selectionFilterImpl: SelectionFilterImpl = SelectionFilterImpl()
 )
 

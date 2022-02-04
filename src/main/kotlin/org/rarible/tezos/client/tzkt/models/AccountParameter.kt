@@ -22,6 +22,14 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.EqualityFilter
+import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
+import org.rarible.tezos.client.tzkt.filters.FieldEqualityFilter
+import org.rarible.tezos.client.tzkt.filters.FieldEqualityFilterImpl
+import org.rarible.tezos.client.tzkt.filters.InclusionFilter
+import org.rarible.tezos.client.tzkt.filters.InclusionFilterImpl
+import org.rarible.tezos.client.tzkt.filters.NullFilter
+import org.rarible.tezos.client.tzkt.filters.NullFilterImpl
 
 /**
  * 
@@ -36,34 +44,9 @@ import com.squareup.moshi.Json
  */
 
 data class AccountParameter (
-
-    /* **Equal** filter mode (optional, i.e. `param.eq=123` is the same as `param=123`). \\ Specify a `tz` or `KT` address to get items where the specified field is equal to the specified value.  Example: `?sender=tz1WnfXMPaNTBmH7DBPwqCWs9cPDJdkGBTZ8`. */
-    @Json(name = "eq")
-    val eq: kotlin.String? = null,
-
-    /* **Not equal** filter mode. \\ Specify a `tz` or `KT` address to get items where the specified field is not equal to the specified value.  Example: `?sender.ne=tz1WnfXMPaNTBmH7DBPwqCWs9cPDJdkGBTZ8`. */
-    @Json(name = "ne")
-    val ne: kotlin.String? = null,
-
-    /* **In list** (any of) filter mode. \\ Specify a comma-separated list of addresses to get items where the specified field is equal to one of the specified values.  Example: `?sender.in=tz1WnfXMPaNTB,tz1SiPXX4MYGNJND`. */
-    @Json(name = "in")
-    val `in`: kotlin.collections.List<kotlin.String>? = null,
-
-    /* **Not in list** (none of) filter mode. \\ Specify a comma-separated list of addresses to get items where the specified field is not equal to all the specified values.  Example: `?sender.ni=tz1WnfXMPaNTB,tz1SiPXX4MYGNJND`. */
-    @Json(name = "ni")
-    val ni: kotlin.collections.List<kotlin.String>? = null,
-
-    /* **Equal to another field** filter mode. \\ Specify a field name to get items where the specified fields are equal.  Example: `?sender.eqx=target`. */
-    @Json(name = "eqx")
-    val eqx: kotlin.String? = null,
-
-    /* **Not equal to another field** filter mode. \\ Specify a field name to get items where the specified fields are not equal.  Example: `?sender.nex=initiator`. */
-    @Json(name = "nex")
-    val nex: kotlin.String? = null,
-
-    /* **Is null** filter mode. \\ Use this mode to get items where the specified field is null or not.  Example: `?initiator.null` or `?initiator.null=false`. */
-    @Json(name = "null")
-    val `null`: kotlin.Boolean? = null
-
+    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
+    val fieldEqualityFilterImpl: FieldEqualityFilterImpl = FieldEqualityFilterImpl(),
+    val inclusionFilterImpl: InclusionFilterImpl = InclusionFilterImpl(),
+    val nullFilterImpl: NullFilterImpl= NullFilterImpl()
 )
 

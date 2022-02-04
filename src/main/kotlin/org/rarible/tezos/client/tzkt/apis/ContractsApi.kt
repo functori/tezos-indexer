@@ -34,7 +34,6 @@ import org.rarible.tezos.client.tzkt.models.IMicheline
 import org.rarible.tezos.client.tzkt.models.AccountParameter
 import org.rarible.tezos.client.tzkt.models.BigMapTagsParameter
 import org.rarible.tezos.client.tzkt.models.ContractKindParameter
-import org.rarible.tezos.client.tzkt.models.Int32Parameter
 import org.rarible.tezos.client.tzkt.models.Int64Parameter
 import org.rarible.tezos.client.tzkt.models.JsonParameter
 import org.rarible.tezos.client.tzkt.models.MichelineFormat
@@ -42,8 +41,6 @@ import org.rarible.tezos.client.tzkt.models.OffsetParameter
 import org.rarible.tezos.client.tzkt.models.SelectParameter
 import org.rarible.tezos.client.tzkt.models.SortParameter
 import org.rarible.tezos.client.tzkt.models.StorageRecord
-
-import com.squareup.moshi.Json
 
 import org.rarible.tezos.client.tzkt.infrastructure.ApiClient
 import org.rarible.tezos.client.tzkt.infrastructure.ApiResponse
@@ -56,7 +53,6 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
-import org.rarible.tezos.client.tzkt.infrastructure.toMultiValue
 
 class ContractsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {

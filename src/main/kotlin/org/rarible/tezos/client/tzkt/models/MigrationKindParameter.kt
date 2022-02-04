@@ -22,6 +22,8 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
+import org.rarible.tezos.client.tzkt.filters.InclusionFilterImpl
 
 /**
  * 
@@ -33,22 +35,7 @@ import com.squareup.moshi.Json
  */
 
 data class MigrationKindParameter (
-
-    /* **Equal** filter mode (optional, i.e. `param.eq=123` is the same as `param=123`). \\ Specify a migration kind to get items where the specified field is equal to the specified value.  Example: `?kind=bootstrap`. */
-    @Json(name = "eq")
-    val eq: kotlin.String? = null,
-
-    /* **Not equal** filter mode. \\ Specify a migration kind to get items where the specified field is not equal to the specified value.  Example: `?type.ne=proposal_invoice`. */
-    @Json(name = "ne")
-    val ne: kotlin.String? = null,
-
-    /* **In list** (any of) filter mode. \\ Specify a comma-separated list of migration kinds to get items where the specified field is equal to one of the specified values.  Example: `?sender.in=bootstrap,proposal_invoice`. */
-    @Json(name = "in")
-    val `in`: kotlin.collections.List<kotlin.String>? = null,
-
-    /* **Not in list** (none of) filter mode. \\ Specify a comma-separated list of migration kinds to get items where the specified field is not equal to all the specified values.  Example: `?sender.ni=airdrop,bootstrap`. */
-    @Json(name = "ni")
-    val ni: kotlin.collections.List<kotlin.String>? = null
-
+    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
+    val inclusionFilterImpl: InclusionFilterImpl = InclusionFilterImpl()
 )
 

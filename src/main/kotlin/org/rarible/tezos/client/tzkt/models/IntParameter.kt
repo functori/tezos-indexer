@@ -20,9 +20,6 @@
 
 package org.rarible.tezos.client.tzkt.models
 
-
-import com.squareup.moshi.Json
-
 /**
  * 
  *
@@ -36,39 +33,7 @@ import com.squareup.moshi.Json
  * @param ni **Not in list** (none of) filter mode. \\ Specify a comma-separated list of integers to get items where the specified field is not equal to all the specified values.  Example: `?level.ni=12,14,52,69`.
  */
 
-data class Int64Parameter (
-
-    /* **Equal** filter mode (optional, i.e. `param.eq=123` is the same as `param=123`). \\ Specify an integer number to get items where the specified field is equal to the specified value.  Example: `?balance=1234`. */
-    @Json(name = "eq")
-    val eq: kotlin.Long? = null,
-
-    /* **Not equal** filter mode. \\ Specify an integer number to get items where the specified field is not equal to the specified value.  Example: `?balance.ne=1234`. */
-    @Json(name = "ne")
-    val ne: kotlin.Long? = null,
-
-    /* **Greater than** filter mode. \\ Specify an integer number to get items where the specified field is greater than the specified value.  Example: `?balance.gt=1234`. */
-    @Json(name = "gt")
-    val gt: kotlin.Long? = null,
-
-    /* **Greater or equal** filter mode. \\ Specify an integer number to get items where the specified field is greater than equal to the specified value.  Example: `?balance.ge=1234`. */
-    @Json(name = "ge")
-    val ge: kotlin.Long? = null,
-
-    /* **Less than** filter mode. \\ Specify an integer number to get items where the specified field is less than the specified value.  Example: `?balance.lt=1234`. */
-    @Json(name = "lt")
-    val lt: kotlin.Long? = null,
-
-    /* **Less or equal** filter mode. \\ Specify an integer number to get items where the specified field is less than or equal to the specified value.  Example: `?balance.le=1234`. */
-    @Json(name = "le")
-    val le: kotlin.Long? = null,
-
-    /* **In list** (any of) filter mode. \\ Specify a comma-separated list of integers to get items where the specified field is equal to one of the specified values.  Example: `?level.in=12,14,52,69`. */
-    @Json(name = "in")
-    val `in`: kotlin.collections.List<kotlin.Long>? = null,
-
-    /* **Not in list** (none of) filter mode. \\ Specify a comma-separated list of integers to get items where the specified field is not equal to all the specified values.  Example: `?level.ni=12,14,52,69`. */
-    @Json(name = "ni")
-    val ni: kotlin.collections.List<kotlin.Long>? = null
-
+data class IntParameter (
+   val intFilter: IntFilterImpl = IntFilterImpl()
 )
 

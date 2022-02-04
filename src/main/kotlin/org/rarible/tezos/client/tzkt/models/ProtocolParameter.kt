@@ -22,6 +22,8 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
+import org.rarible.tezos.client.tzkt.filters.InclusionFilterImpl
 
 /**
  * 
@@ -33,22 +35,7 @@ import com.squareup.moshi.Json
  */
 
 data class ProtocolParameter (
-
-    /* **Equal** filter mode (optional, i.e. `param.eq=123` is the same as `param=123`). \\ Specify a protocol hash to get items where the specified field is equal to the specified value.  Example: `?protocol=PsCARTHAGaz...`. */
-    @Json(name = "eq")
-    val eq: kotlin.String? = null,
-
-    /* **Not equal** filter mode. \\ Specify a protocol hash to get items where the specified field is not equal to the specified value.  Example: `?sender.ne=PsBabyM1eUX...`. */
-    @Json(name = "ne")
-    val ne: kotlin.String? = null,
-
-    /* **In list** (any of) filter mode. \\ Specify a comma-separated list of protocol hashes to get items where the specified field is equal to one of the specified values.  Example: `?sender.in=PsCARTHAGaz,PsBabyM1eUX`. */
-    @Json(name = "in")
-    val `in`: kotlin.collections.List<kotlin.String>? = null,
-
-    /* **Not in list** (none of) filter mode. \\ Specify a comma-separated list of protocol hashes to get items where the specified field is not equal to all the specified values.  Example: `?sender.ni=PsCARTHAGaz,PsBabyM1eUX`. */
-    @Json(name = "ni")
-    val ni: kotlin.collections.List<kotlin.String>? = null
-
+    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
+    val inclusionFilterImpl: InclusionFilterImpl = InclusionFilterImpl()
 )
 

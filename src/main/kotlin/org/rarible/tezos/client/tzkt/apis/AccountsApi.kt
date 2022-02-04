@@ -29,8 +29,6 @@ import org.rarible.tezos.client.tzkt.models.HistoricalBalance
 import org.rarible.tezos.client.tzkt.models.Operation
 import org.rarible.tezos.client.tzkt.models.RelatedContract
 
-import com.squareup.moshi.Json
-
 import org.rarible.tezos.client.tzkt.infrastructure.ApiClient
 import org.rarible.tezos.client.tzkt.infrastructure.ApiResponse
 import org.rarible.tezos.client.tzkt.infrastructure.ClientException
@@ -42,13 +40,11 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
-import org.rarible.tezos.client.tzkt.infrastructure.toMultiValue
 import org.rarible.tezos.client.tzkt.models.AccountParameter
 import org.rarible.tezos.client.tzkt.models.AccountTypeParameter
 import org.rarible.tezos.client.tzkt.models.BoolParameter
 import org.rarible.tezos.client.tzkt.models.ContractKindParameter
 import org.rarible.tezos.client.tzkt.models.DateTimeParameter
-import org.rarible.tezos.client.tzkt.models.Int32Parameter
 import org.rarible.tezos.client.tzkt.models.Int64Parameter
 import org.rarible.tezos.client.tzkt.models.JsonParameter
 import org.rarible.tezos.client.tzkt.models.MichelineFormat
@@ -155,7 +151,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (type != null) {
-                    put("type", listOf(type.toString()))
+                    put("type" + if (type.eq != null ){".eq" }else if(type.ne != null ){ ".ne" } else { "" }, listOf(type.toString()))
                 }
                 if (kind != null) {
                     put("kind", listOf(kind.toString()))

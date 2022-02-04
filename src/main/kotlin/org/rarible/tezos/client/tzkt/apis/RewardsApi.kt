@@ -24,15 +24,12 @@ import java.io.IOException
 
 import org.rarible.tezos.client.tzkt.models.BakerRewards
 import org.rarible.tezos.client.tzkt.models.DelegatorRewards
-import org.rarible.tezos.client.tzkt.models.Int32Parameter
 import org.rarible.tezos.client.tzkt.models.OffsetParameter
 import org.rarible.tezos.client.tzkt.models.SelectParameter
 import org.rarible.tezos.client.tzkt.models.SortParameter
 import org.rarible.tezos.client.tzkt.models.Symbols
 import org.rarible.tezos.client.tzkt.models.RewardSplit
 import org.rarible.tezos.client.tzkt.models.SplitDelegator
-
-import com.squareup.moshi.Json
 
 import org.rarible.tezos.client.tzkt.infrastructure.ApiClient
 import org.rarible.tezos.client.tzkt.infrastructure.ApiResponse
@@ -45,7 +42,6 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
-import org.rarible.tezos.client.tzkt.infrastructure.toMultiValue
 
 class RewardsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {

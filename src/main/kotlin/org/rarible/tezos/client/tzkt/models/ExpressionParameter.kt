@@ -22,6 +22,8 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
+import org.rarible.tezos.client.tzkt.filters.InclusionFilterImpl
 
 /**
  * 
@@ -33,22 +35,7 @@ import com.squareup.moshi.Json
  */
 
 data class ExpressionParameter (
-
-    /* **Equal** filter mode (optional, i.e. `param.eq=123` is the same as `param=123`). \\ Specify an expression hash to get items where the specified field is equal to the specified value.  Example: `?address=expr...`. */
-    @Json(name = "eq")
-    val eq: kotlin.String? = null,
-
-    /* **Not equal** filter mode. \\ Specify an expression hash to get items where the specified field is not equal to the specified value.  Example: `?address.ne=expr...`. */
-    @Json(name = "ne")
-    val ne: kotlin.String? = null,
-
-    /* **In list** (any of) filter mode. \\ Specify a comma-separated list of expression hashes to get items where the specified field is equal to one of the specified values.  Example: `?address.in=expr1,expr2`. */
-    @Json(name = "in")
-    val `in`: kotlin.collections.List<kotlin.String>? = null,
-
-    /* **Not in list** (none of) filter mode. \\ Specify a comma-separated list of expression hashes to get items where the specified field is not equal to all the specified values.  Example: `?address.ni=expr1,expr2`. */
-    @Json(name = "ni")
-    val ni: kotlin.collections.List<kotlin.String>? = null
-
+    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
+    val inclusionFilterImpl: InclusionFilterImpl = InclusionFilterImpl(),
 )
 

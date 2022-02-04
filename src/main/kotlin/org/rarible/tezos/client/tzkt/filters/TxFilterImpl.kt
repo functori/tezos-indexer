@@ -18,20 +18,27 @@
     "UnusedImport"
 )
 
-package org.rarible.tezos.client.tzkt.models
+package org.rarible.tezos.client.tzkt.filters
 
 
 import com.squareup.moshi.Json
-import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
 
 /**
  * 
  *
- * @param eq **Equal** filter mode (optional, i.e. `param.eq=123` is the same as `param=123`). \\ Specify token standard (`fa1.2` or `fa2`) to get items where the specified field is equal to the specified value.  Example: `?type=fa2`.
- * @param ne **Not equal** filter mode. \\ Specify token standard (`fa1.2` or `fa2`) to get items where the specified field is not equal to the specified value.  Example: `?type.ne=fa1.2`.
+ * @param fields **Fields** selection mode (optional, i.e. `select.fields=balance` is the same as `select=balance`). \\ Specify a comma-separated list of fields to include into response.  Example: `?select=address,balance as b,metadata.name as meta_name` will result in `[ { \"address\": \"asd\", \"b\": 10, \"meta_name\": \"qwe\" } ]`.
+ * @param propertyValues **Values** selection mode. \\ Specify a comma-separated list of fields to include their values into response.  Example: `?select.values=address,balance,metadata.name`  will result in `[ [ \"asd\", 10, \"qwe\" ] ]`.
  */
 
-data class TokenStandardParameter (
-    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
-)
+ class TxFilterImpl: TxFilter {
+
+    /* Entrypoint called on the target contract */
+    @Json(name = "entrypoint")
+    override val entrypoint: kotlin.String? = null
+
+    /* Value passed to the called entrypoint converted to human-readable JSON. Note: you can configure parameters format by setting `micheline` query parameter. */
+    @Json(name = "value")
+    override val `value`: kotlin.Any? = null
+
+}
 

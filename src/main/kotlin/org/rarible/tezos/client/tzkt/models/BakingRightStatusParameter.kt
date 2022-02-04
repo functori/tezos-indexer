@@ -22,6 +22,7 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
 
 /**
  * 
@@ -31,14 +32,6 @@ import com.squareup.moshi.Json
  */
 
 data class BakingRightStatusParameter (
-
-    /* **Equal** filter mode (optional, i.e. `param.eq=123` is the same as `param=123`). \\ Specify baking right status to get items where the specified field is equal to the specified value.  Example: `?type=future`. */
-    @Json(name = "eq")
-    val eq: kotlin.String? = null,
-
-    /* **Not equal** filter mode. \\ Specify baking right status to get items where the specified field is not equal to the specified value.  Example: `?type.ne=missed`. */
-    @Json(name = "ne")
-    val ne: kotlin.String? = null
-
+    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl()
 )
 

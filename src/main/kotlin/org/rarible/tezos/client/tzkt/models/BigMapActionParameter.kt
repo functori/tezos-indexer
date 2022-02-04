@@ -22,6 +22,9 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
+import org.rarible.tezos.client.tzkt.filters.FieldEqualityFilterImpl
+import org.rarible.tezos.client.tzkt.filters.InclusionFilterImpl
 
 /**
  * 
@@ -33,22 +36,7 @@ import com.squareup.moshi.Json
  */
 
 data class BigMapActionParameter (
-
-    /* **Equal** filter mode (optional, i.e. `param.eq=123` is the same as `param=123`). \\ Specify a contract kind to get items where the specified field is equal to the specified value.  Example: `?kind=smart_contract`. */
-    @Json(name = "eq")
-    val eq: kotlin.String? = null,
-
-    /* **Not equal** filter mode. \\ Specify a contract kind to get items where the specified field is not equal to the specified value.  Example: `?kind.ne=delegator_contract`. */
-    @Json(name = "ne")
-    val ne: kotlin.String? = null,
-
-    /* **In list** (any of) filter mode. \\ Specify a comma-separated list of contract kinds to get items where the specified field is equal to one of the specified values.  Example: `?kind.in=smart_contract,asset`. */
-    @Json(name = "in")
-    val `in`: kotlin.collections.List<kotlin.String>? = null,
-
-    /* **Not in list** (none of) filter mode. \\ Specify a comma-separated list of contract kinds to get items where the specified field is not equal to all the specified values.  Example: `?kind.ni=smart_contract,asset`. */
-    @Json(name = "ni")
-    val ni: kotlin.collections.List<kotlin.String>? = null
-
+    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
+    val inclusionFilterImpl: InclusionFilterImpl = InclusionFilterImpl(),
 )
 

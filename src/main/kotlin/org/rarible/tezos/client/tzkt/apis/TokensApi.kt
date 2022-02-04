@@ -23,8 +23,6 @@ package org.rarible.tezos.client.tzkt.apis
 import java.io.IOException
 
 import org.rarible.tezos.client.tzkt.models.AccountParameter
-import org.rarible.tezos.client.tzkt.models.Int32NullParameter
-import org.rarible.tezos.client.tzkt.models.Int32Parameter
 import org.rarible.tezos.client.tzkt.models.JsonParameter
 import org.rarible.tezos.client.tzkt.models.NatParameter
 import org.rarible.tezos.client.tzkt.models.OffsetParameter
@@ -37,8 +35,6 @@ import org.rarible.tezos.client.tzkt.models.TokenBalance
 import org.rarible.tezos.client.tzkt.models.TokenBalanceShort
 import org.rarible.tezos.client.tzkt.models.TokenTransfer
 
-import com.squareup.moshi.Json
-
 import org.rarible.tezos.client.tzkt.infrastructure.ApiClient
 import org.rarible.tezos.client.tzkt.infrastructure.ApiResponse
 import org.rarible.tezos.client.tzkt.infrastructure.ClientException
@@ -50,7 +46,6 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
-import org.rarible.tezos.client.tzkt.infrastructure.toMultiValue
 
 class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {

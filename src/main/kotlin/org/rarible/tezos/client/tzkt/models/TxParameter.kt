@@ -22,6 +22,7 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.TxFilterImpl
 
 /**
  * 
@@ -31,14 +32,6 @@ import com.squareup.moshi.Json
  */
 
 data class TxParameter (
-
-    /* Entrypoint called on the target contract */
-    @Json(name = "entrypoint")
-    val entrypoint: kotlin.String? = null,
-
-    /* Value passed to the called entrypoint converted to human-readable JSON. Note: you can configure parameters format by setting `micheline` query parameter. */
-    @Json(name = "value")
-    val `value`: kotlin.Any? = null
-
+    val txFilterImpl: TxFilterImpl = TxFilterImpl()
 )
 

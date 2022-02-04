@@ -22,6 +22,7 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.SortFilterImpl
 
 /**
  * 
@@ -31,14 +32,6 @@ import com.squareup.moshi.Json
  */
 
 data class SortParameter (
-
-    /* **Ascending** sort mode (optional, i.e. `sort.asc=id` is the same as `sort=id`). \\ Specify a field name to sort by.  Example: `?sort=balance`. */
-    @Json(name = "asc")
-    val asc: kotlin.String? = null,
-
-    /* **Descending** sort mode. \\ Specify a field name to sort by descending.  Example: `?sort.desc=id`. */
-    @Json(name = "desc")
-    val desc: kotlin.String? = null
-
+    val sortFilterImpl: SortFilterImpl = SortFilterImpl()
 )
 

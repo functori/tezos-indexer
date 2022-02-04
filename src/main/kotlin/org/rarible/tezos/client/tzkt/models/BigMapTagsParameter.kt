@@ -22,6 +22,8 @@ package org.rarible.tezos.client.tzkt.models
 
 
 import com.squareup.moshi.Json
+import org.rarible.tezos.client.tzkt.filters.AnyAllFilterImpl
+import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
 
 /**
  * 
@@ -32,18 +34,7 @@ import com.squareup.moshi.Json
  */
 
 data class BigMapTagsParameter (
-
-    /* **Equal** filter mode (optional, i.e. `param.eq=123` is the same as `param=123`). \\ Specify a comma-separated list of bigmap tags to get bigmaps with exactly the same set of tags.  Example: `?tags=metadata` or `?tags=token_metadata,metadata`. */
-    @Json(name = "eq")
-    val eq: kotlin.collections.List<kotlin.String>? = null,
-
-    /* **Has any** filter mode. \\ Specify a comma-separated list of bigmap tags to get bigmaps where at least one of the specified tags is presented.  Example: `?tags=metadata` or `?tags=token_metadata,metadata`. */
-    @Json(name = "any")
-    val any: kotlin.collections.List<kotlin.String>? = null,
-
-    /* **Has all** filter mode. \\ Specify a comma-separated list of bigmap tags to get bigmaps where all of the specified tags are presented.  Example: `?tags=metadata` or `?tags=token_metadata,metadata`. */
-    @Json(name = "all")
-    val all: kotlin.collections.List<kotlin.String>? = null
-
+    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
+    val anyAllFilterImpl: AnyAllFilterImpl = AnyAllFilterImpl(),
 )
 

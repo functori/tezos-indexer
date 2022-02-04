@@ -11,7 +11,7 @@ interface EqualityFilter {
     @Json(name = "ne")
     val ne: String?
 
-    fun getEqualityFilterValue(): String
+    fun getFilter(): String
 
-    fun applyFilterToField(filter: Any): String
+    fun getFilterValue(): String
 }

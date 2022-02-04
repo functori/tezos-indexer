@@ -40,5 +40,8 @@ interface SortFilter {
     @Json(name = "desc")
     val desc: kotlin.String?
 
+    fun getFilter(): String
+
+    fun getFilterValue(): String
 }
 

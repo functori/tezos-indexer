@@ -39,6 +39,5 @@ interface SelectionFilter {
     /* **Values** selection mode. \\ Specify a comma-separated list of fields to include their values into response.  Example: `?select.values=address,balance,metadata.name`  will result in `[ [ \"asd\", 10, \"qwe\" ] ]`. */
     @Json(name = "values")
     val propertyValues: kotlin.collections.List<kotlin.String>?
-
 }
 

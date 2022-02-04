@@ -19,4 +19,8 @@ interface ComparisonFilter {
     /* **Less or equal** filter mode. \\ Specify a datetime to get items where the specified field is less than or equal to the specified value.  Example: `?timestamp.le=2020-02-20T02:40:57Z`. */
     @Json(name = "le")
     val le:String?
+
+    fun getFilter(): String
+
+    fun getFilterValue(): String
 }

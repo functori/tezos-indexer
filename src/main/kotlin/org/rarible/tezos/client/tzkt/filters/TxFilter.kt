@@ -34,11 +34,11 @@ interface TxFilter {
 
     /* Entrypoint called on the target contract */
     @Json(name = "entrypoint")
-    val entrypoint: kotlin.String?
+    val entrypoint: List<String>?
 
     /* Value passed to the called entrypoint converted to human-readable JSON. Note: you can configure parameters format by setting `micheline` query parameter. */
     @Json(name = "value")
-    val `value`: kotlin.Any?
+    val `value`: List<String>?
 
 }
 

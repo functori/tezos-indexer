@@ -11,7 +11,7 @@ interface FieldEqualityFilter {
     @Json(name = "nex")
     val nex: String?
 
-    fun getEqualityFilterValue(): String
+    fun getFilter(): String
 
-    fun applyFilterToField(filter: String): String
+    fun getFilterValue(): String
 }

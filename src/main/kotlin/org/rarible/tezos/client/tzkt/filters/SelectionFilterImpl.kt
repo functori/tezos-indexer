@@ -40,5 +40,15 @@ import com.squareup.moshi.Json
     @Json(name = "values")
     override val propertyValues: kotlin.collections.List<kotlin.String>? = null
 
+
+    fun getFilterValue(field: List<String>?): String{
+        var value = ""
+        if(!field.isNullOrEmpty()){
+            field!!.forEach {  value = "$value,$it"}
+        } else {
+            ""
+        }
+        return value
+    }
 }
 

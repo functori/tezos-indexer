@@ -45,7 +45,7 @@ import org.rarible.tezos.client.tzkt.models.AccountTypeParameter
 import org.rarible.tezos.client.tzkt.models.BoolParameter
 import org.rarible.tezos.client.tzkt.models.ContractKindParameter
 import org.rarible.tezos.client.tzkt.models.DateTimeParameter
-import org.rarible.tezos.client.tzkt.models.Int64Parameter
+import org.rarible.tezos.client.tzkt.models.IntParameter
 import org.rarible.tezos.client.tzkt.models.JsonParameter
 import org.rarible.tezos.client.tzkt.models.MichelineFormat
 import org.rarible.tezos.client.tzkt.models.OffsetParameter
@@ -86,7 +86,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun accountsGet(type: AccountTypeParameter?, kind: ContractKindParameter?, `delegate`: AccountParameter?, balance: Int64Parameter?, staked: BoolParameter?, lastActivity: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<Account> {
+    fun accountsGet(type: AccountTypeParameter?, kind: ContractKindParameter?, `delegate`: AccountParameter?, balance: IntParameter?, staked: BoolParameter?, lastActivity: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<Account> {
         val localVarResponse = accountsGetWithHttpInfo(type = type, kind = kind, `delegate` = `delegate`, balance = balance, staked = staked, lastActivity = lastActivity, select = select, sort = sort, offset = offset, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -123,7 +123,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun accountsGetWithHttpInfo(type: AccountTypeParameter?, kind: ContractKindParameter?, `delegate`: AccountParameter?, balance: Int64Parameter?, staked: BoolParameter?, lastActivity: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<Account>?> {
+    fun accountsGetWithHttpInfo(type: AccountTypeParameter?, kind: ContractKindParameter?, `delegate`: AccountParameter?, balance: IntParameter?, staked: BoolParameter?, lastActivity: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<Account>?> {
         val localVariableConfig = accountsGetRequestConfig(type = type, kind = kind, `delegate` = `delegate`, balance = balance, staked = staked, lastActivity = lastActivity, select = select, sort = sort, offset = offset, limit = limit)
 
         return request(
@@ -146,12 +146,12 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     * @param limit Maximum number of items to return (optional, default to 100)
     * @return RequestConfig
     */
-    fun accountsGetRequestConfig(type: AccountTypeParameter?, kind: ContractKindParameter?, `delegate`: AccountParameter?, balance: Int64Parameter?, staked: BoolParameter?, lastActivity: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun accountsGetRequestConfig(type: AccountTypeParameter?, kind: ContractKindParameter?, `delegate`: AccountParameter?, balance: IntParameter?, staked: BoolParameter?, lastActivity: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (type != null) {
-                    put("type" + if (type.eq != null ){".eq" }else if(type.ne != null ){ ".ne" } else { "" }, listOf(type.toString()))
+                    put("type", listOf(type.toString()))
                 }
                 if (kind != null) {
                     put("kind", listOf(kind.toString()))
@@ -808,7 +808,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun accountsGetCount(type: AccountTypeParameter?, kind: ContractKindParameter?, balance: Int64Parameter?, staked: BoolParameter?) : kotlin.Int {
+    fun accountsGetCount(type: AccountTypeParameter?, kind: ContractKindParameter?, balance: IntParameter?, staked: BoolParameter?) : kotlin.Int {
         val localVarResponse = accountsGetCountWithHttpInfo(type = type, kind = kind, balance = balance, staked = staked)
 
         return when (localVarResponse.responseType) {
@@ -839,7 +839,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun accountsGetCountWithHttpInfo(type: AccountTypeParameter?, kind: ContractKindParameter?, balance: Int64Parameter?, staked: BoolParameter?) : ApiResponse<kotlin.Int?> {
+    fun accountsGetCountWithHttpInfo(type: AccountTypeParameter?, kind: ContractKindParameter?, balance: IntParameter?, staked: BoolParameter?) : ApiResponse<kotlin.Int?> {
         val localVariableConfig = accountsGetCountRequestConfig(type = type, kind = kind, balance = balance, staked = staked)
 
         return request<Unit, kotlin.Int>(
@@ -856,7 +856,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     * @param staked Filters accounts by participation in staking (optional)
     * @return RequestConfig
     */
-    fun accountsGetCountRequestConfig(type: AccountTypeParameter?, kind: ContractKindParameter?, balance: Int64Parameter?, staked: BoolParameter?) : RequestConfig<Unit> {
+    fun accountsGetCountRequestConfig(type: AccountTypeParameter?, kind: ContractKindParameter?, balance: IntParameter?, staked: BoolParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -974,7 +974,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun accountsGetDelegators(address: kotlin.String, type: AccountTypeParameter?, balance: Int64Parameter?, delegationLevel: Int32Parameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<Delegator> {
+    fun accountsGetDelegators(address: kotlin.String, type: AccountTypeParameter?, balance: IntParameter?, delegationLevel: IntParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<Delegator> {
         val localVarResponse = accountsGetDelegatorsWithHttpInfo(address = address, type = type, balance = balance, delegationLevel = delegationLevel, sort = sort, offset = offset, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -1008,7 +1008,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun accountsGetDelegatorsWithHttpInfo(address: kotlin.String, type: AccountTypeParameter?, balance: Int64Parameter?, delegationLevel: Int32Parameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<Delegator>?> {
+    fun accountsGetDelegatorsWithHttpInfo(address: kotlin.String, type: AccountTypeParameter?, balance: IntParameter?, delegationLevel: IntParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<Delegator>?> {
         val localVariableConfig = accountsGetDelegatorsRequestConfig(address = address, type = type, balance = balance, delegationLevel = delegationLevel, sort = sort, offset = offset, limit = limit)
 
         return request<Unit, kotlin.collections.List<Delegator>>(
@@ -1028,7 +1028,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     * @param limit Maximum number of items to return (optional, default to 100)
     * @return RequestConfig
     */
-    fun accountsGetDelegatorsRequestConfig(address: kotlin.String, type: AccountTypeParameter?, balance: Int64Parameter?, delegationLevel: Int32Parameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun accountsGetDelegatorsRequestConfig(address: kotlin.String, type: AccountTypeParameter?, balance: IntParameter?, delegationLevel: IntParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -1169,7 +1169,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun accountsGetOperations(address: kotlin.String, type: kotlin.String?, initiator: AccountParameter?, sender: AccountParameter?, target: AccountParameter?, prevDelegate: AccountParameter?, newDelegate: AccountParameter?, contractManager: AccountParameter?, contractDelegate: AccountParameter?, originatedContract: AccountParameter?, accuser: AccountParameter?, offender: AccountParameter?, baker: AccountParameter?, level: Int32Parameter?, timestamp: DateTimeParameter?, entrypoint: StringParameter?, parameter: JsonParameter?, hasInternals: BoolParameter?, status: OperationStatusParameter?, sort: SortMode?, lastId: kotlin.Int?, limit: kotlin.Int?, micheline: MichelineFormat?, quote: Symbols?) : kotlin.collections.List<Operation> {
+    fun accountsGetOperations(address: kotlin.String, type: kotlin.String?, initiator: AccountParameter?, sender: AccountParameter?, target: AccountParameter?, prevDelegate: AccountParameter?, newDelegate: AccountParameter?, contractManager: AccountParameter?, contractDelegate: AccountParameter?, originatedContract: AccountParameter?, accuser: AccountParameter?, offender: AccountParameter?, baker: AccountParameter?, level: IntParameter?, timestamp: DateTimeParameter?, entrypoint: StringParameter?, parameter: JsonParameter?, hasInternals: BoolParameter?, status: OperationStatusParameter?, sort: SortMode?, lastId: kotlin.Int?, limit: kotlin.Int?, micheline: MichelineFormat?, quote: Symbols?) : kotlin.collections.List<Operation> {
         val localVarResponse = accountsGetOperationsWithHttpInfo(address = address, type = type, initiator = initiator, sender = sender, target = target, prevDelegate = prevDelegate, newDelegate = newDelegate, contractManager = contractManager, contractDelegate = contractDelegate, originatedContract = originatedContract, accuser = accuser, offender = offender, baker = baker, level = level, timestamp = timestamp, entrypoint = entrypoint, parameter = parameter, hasInternals = hasInternals, status = status, sort = sort, lastId = lastId, limit = limit, micheline = micheline, quote = quote)
 
         return when (localVarResponse.responseType) {
@@ -1220,7 +1220,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun accountsGetOperationsWithHttpInfo(address: kotlin.String, type: kotlin.String?, initiator: AccountParameter?, sender: AccountParameter?, target: AccountParameter?, prevDelegate: AccountParameter?, newDelegate: AccountParameter?, contractManager: AccountParameter?, contractDelegate: AccountParameter?, originatedContract: AccountParameter?, accuser: AccountParameter?, offender: AccountParameter?, baker: AccountParameter?, level: Int32Parameter?, timestamp: DateTimeParameter?, entrypoint: StringParameter?, parameter: JsonParameter?, hasInternals: BoolParameter?, status: OperationStatusParameter?, sort: SortMode?, lastId: kotlin.Int?, limit: kotlin.Int?, micheline: MichelineFormat?, quote: Symbols?) : ApiResponse<kotlin.collections.List<Operation>?> {
+    fun accountsGetOperationsWithHttpInfo(address: kotlin.String, type: kotlin.String?, initiator: AccountParameter?, sender: AccountParameter?, target: AccountParameter?, prevDelegate: AccountParameter?, newDelegate: AccountParameter?, contractManager: AccountParameter?, contractDelegate: AccountParameter?, originatedContract: AccountParameter?, accuser: AccountParameter?, offender: AccountParameter?, baker: AccountParameter?, level: IntParameter?, timestamp: DateTimeParameter?, entrypoint: StringParameter?, parameter: JsonParameter?, hasInternals: BoolParameter?, status: OperationStatusParameter?, sort: SortMode?, lastId: kotlin.Int?, limit: kotlin.Int?, micheline: MichelineFormat?, quote: Symbols?) : ApiResponse<kotlin.collections.List<Operation>?> {
         val localVariableConfig = accountsGetOperationsRequestConfig(address = address, type = type, initiator = initiator, sender = sender, target = target, prevDelegate = prevDelegate, newDelegate = newDelegate, contractManager = contractManager, contractDelegate = contractDelegate, originatedContract = originatedContract, accuser = accuser, offender = offender, baker = baker, level = level, timestamp = timestamp, entrypoint = entrypoint, parameter = parameter, hasInternals = hasInternals, status = status, sort = sort, lastId = lastId, limit = limit, micheline = micheline, quote = quote)
 
         return request<Unit, kotlin.collections.List<Operation>>(
@@ -1257,7 +1257,7 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     * @param quote Comma-separated list of ticker symbols to inject historical prices into response (optional)
     * @return RequestConfig
     */
-    fun accountsGetOperationsRequestConfig(address: kotlin.String, type: kotlin.String?, initiator: AccountParameter?, sender: AccountParameter?, target: AccountParameter?, prevDelegate: AccountParameter?, newDelegate: AccountParameter?, contractManager: AccountParameter?, contractDelegate: AccountParameter?, originatedContract: AccountParameter?, accuser: AccountParameter?, offender: AccountParameter?, baker: AccountParameter?, level: Int32Parameter?, timestamp: DateTimeParameter?, entrypoint: StringParameter?, parameter: JsonParameter?, hasInternals: BoolParameter?, status: OperationStatusParameter?, sort: SortMode?, lastId: kotlin.Int?, limit: kotlin.Int?, micheline: MichelineFormat?, quote: Symbols?) : RequestConfig<Unit> {
+    fun accountsGetOperationsRequestConfig(address: kotlin.String, type: kotlin.String?, initiator: AccountParameter?, sender: AccountParameter?, target: AccountParameter?, prevDelegate: AccountParameter?, newDelegate: AccountParameter?, contractManager: AccountParameter?, contractDelegate: AccountParameter?, originatedContract: AccountParameter?, accuser: AccountParameter?, offender: AccountParameter?, baker: AccountParameter?, level: IntParameter?, timestamp: DateTimeParameter?, entrypoint: StringParameter?, parameter: JsonParameter?, hasInternals: BoolParameter?, status: OperationStatusParameter?, sort: SortMode?, lastId: kotlin.Int?, limit: kotlin.Int?, micheline: MichelineFormat?, quote: Symbols?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

@@ -34,11 +34,20 @@ import com.squareup.moshi.Json
 
     /* Entrypoint called on the target contract */
     @Json(name = "entrypoint")
-    override val entrypoint: kotlin.String? = null
+    override val entrypoint: List<String>?? = null
 
     /* Value passed to the called entrypoint converted to human-readable JSON. Note: you can configure parameters format by setting `micheline` query parameter. */
     @Json(name = "value")
-    override val `value`: kotlin.Any? = null
+    override val `value`: List<String>? = null
 
+    fun getFilterValue(field: List<String>?): String{
+        var value = ""
+        if(!field.isNullOrEmpty()){
+            field!!.forEach {  value = "$value,$it"}
+        } else {
+            ""
+        }
+        return value
+    }
 }
 

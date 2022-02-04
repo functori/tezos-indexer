@@ -19,4 +19,31 @@ class ComparisonFilterImpl: ComparisonFilter {
     /* **Less or equal** filter mode. \\ Specify a datetime to get items where the specified field is less than or equal to the specified value.  Example: `?timestamp.le=2020-02-20T02:40:57Z`. */
     @Json(name = "le")
     override val le:String? = null
+    override fun getFilter(): String {
+        return if(!gt.isNullOrEmpty()){
+            "gt"
+        } else if(!ge.isNullOrEmpty()){
+            "ge"
+        } else if(!lt.isNullOrEmpty()){
+            "lt"
+        } else if(!le.isNullOrEmpty()){
+            "le"
+        } else {
+            ""
+        }
+    }
+
+    override fun getFilterValue(): String {
+        return if(!gt.isNullOrEmpty()){
+            gt
+        } else if(!ge.isNullOrEmpty()){
+            ge
+        } else if(!lt.isNullOrEmpty()){
+            lt
+        } else if(!le.isNullOrEmpty()){
+            le
+        } else {
+            ""
+        }
+    }
 }

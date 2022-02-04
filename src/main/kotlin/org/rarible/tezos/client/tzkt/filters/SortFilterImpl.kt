@@ -40,5 +40,24 @@ import com.squareup.moshi.Json
     @Json(name = "desc")
     override val desc: kotlin.String? = null
 
+    override fun getFilter(): String {
+        return if(!asc.isNullOrEmpty()){
+            "asc"
+        } else if(!desc.isNullOrEmpty()){
+            "desc"
+        } else {
+            ""
+        }
+    }
+
+    override fun getFilterValue(): String {
+        return if (!asc.isNullOrEmpty()) {
+            asc
+        } else if (!desc.isNullOrEmpty()) {
+            desc
+        } else {
+            ""
+        }
+    }
 }
 

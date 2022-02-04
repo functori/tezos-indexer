@@ -11,17 +11,23 @@ class FieldEqualityFilterImpl: FieldEqualityFilter {
     @Json(name = "nex")
     override val nex: String?  = null
 
-    override fun getEqualityFilterValue(): String {
-        return eqx ?: nex ?: ""
+    override fun getFilter(): String {
+        return if(!eqx.isNullOrEmpty()){
+            "eqx"
+        } else if(!nex.isNullOrEmpty()){
+            "nex"
+        } else {
+            ""
+        }
     }
 
-    override fun applyFilterToField(filter: String): String{
-        return if (eqx != null){
-            "$filter.eqx"
-        } else if (nex != null){
-            "$filter.nex"
+    override fun getFilterValue(): String {
+        return if (!eqx.isNullOrEmpty()) {
+            eqx
+        } else if (!nex.isNullOrEmpty()) {
+            nex
         } else {
-            "$filter"
+            ""
         }
     }
 }

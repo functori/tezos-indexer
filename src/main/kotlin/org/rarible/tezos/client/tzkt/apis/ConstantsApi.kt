@@ -41,6 +41,7 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
+import org.rarible.tezos.client.tzkt.models.IntParameter
 
 class ConstantsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
@@ -73,7 +74,7 @@ class ConstantsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun constantsGet(address: ExpressionParameter?, creationLevel: Int32Parameter?, creationTime: TimestampParameter?, creator: AccountParameter?, refs: Int32Parameter?, size: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, format: kotlin.Int?) : kotlin.collections.List<Constant> {
+    fun constantsGet(address: ExpressionParameter?, creationLevel: IntParameter?, creationTime: TimestampParameter?, creator: AccountParameter?, refs: IntParameter?, size: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, format: kotlin.Int?) : kotlin.collections.List<Constant> {
         val localVarResponse = constantsGetWithHttpInfo(address = address, creationLevel = creationLevel, creationTime = creationTime, creator = creator, refs = refs, size = size, select = select, sort = sort, offset = offset, limit = limit, format = format)
 
         return when (localVarResponse.responseType) {
@@ -111,7 +112,7 @@ class ConstantsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun constantsGetWithHttpInfo(address: ExpressionParameter?, creationLevel: Int32Parameter?, creationTime: TimestampParameter?, creator: AccountParameter?, refs: Int32Parameter?, size: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, format: kotlin.Int?) : ApiResponse<kotlin.collections.List<Constant>?> {
+    fun constantsGetWithHttpInfo(address: ExpressionParameter?, creationLevel: IntParameter?, creationTime: TimestampParameter?, creator: AccountParameter?, refs: IntParameter?, size: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, format: kotlin.Int?) : ApiResponse<kotlin.collections.List<Constant>?> {
         val localVariableConfig = constantsGetRequestConfig(address = address, creationLevel = creationLevel, creationTime = creationTime, creator = creator, refs = refs, size = size, select = select, sort = sort, offset = offset, limit = limit, format = format)
 
         return request<Unit, kotlin.collections.List<Constant>>(
@@ -135,7 +136,7 @@ class ConstantsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     * @param format Constant value format (&#x60;0&#x60; - micheline, &#x60;1&#x60; - michelson, &#x60;2&#x60; - bytes (base64)) (optional, default to 0)
     * @return RequestConfig
     */
-    fun constantsGetRequestConfig(address: ExpressionParameter?, creationLevel: Int32Parameter?, creationTime: TimestampParameter?, creator: AccountParameter?, refs: Int32Parameter?, size: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, format: kotlin.Int?) : RequestConfig<Unit> {
+    fun constantsGetRequestConfig(address: ExpressionParameter?, creationLevel: IntParameter?, creationTime: TimestampParameter?, creator: AccountParameter?, refs: IntParameter?, size: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, format: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -276,7 +277,7 @@ class ConstantsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun constantsGetCount(refs: Int32Parameter?) : kotlin.Int {
+    fun constantsGetCount(refs: IntParameter?) : kotlin.Int {
         val localVarResponse = constantsGetCountWithHttpInfo(refs = refs)
 
         return when (localVarResponse.responseType) {
@@ -304,7 +305,7 @@ class ConstantsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun constantsGetCountWithHttpInfo(refs: Int32Parameter?) : ApiResponse<kotlin.Int?> {
+    fun constantsGetCountWithHttpInfo(refs: IntParameter?) : ApiResponse<kotlin.Int?> {
         val localVariableConfig = constantsGetCountRequestConfig(refs = refs)
 
         return request<Unit, kotlin.Int>(
@@ -318,7 +319,7 @@ class ConstantsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePa
     * @param refs Filters constants by number of refs. (optional)
     * @return RequestConfig
     */
-    fun constantsGetCountRequestConfig(refs: Int32Parameter?) : RequestConfig<Unit> {
+    fun constantsGetCountRequestConfig(refs: IntParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

@@ -42,6 +42,7 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
+import org.rarible.tezos.client.tzkt.models.IntParameter
 
 class RewardsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
@@ -70,7 +71,7 @@ class RewardsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun rewardsGetBakerRewards(address: kotlin.String, cycle: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : kotlin.collections.List<BakerRewards> {
+    fun rewardsGetBakerRewards(address: kotlin.String, cycle: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : kotlin.collections.List<BakerRewards> {
         val localVarResponse = rewardsGetBakerRewardsWithHttpInfo(address = address, cycle = cycle, select = select, sort = sort, offset = offset, limit = limit, quote = quote)
 
         return when (localVarResponse.responseType) {
@@ -104,7 +105,7 @@ class RewardsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun rewardsGetBakerRewardsWithHttpInfo(address: kotlin.String, cycle: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : ApiResponse<kotlin.collections.List<BakerRewards>?> {
+    fun rewardsGetBakerRewardsWithHttpInfo(address: kotlin.String, cycle: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : ApiResponse<kotlin.collections.List<BakerRewards>?> {
         val localVariableConfig = rewardsGetBakerRewardsRequestConfig(address = address, cycle = cycle, select = select, sort = sort, offset = offset, limit = limit, quote = quote)
 
         return request<Unit, kotlin.collections.List<BakerRewards>>(
@@ -124,7 +125,7 @@ class RewardsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * @param quote Comma-separated list of ticker symbols to inject historical prices into response (optional)
     * @return RequestConfig
     */
-    fun rewardsGetBakerRewardsRequestConfig(address: kotlin.String, cycle: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : RequestConfig<Unit> {
+    fun rewardsGetBakerRewardsRequestConfig(address: kotlin.String, cycle: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -329,7 +330,7 @@ class RewardsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun rewardsGetDelegatorRewards(address: kotlin.String, cycle: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : kotlin.collections.List<DelegatorRewards> {
+    fun rewardsGetDelegatorRewards(address: kotlin.String, cycle: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : kotlin.collections.List<DelegatorRewards> {
         val localVarResponse = rewardsGetDelegatorRewardsWithHttpInfo(address = address, cycle = cycle, select = select, sort = sort, offset = offset, limit = limit, quote = quote)
 
         return when (localVarResponse.responseType) {
@@ -363,7 +364,7 @@ class RewardsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun rewardsGetDelegatorRewardsWithHttpInfo(address: kotlin.String, cycle: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : ApiResponse<kotlin.collections.List<DelegatorRewards>?> {
+    fun rewardsGetDelegatorRewardsWithHttpInfo(address: kotlin.String, cycle: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : ApiResponse<kotlin.collections.List<DelegatorRewards>?> {
         val localVariableConfig = rewardsGetDelegatorRewardsRequestConfig(address = address, cycle = cycle, select = select, sort = sort, offset = offset, limit = limit, quote = quote)
 
         return request<Unit, kotlin.collections.List<DelegatorRewards>>(
@@ -383,7 +384,7 @@ class RewardsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath
     * @param quote Comma-separated list of ticker symbols to inject historical prices into response (optional)
     * @return RequestConfig
     */
-    fun rewardsGetDelegatorRewardsRequestConfig(address: kotlin.String, cycle: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : RequestConfig<Unit> {
+    fun rewardsGetDelegatorRewardsRequestConfig(address: kotlin.String, cycle: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

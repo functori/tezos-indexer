@@ -41,6 +41,7 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
+import org.rarible.tezos.client.tzkt.models.IntParameter
 
 class RightsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
@@ -73,7 +74,7 @@ class RightsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun rightsGet(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: Int32Parameter?, level: Int32Parameter?, slots: Int32NullParameter?, priority: Int32NullParameter?, status: BakingRightStatusParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<BakingRight> {
+    fun rightsGet(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: IntParameter?, level: IntParameter?, slots: IntParameter?, priority: IntParameter?, status: BakingRightStatusParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<BakingRight> {
         val localVarResponse = rightsGetWithHttpInfo(type = type, baker = baker, cycle = cycle, level = level, slots = slots, priority = priority, status = status, select = select, sort = sort, offset = offset, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -111,7 +112,7 @@ class RightsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun rightsGetWithHttpInfo(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: Int32Parameter?, level: Int32Parameter?, slots: Int32NullParameter?, priority: Int32NullParameter?, status: BakingRightStatusParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<BakingRight>?> {
+    fun rightsGetWithHttpInfo(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: IntParameter?, level: IntParameter?, slots: IntParameter?, priority: IntParameter?, status: BakingRightStatusParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<BakingRight>?> {
         val localVariableConfig = rightsGetRequestConfig(type = type, baker = baker, cycle = cycle, level = level, slots = slots, priority = priority, status = status, select = select, sort = sort, offset = offset, limit = limit)
 
         return request<Unit, kotlin.collections.List<BakingRight>>(
@@ -135,7 +136,7 @@ class RightsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param limit Maximum number of items to return (optional, default to 100)
     * @return RequestConfig
     */
-    fun rightsGetRequestConfig(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: Int32Parameter?, level: Int32Parameter?, slots: Int32NullParameter?, priority: Int32NullParameter?, status: BakingRightStatusParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun rightsGetRequestConfig(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: IntParameter?, level: IntParameter?, slots: IntParameter?, priority: IntParameter?, status: BakingRightStatusParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -204,7 +205,7 @@ class RightsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun rightsGetCount(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: Int32Parameter?, level: Int32Parameter?, slots: Int32NullParameter?, priority: Int32NullParameter?, status: BakingRightStatusParameter?) : kotlin.Int {
+    fun rightsGetCount(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: IntParameter?, level: IntParameter?, slots: IntParameter?, priority: IntParameter?, status: BakingRightStatusParameter?) : kotlin.Int {
         val localVarResponse = rightsGetCountWithHttpInfo(type = type, baker = baker, cycle = cycle, level = level, slots = slots, priority = priority, status = status)
 
         return when (localVarResponse.responseType) {
@@ -238,7 +239,7 @@ class RightsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun rightsGetCountWithHttpInfo(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: Int32Parameter?, level: Int32Parameter?, slots: Int32NullParameter?, priority: Int32NullParameter?, status: BakingRightStatusParameter?) : ApiResponse<kotlin.Int?> {
+    fun rightsGetCountWithHttpInfo(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: IntParameter?, level: IntParameter?, slots: IntParameter?, priority: IntParameter?, status: BakingRightStatusParameter?) : ApiResponse<kotlin.Int?> {
         val localVariableConfig = rightsGetCountRequestConfig(type = type, baker = baker, cycle = cycle, level = level, slots = slots, priority = priority, status = status)
 
         return request<Unit, kotlin.Int>(
@@ -258,7 +259,7 @@ class RightsApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param status Filters rights by status (&#x60;future&#x60;, &#x60;realized&#x60;, &#x60;uncovered&#x60;, &#x60;missed&#x60;) (optional)
     * @return RequestConfig
     */
-    fun rightsGetCountRequestConfig(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: Int32Parameter?, level: Int32Parameter?, slots: Int32NullParameter?, priority: Int32NullParameter?, status: BakingRightStatusParameter?) : RequestConfig<Unit> {
+    fun rightsGetCountRequestConfig(type: BakingRightTypeParameter?, baker: AccountParameter?, cycle: IntParameter?, level: IntParameter?, slots: IntParameter?, priority: IntParameter?, status: BakingRightStatusParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

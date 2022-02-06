@@ -39,6 +39,7 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
+import org.rarible.tezos.client.tzkt.models.IntParameter
 
 class QuotesApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
@@ -66,7 +67,7 @@ class QuotesApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun quotesGet(level: Int32Parameter?, timestamp: DateTimeParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<Quote> {
+    fun quotesGet(level: IntParameter?, timestamp: DateTimeParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<Quote> {
         val localVarResponse = quotesGetWithHttpInfo(level = level, timestamp = timestamp, select = select, sort = sort, offset = offset, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -99,7 +100,7 @@ class QuotesApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun quotesGetWithHttpInfo(level: Int32Parameter?, timestamp: DateTimeParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<Quote>?> {
+    fun quotesGetWithHttpInfo(level: IntParameter?, timestamp: DateTimeParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<Quote>?> {
         val localVariableConfig = quotesGetRequestConfig(level = level, timestamp = timestamp, select = select, sort = sort, offset = offset, limit = limit)
 
         return request<Unit, kotlin.collections.List<Quote>>(
@@ -118,7 +119,7 @@ class QuotesApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param limit Maximum number of items to return (optional, default to 100)
     * @return RequestConfig
     */
-    fun quotesGetRequestConfig(level: Int32Parameter?, timestamp: DateTimeParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun quotesGetRequestConfig(level: IntParameter?, timestamp: DateTimeParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

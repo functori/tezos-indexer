@@ -1,6 +1,7 @@
 package org.rarible.tezos.indexer.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.math.BigDecimal
 import javax.validation.Valid
 
 /**
@@ -11,12 +12,12 @@ import javax.validation.Valid
  */
 data class FTBalance(
 
-    @field:JsonProperty("contract", required = true) val contract: kotlin.String,
+    @field:JsonProperty("contract", required = true) val contract: String,
 
-    @field:JsonProperty("owner", required = true) val owner: kotlin.String,
+    @field:JsonProperty("owner", required = true) val owner: String,
 
     @field:Valid
-    @field:JsonProperty("balance", required = true) val balance: java.math.BigDecimal
+    @field:JsonProperty("balance", required = true) val balance: BigDecimal
 ) {
 
 }

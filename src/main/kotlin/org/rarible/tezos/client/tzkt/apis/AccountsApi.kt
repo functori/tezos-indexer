@@ -146,12 +146,12 @@ class AccountsApi(basePath: kotlin.String = org.rarible.tezos.client.tzkt.apis.A
     * @param limit Maximum number of items to return (optional, default to 100)
     * @return RequestConfig
     */
-    fun accountsGetRequestConfig(type: AccountTypeParameter?, kind: ContractKindParameter?, `delegate`: AccountParameter?, balance: IntParameter?, staked: BoolParameter?, lastActivity: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    private fun accountsGetRequestConfig(type: AccountTypeParameter?, kind: ContractKindParameter?, `delegate`: AccountParameter?, balance: IntParameter?, staked: BoolParameter?, lastActivity: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (type != null) {
-                    put("type", listOf(type.toString()))
+                    put("type${type.equalityFilterImpl.getFilter()}", listOf(type.equalityFilterImpl.getFilterValue()))
                 }
                 if (kind != null) {
                     put("kind", listOf(kind.toString()))

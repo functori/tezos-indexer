@@ -42,6 +42,7 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
+import org.rarible.tezos.client.tzkt.models.IntParameter
 
 class BlocksApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
@@ -72,7 +73,7 @@ class BlocksApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun blocksGet(baker: AccountParameter?, level: Int32Parameter?, timestamp: DateTimeParameter?, priority: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : kotlin.collections.List<Block> {
+    fun blocksGet(baker: AccountParameter?, level: IntParameter?, timestamp: DateTimeParameter?, priority: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : kotlin.collections.List<Block> {
         val localVarResponse = blocksGetWithHttpInfo(baker = baker, level = level, timestamp = timestamp, priority = priority, select = select, sort = sort, offset = offset, limit = limit, quote = quote)
 
         return when (localVarResponse.responseType) {
@@ -108,7 +109,7 @@ class BlocksApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun blocksGetWithHttpInfo(baker: AccountParameter?, level: Int32Parameter?, timestamp: DateTimeParameter?, priority: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : ApiResponse<kotlin.collections.List<Block>?> {
+    fun blocksGetWithHttpInfo(baker: AccountParameter?, level: IntParameter?, timestamp: DateTimeParameter?, priority: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : ApiResponse<kotlin.collections.List<Block>?> {
         val localVariableConfig = blocksGetRequestConfig(baker = baker, level = level, timestamp = timestamp, priority = priority, select = select, sort = sort, offset = offset, limit = limit, quote = quote)
 
         return request<Unit, kotlin.collections.List<Block>>(
@@ -130,7 +131,7 @@ class BlocksApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param quote Comma-separated list of ticker symbols to inject historical prices into response (optional)
     * @return RequestConfig
     */
-    fun blocksGetRequestConfig(baker: AccountParameter?, level: Int32Parameter?, timestamp: DateTimeParameter?, priority: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : RequestConfig<Unit> {
+    fun blocksGetRequestConfig(baker: AccountParameter?, level: IntParameter?, timestamp: DateTimeParameter?, priority: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

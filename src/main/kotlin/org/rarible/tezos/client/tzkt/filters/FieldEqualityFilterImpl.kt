@@ -13,9 +13,9 @@ class FieldEqualityFilterImpl: FieldEqualityFilter {
 
     override fun getFilter(): String {
         return if(!eqx.isNullOrEmpty()){
-            "eqx"
+            ".eqx"
         } else if(!nex.isNullOrEmpty()){
-            "nex"
+            ".nex"
         } else {
             ""
         }

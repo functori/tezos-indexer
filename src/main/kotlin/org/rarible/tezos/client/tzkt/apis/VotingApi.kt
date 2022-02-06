@@ -43,6 +43,7 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
+import org.rarible.tezos.client.tzkt.models.IntParameter
 
 class VotingApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
@@ -993,7 +994,7 @@ class VotingApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun votingGetProposals(hash: ProtocolParameter?, epoch: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<Proposal> {
+    fun votingGetProposals(hash: ProtocolParameter?, epoch: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : kotlin.collections.List<Proposal> {
         val localVarResponse = votingGetProposalsWithHttpInfo(hash = hash, epoch = epoch, select = select, sort = sort, offset = offset, limit = limit)
 
         return when (localVarResponse.responseType) {
@@ -1026,7 +1027,7 @@ class VotingApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun votingGetProposalsWithHttpInfo(hash: ProtocolParameter?, epoch: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<Proposal>?> {
+    fun votingGetProposalsWithHttpInfo(hash: ProtocolParameter?, epoch: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : ApiResponse<kotlin.collections.List<Proposal>?> {
         val localVariableConfig = votingGetProposalsRequestConfig(hash = hash, epoch = epoch, select = select, sort = sort, offset = offset, limit = limit)
 
         return request<Unit, kotlin.collections.List<Proposal>>(
@@ -1045,7 +1046,7 @@ class VotingApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param limit Maximum number of items to return (optional, default to 100)
     * @return RequestConfig
     */
-    fun votingGetProposalsRequestConfig(hash: ProtocolParameter?, epoch: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
+    fun votingGetProposalsRequestConfig(hash: ProtocolParameter?, epoch: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

@@ -13,9 +13,9 @@ class AsUnlikeFilterImpl: AsUnlikeFilter {
 
     override fun getFilter(): String {
         return if(!`as`.isNullOrEmpty()){
-            "as"
+            ".as"
         } else if(!un.isNullOrEmpty()){
-            "un"
+            ".un"
         } else {
             ""
         }

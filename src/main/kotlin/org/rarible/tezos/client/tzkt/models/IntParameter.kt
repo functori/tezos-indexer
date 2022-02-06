@@ -20,6 +20,10 @@
 
 package org.rarible.tezos.client.tzkt.models
 
+import org.rarible.tezos.client.tzkt.filters.ComparisonFilterImpl
+import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
+import org.rarible.tezos.client.tzkt.filters.InclusionFilterImpl
+
 /**
  * 
  *
@@ -34,6 +38,8 @@ package org.rarible.tezos.client.tzkt.models
  */
 
 data class IntParameter (
-   val intFilter: IntFilterImpl = IntFilterImpl()
+    var equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
+    var comparisonFilterImpl: ComparisonFilterImpl = ComparisonFilterImpl(),
+    var inclusionFilterImpl: InclusionFilterImpl = InclusionFilterImpl()
 )
 

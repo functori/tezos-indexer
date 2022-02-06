@@ -39,6 +39,7 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
+import org.rarible.tezos.client.tzkt.models.IntParameter
 
 class CyclesApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
@@ -66,7 +67,7 @@ class CyclesApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun cyclesGet(snapshotIndex: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : kotlin.collections.List<Cycle> {
+    fun cyclesGet(snapshotIndex: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : kotlin.collections.List<Cycle> {
         val localVarResponse = cyclesGetWithHttpInfo(snapshotIndex = snapshotIndex, select = select, sort = sort, offset = offset, limit = limit, quote = quote)
 
         return when (localVarResponse.responseType) {
@@ -99,7 +100,7 @@ class CyclesApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun cyclesGetWithHttpInfo(snapshotIndex: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : ApiResponse<kotlin.collections.List<Cycle>?> {
+    fun cyclesGetWithHttpInfo(snapshotIndex: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : ApiResponse<kotlin.collections.List<Cycle>?> {
         val localVariableConfig = cyclesGetRequestConfig(snapshotIndex = snapshotIndex, select = select, sort = sort, offset = offset, limit = limit, quote = quote)
 
         return request<Unit, kotlin.collections.List<Cycle>>(
@@ -118,7 +119,7 @@ class CyclesApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param quote Comma-separated list of ticker symbols to inject historical prices into response (optional)
     * @return RequestConfig
     */
-    fun cyclesGetRequestConfig(snapshotIndex: Int32Parameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : RequestConfig<Unit> {
+    fun cyclesGetRequestConfig(snapshotIndex: IntParameter?, select: SelectParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, quote: Symbols?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

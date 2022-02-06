@@ -46,6 +46,7 @@ import org.rarible.tezos.client.tzkt.infrastructure.RequestConfig
 import org.rarible.tezos.client.tzkt.infrastructure.RequestMethod
 import org.rarible.tezos.client.tzkt.infrastructure.ResponseType
 import org.rarible.tezos.client.tzkt.infrastructure.Success
+import org.rarible.tezos.client.tzkt.models.IntParameter
 
 class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     companion object {
@@ -84,7 +85,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun tokensGetTokenBalances(id: Int32Parameter?, account: AccountParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : kotlin.collections.List<TokenBalance> {
+    fun tokensGetTokenBalances(id: IntParameter?, account: AccountParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : kotlin.collections.List<TokenBalance> {
         val localVarResponse = tokensGetTokenBalancesWithHttpInfo(id = id, account = account, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, balance = balance, firstLevel = firstLevel, firstTime = firstTime, lastLevel = lastLevel, lastTime = lastTime, sort = sort, offset = offset, limit = limit, select = select)
 
         return when (localVarResponse.responseType) {
@@ -128,10 +129,10 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun tokensGetTokenBalancesWithHttpInfo(id: Int32Parameter?, account: AccountParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : ApiResponse<kotlin.collections.List<TokenBalance>?> {
+    fun tokensGetTokenBalancesWithHttpInfo(id: IntParameter?, account: AccountParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : ApiResponse<kotlin.collections.List<TokenBalance>?> {
         val localVariableConfig = tokensGetTokenBalancesRequestConfig(id = id, account = account, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, balance = balance, firstLevel = firstLevel, firstTime = firstTime, lastLevel = lastLevel, lastTime = lastTime, sort = sort, offset = offset, limit = limit, select = select)
 
-        return request<Unit, kotlin.collections.List<TokenBalance>>(
+        return request(
             localVariableConfig
         )
     }
@@ -158,7 +159,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param select Specify a comma-separated list of fields to include into response or leave it undefined to get default set of fields. This parameter accepts values of the following format: &#x60;{field}{path?}{as alias?}&#x60;, so you can do deep selection (for example, &#x60;?select&#x3D;balance,token.metadata.symbol as token,...&#x60;).   Note, if you select just one field, the response will be flatten into a simple array of values.   Click on the parameter to expand the details. (optional)
     * @return RequestConfig
     */
-    fun tokensGetTokenBalancesRequestConfig(id: Int32Parameter?, account: AccountParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : RequestConfig<Unit> {
+    private fun tokensGetTokenBalancesRequestConfig(id: IntParameter?, account: AccountParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -166,16 +167,16 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
                     put("id", listOf(id.toString()))
                 }
                 if (account != null) {
-                    put("account", listOf(account.toString()))
+                    put("account${account.equalityFilterImpl.getFilter()}", listOf(account.equalityFilterImpl.getFilterValue()))
                 }
                 if (tokenId != null) {
                     put("token.id", listOf(tokenId.toString()))
                 }
                 if (tokenContract != null) {
-                    put("token.contract", listOf(tokenContract.toString()))
+                    put("token.contract${tokenContract.equalityFilterImpl.getFilter()}", listOf(tokenContract.equalityFilterImpl.getFilterValue()))
                 }
                 if (tokenTokenId != null) {
-                    put("token.tokenId", listOf(tokenTokenId.toString()))
+                    put("token.tokenId${tokenTokenId.equalityFilterImpl.getFilter()}", listOf(tokenTokenId.equalityFilterImpl.getFilterValue()))
                 }
                 if (tokenStandard != null) {
                     put("token.standard", listOf(tokenStandard.toString()))
@@ -251,7 +252,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun tokensGetTokenBalances2(level: kotlin.Int, account: AccountParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : kotlin.collections.List<TokenBalanceShort> {
+    fun tokensGetTokenBalances2(level: kotlin.Int, account: AccountParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : kotlin.collections.List<TokenBalanceShort> {
         val localVarResponse = tokensGetTokenBalances2WithHttpInfo(level = level, account = account, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, balance = balance, sort = sort, offset = offset, limit = limit, select = select)
 
         return when (localVarResponse.responseType) {
@@ -291,7 +292,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun tokensGetTokenBalances2WithHttpInfo(level: kotlin.Int, account: AccountParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : ApiResponse<kotlin.collections.List<TokenBalanceShort>?> {
+    fun tokensGetTokenBalances2WithHttpInfo(level: kotlin.Int, account: AccountParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : ApiResponse<kotlin.collections.List<TokenBalanceShort>?> {
         val localVariableConfig = tokensGetTokenBalances2RequestConfig(level = level, account = account, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, balance = balance, sort = sort, offset = offset, limit = limit, select = select)
 
         return request<Unit, kotlin.collections.List<TokenBalanceShort>>(
@@ -317,7 +318,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param select Specify a comma-separated list of fields to include into response or leave it undefined to get default set of fields. This parameter accepts values of the following format: &#x60;{field}{path?}{as alias?}&#x60;, so you can do deep selection (for example, &#x60;?select&#x3D;balance,token.metadata.symbol as token,...&#x60;).   Note, if you select just one field, the response will be flatten into a simple array of values.   Click on the parameter to expand the details. (optional)
     * @return RequestConfig
     */
-    fun tokensGetTokenBalances2RequestConfig(level: kotlin.Int, account: AccountParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : RequestConfig<Unit> {
+    fun tokensGetTokenBalances2RequestConfig(level: kotlin.Int, account: AccountParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -395,7 +396,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun tokensGetTokenBalancesCount(id: Int32Parameter?, account: AccountParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?) : kotlin.Int {
+    fun tokensGetTokenBalancesCount(id: IntParameter?, account: AccountParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?) : kotlin.Int {
         val localVarResponse = tokensGetTokenBalancesCountWithHttpInfo(id = id, account = account, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, balance = balance, firstLevel = firstLevel, firstTime = firstTime, lastLevel = lastLevel, lastTime = lastTime)
 
         return when (localVarResponse.responseType) {
@@ -435,7 +436,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun tokensGetTokenBalancesCountWithHttpInfo(id: Int32Parameter?, account: AccountParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?) : ApiResponse<kotlin.Int?> {
+    fun tokensGetTokenBalancesCountWithHttpInfo(id: IntParameter?, account: AccountParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?) : ApiResponse<kotlin.Int?> {
         val localVariableConfig = tokensGetTokenBalancesCountRequestConfig(id = id, account = account, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, balance = balance, firstLevel = firstLevel, firstTime = firstTime, lastLevel = lastLevel, lastTime = lastTime)
 
         return request<Unit, kotlin.Int>(
@@ -461,7 +462,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param lastTime Filter by timestamp (ISO 8601) of the block where the balance was last changed.   Click on the parameter to expand more details. (optional)
     * @return RequestConfig
     */
-    fun tokensGetTokenBalancesCountRequestConfig(id: Int32Parameter?, account: AccountParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?) : RequestConfig<Unit> {
+    fun tokensGetTokenBalancesCountRequestConfig(id: IntParameter?, account: AccountParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, balance: NatParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -549,7 +550,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun tokensGetTokenTransfers(id: Int32Parameter?, level: Int32Parameter?, timestamp: TimestampParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: Int32NullParameter?, originationId: Int32NullParameter?, migrationId: Int32NullParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : kotlin.collections.List<TokenTransfer> {
+    fun tokensGetTokenTransfers(id: IntParameter?, level: IntParameter?, timestamp: TimestampParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: IntParameter?, originationId: IntParameter?, migrationId: IntParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : kotlin.collections.List<TokenTransfer> {
         val localVarResponse = tokensGetTokenTransfersWithHttpInfo(id = id, level = level, timestamp = timestamp, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, anyof = anyof, from = from, to = to, amount = amount, transactionId = transactionId, originationId = originationId, migrationId = migrationId, sort = sort, offset = offset, limit = limit, select = select)
 
         return when (localVarResponse.responseType) {
@@ -596,7 +597,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun tokensGetTokenTransfersWithHttpInfo(id: Int32Parameter?, level: Int32Parameter?, timestamp: TimestampParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: Int32NullParameter?, originationId: Int32NullParameter?, migrationId: Int32NullParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : ApiResponse<kotlin.collections.List<TokenTransfer>?> {
+    fun tokensGetTokenTransfersWithHttpInfo(id: IntParameter?, level: IntParameter?, timestamp: TimestampParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: IntParameter?, originationId: IntParameter?, migrationId: IntParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : ApiResponse<kotlin.collections.List<TokenTransfer>?> {
         val localVariableConfig = tokensGetTokenTransfersRequestConfig(id = id, level = level, timestamp = timestamp, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, anyof = anyof, from = from, to = to, amount = amount, transactionId = transactionId, originationId = originationId, migrationId = migrationId, sort = sort, offset = offset, limit = limit, select = select)
 
         return request<Unit, kotlin.collections.List<TokenTransfer>>(
@@ -629,7 +630,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param select Specify a comma-separated list of fields to include into response or leave it undefined to get default set of fields. This parameter accepts values of the following format: &#x60;{field}{path?}{as alias?}&#x60;, so you can do deep selection (for example, &#x60;?select&#x3D;balance,token.metadata.symbol as token,...&#x60;).   Note, if you select just one field, the response will be flatten into a simple array of values.   Click on the parameter to expand the details. (optional)
     * @return RequestConfig
     */
-    fun tokensGetTokenTransfersRequestConfig(id: Int32Parameter?, level: Int32Parameter?, timestamp: TimestampParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: Int32NullParameter?, originationId: Int32NullParameter?, migrationId: Int32NullParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : RequestConfig<Unit> {
+    fun tokensGetTokenTransfersRequestConfig(id: IntParameter?, level: IntParameter?, timestamp: TimestampParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: IntParameter?, originationId: IntParameter?, migrationId: IntParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -734,7 +735,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun tokensGetTokenTransfersCount(id: Int32Parameter?, level: Int32Parameter?, timestamp: TimestampParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: Int32NullParameter?, originationId: Int32NullParameter?, migrationId: Int32NullParameter?) : kotlin.Int {
+    fun tokensGetTokenTransfersCount(id: IntParameter?, level: IntParameter?, timestamp: TimestampParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: IntParameter?, originationId: IntParameter?, migrationId: IntParameter?) : kotlin.Int {
         val localVarResponse = tokensGetTokenTransfersCountWithHttpInfo(id = id, level = level, timestamp = timestamp, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, anyof = anyof, from = from, to = to, amount = amount, transactionId = transactionId, originationId = originationId, migrationId = migrationId)
 
         return when (localVarResponse.responseType) {
@@ -777,7 +778,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun tokensGetTokenTransfersCountWithHttpInfo(id: Int32Parameter?, level: Int32Parameter?, timestamp: TimestampParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: Int32NullParameter?, originationId: Int32NullParameter?, migrationId: Int32NullParameter?) : ApiResponse<kotlin.Int?> {
+    fun tokensGetTokenTransfersCountWithHttpInfo(id: IntParameter?, level: IntParameter?, timestamp: TimestampParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: IntParameter?, originationId: IntParameter?, migrationId: IntParameter?) : ApiResponse<kotlin.Int?> {
         val localVariableConfig = tokensGetTokenTransfersCountRequestConfig(id = id, level = level, timestamp = timestamp, tokenId = tokenId, tokenContract = tokenContract, tokenTokenId = tokenTokenId, tokenStandard = tokenStandard, tokenMetadata = tokenMetadata, tokenHasFilters = tokenHasFilters, anyof = anyof, from = from, to = to, amount = amount, transactionId = transactionId, originationId = originationId, migrationId = migrationId)
 
         return request<Unit, kotlin.Int>(
@@ -806,7 +807,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param migrationId Filter by id of the migration, caused the token transfer.   Click on the parameter to expand more details. (optional)
     * @return RequestConfig
     */
-    fun tokensGetTokenTransfersCountRequestConfig(id: Int32Parameter?, level: Int32Parameter?, timestamp: TimestampParameter?, tokenId: Int32Parameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: Int32NullParameter?, originationId: Int32NullParameter?, migrationId: Int32NullParameter?) : RequestConfig<Unit> {
+    fun tokensGetTokenTransfersCountRequestConfig(id: IntParameter?, level: IntParameter?, timestamp: TimestampParameter?, tokenId: IntParameter?, tokenContract: AccountParameter?, tokenTokenId: NatParameter?, tokenStandard: TokenStandardParameter?, tokenMetadata: JsonParameter?, tokenHasFilters: kotlin.Boolean?, anyof: kotlin.String?, from: AccountParameter?, to: AccountParameter?, amount: NatParameter?, transactionId: IntParameter?, originationId: IntParameter?, migrationId: IntParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -896,7 +897,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun tokensGetTokens(id: Int32Parameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?, metadata: JsonParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : kotlin.collections.List<Token> {
+    fun tokensGetTokens(id: IntParameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?, metadata: JsonParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : kotlin.collections.List<Token> {
         val localVarResponse = tokensGetTokensWithHttpInfo(id = id, contract = contract, tokenId = tokenId, standard = standard, firstLevel = firstLevel, firstTime = firstTime, lastLevel = lastLevel, lastTime = lastTime, metadata = metadata, sort = sort, offset = offset, limit = limit, select = select)
 
         return when (localVarResponse.responseType) {
@@ -936,7 +937,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun tokensGetTokensWithHttpInfo(id: Int32Parameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?, metadata: JsonParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : ApiResponse<kotlin.collections.List<Token>?> {
+    fun tokensGetTokensWithHttpInfo(id: IntParameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?, metadata: JsonParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : ApiResponse<kotlin.collections.List<Token>?> {
         val localVariableConfig = tokensGetTokensRequestConfig(id = id, contract = contract, tokenId = tokenId, standard = standard, firstLevel = firstLevel, firstTime = firstTime, lastLevel = lastLevel, lastTime = lastTime, metadata = metadata, sort = sort, offset = offset, limit = limit, select = select)
 
         return request<Unit, kotlin.collections.List<Token>>(
@@ -962,7 +963,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param select Specify a comma-separated list of fields to include into response or leave it undefined to get default set of fields. This parameter accepts values of the following format: &#x60;{field}{path?}{as alias?}&#x60;, so you can do deep selection (for example, &#x60;?select&#x3D;balance,token.metadata.symbol as token,...&#x60;).   Note, if you select just one field, the response will be flatten into a simple array of values.   Click on the parameter to expand the details. (optional)
     * @return RequestConfig
     */
-    fun tokensGetTokensRequestConfig(id: Int32Parameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?, metadata: JsonParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : RequestConfig<Unit> {
+    fun tokensGetTokensRequestConfig(id: IntParameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?, metadata: JsonParameter?, sort: SortParameter?, offset: OffsetParameter?, limit: kotlin.Int?, select: SelectionParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -1039,7 +1040,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun tokensGetTokensCount(id: Int32Parameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?, metadata: JsonParameter?) : kotlin.Int {
+    fun tokensGetTokensCount(id: IntParameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?, metadata: JsonParameter?) : kotlin.Int {
         val localVarResponse = tokensGetTokensCountWithHttpInfo(id = id, contract = contract, tokenId = tokenId, standard = standard, firstLevel = firstLevel, firstTime = firstTime, lastLevel = lastLevel, lastTime = lastTime, metadata = metadata)
 
         return when (localVarResponse.responseType) {
@@ -1075,7 +1076,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun tokensGetTokensCountWithHttpInfo(id: Int32Parameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?, metadata: JsonParameter?) : ApiResponse<kotlin.Int?> {
+    fun tokensGetTokensCountWithHttpInfo(id: IntParameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?, metadata: JsonParameter?) : ApiResponse<kotlin.Int?> {
         val localVariableConfig = tokensGetTokensCountRequestConfig(id = id, contract = contract, tokenId = tokenId, standard = standard, firstLevel = firstLevel, firstTime = firstTime, lastLevel = lastLevel, lastTime = lastTime, metadata = metadata)
 
         return request<Unit, kotlin.Int>(
@@ -1097,7 +1098,7 @@ class TokensApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath)
     * @param metadata Filter by metadata.   Note, this parameter supports the following format: &#x60;metadata{.path?}{.mode?}&#x3D;...&#x60;, so you can specify a path to a particular field to filter by (for example, &#x60;?metadata.symbol.in&#x3D;kUSD,uUSD&#x60;).   Click on the parameter to expand more details. (optional)
     * @return RequestConfig
     */
-    fun tokensGetTokensCountRequestConfig(id: Int32Parameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: Int32Parameter?, firstTime: TimestampParameter?, lastLevel: Int32Parameter?, lastTime: TimestampParameter?, metadata: JsonParameter?) : RequestConfig<Unit> {
+    fun tokensGetTokensCountRequestConfig(id: IntParameter?, contract: AccountParameter?, tokenId: NatParameter?, standard: TokenStandardParameter?, firstLevel: IntParameter?, firstTime: TimestampParameter?, lastLevel: IntParameter?, lastTime: TimestampParameter?, metadata: JsonParameter?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {

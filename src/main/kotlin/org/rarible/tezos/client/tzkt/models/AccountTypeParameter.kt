@@ -33,6 +33,6 @@ import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
  */
 
 data class AccountTypeParameter (
-    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
+    var equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
 )
 

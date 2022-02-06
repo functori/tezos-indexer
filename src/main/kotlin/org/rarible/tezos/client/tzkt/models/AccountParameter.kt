@@ -44,7 +44,7 @@ import org.rarible.tezos.client.tzkt.filters.NullFilterImpl
  */
 
 data class AccountParameter (
-    val equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
+    var equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
     val fieldEqualityFilterImpl: FieldEqualityFilterImpl = FieldEqualityFilterImpl(),
     val inclusionFilterImpl: InclusionFilterImpl = InclusionFilterImpl(),
     val nullFilterImpl: NullFilterImpl= NullFilterImpl()

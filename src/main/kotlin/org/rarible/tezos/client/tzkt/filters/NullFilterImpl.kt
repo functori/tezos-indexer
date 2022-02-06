@@ -8,7 +8,7 @@ class NullFilterImpl: NullFilter {
 
     override fun getFilter(): String {
         return if(`null` != null){
-           "null"
+           ".null"
         } else {
             ""
         }

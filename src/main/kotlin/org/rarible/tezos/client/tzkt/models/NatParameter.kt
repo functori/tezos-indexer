@@ -23,6 +23,7 @@ package org.rarible.tezos.client.tzkt.models
 
 import com.squareup.moshi.Json
 import org.rarible.tezos.client.tzkt.filters.ComparisonFilterImpl
+import org.rarible.tezos.client.tzkt.filters.EqualityFilterImpl
 import org.rarible.tezos.client.tzkt.filters.InclusionFilterImpl
 
 /**
@@ -39,6 +40,7 @@ import org.rarible.tezos.client.tzkt.filters.InclusionFilterImpl
  */
 
 data class NatParameter (
+    var equalityFilterImpl: EqualityFilterImpl = EqualityFilterImpl(),
     val comparisonFilterImpl: ComparisonFilterImpl = ComparisonFilterImpl(),
     val inclusionFilterImpl: InclusionFilterImpl = InclusionFilterImpl()
 )

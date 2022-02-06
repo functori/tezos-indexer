@@ -21,13 +21,13 @@ class ComparisonFilterImpl: ComparisonFilter {
     override val le:String? = null
     override fun getFilter(): String {
         return if(!gt.isNullOrEmpty()){
-            "gt"
+            ".gt"
         } else if(!ge.isNullOrEmpty()){
-            "ge"
+            ".ge"
         } else if(!lt.isNullOrEmpty()){
-            "lt"
+            ".lt"
         } else if(!le.isNullOrEmpty()){
-            "le"
+            ".le"
         } else {
             ""
         }
@@ -46,4 +46,6 @@ class ComparisonFilterImpl: ComparisonFilter {
             ""
         }
     }
+
+
 }

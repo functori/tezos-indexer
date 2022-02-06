@@ -13,9 +13,9 @@ class InclusionFilterImpl: InclusionFilter {
 
     override fun getFilter(): String{
         return if(!`in`.isNullOrEmpty()){
-            "in"
+            ".in"
         } else if (!ni.isNullOrEmpty()) {
-            "ni"
+            ".ni"
         } else {
             ""
         }

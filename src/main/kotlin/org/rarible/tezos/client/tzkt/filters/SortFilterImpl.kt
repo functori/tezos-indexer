@@ -42,9 +42,9 @@ import com.squareup.moshi.Json
 
     override fun getFilter(): String {
         return if(!asc.isNullOrEmpty()){
-            "asc"
+            ".asc"
         } else if(!desc.isNullOrEmpty()){
-            "desc"
+            ".desc"
         } else {
             ""
         }

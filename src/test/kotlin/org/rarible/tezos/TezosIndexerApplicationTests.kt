@@ -38,9 +38,8 @@ class TezosIndexerApplicationTests {
     fun getFA1FTBalanceWithNonExistingBalanceTest() {
         val apiController = V01ApiController()
         assertThrows<NotFoundException> {
-
             apiController.ftBalance(
-                "KT1G1cCRNBgQ48mVDjopHjEmTN5Sbtar8nn9",
+                "KT1G1cCRNBgQ48mVDjopHjEmTN5Sbtar89n9",
                 "tz2LDByTzkpt7qBubspfyYiLYs6aKd321ztV",
                 null
             )
@@ -62,13 +61,14 @@ class TezosIndexerApplicationTests {
     @Test
     fun getFA1FTBalanceWithWrongAddressTest() {
         val apiController = V01ApiController()
-        assertThrows<NotFoundException> {
-            apiController.ftBalance(
-                "KT1G1cCRNBgQ48mVDjopHjEmTN5Sbtar8nn9",
-                "tz2LDByTzkpt7qBubspiLYs6aKd321ztXXX",
-                null
-            )
-        }
+        val result = apiController.ftBalance(
+            "KT1G1cCRNBgQ48mVDjopHjEmTN5Sbtar8nn9",
+            "tz2LDByTzkpt7qBubspiLYs6aKd321ztXXX",
+            null
+        )
+        assert(result.statusCode.is2xxSuccessful)
+        assert(result.body!!.balance >= BigDecimal(0))
+
     }
 
     @Test
@@ -82,13 +82,13 @@ class TezosIndexerApplicationTests {
     @Test
     fun getFA2FTBalanceWithNonExistingBalanceTest() {
         val apiController = V01ApiController()
-        assertThrows<NotFoundException> {
-            apiController.ftBalance(
+        val result = apiController.ftBalance(
                 "KT1JBNFcB5tiycHNdYGYCtR3kk6JaJysUCi8",
                 "tz1burnburnburnburnburnburnburjAYjjX",
                 "0"
             )
-        }
+        assert(result.statusCode.is2xxSuccessful)
+        assert(result.body!!.balance >= BigDecimal(0))
 	}
 
 	@Test

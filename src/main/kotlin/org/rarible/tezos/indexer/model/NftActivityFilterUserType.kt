@@ -8,13 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty
 */
 enum class NftActivityFilterUserType(val value: kotlin.String) {
 
-    @JsonProperty("TRANSFER_FROM") tRANSFERFROM("TRANSFER_FROM"),
+    @JsonProperty("TRANSFER_FROM") TRANSFERFROM("TRANSFER_FROM"),
 
-    @JsonProperty("TRANSFER_TO") tRANSFERTO("TRANSFER_TO"),
+    @JsonProperty("TRANSFER_TO") TRANSFERTO("TRANSFER_TO"),
 
-    @JsonProperty("MINT") mINT("MINT"),
+    @JsonProperty("MINT") MINT("MINT"),
 
-    @JsonProperty("BURN") bURN("BURN");
+    @JsonProperty("BURN") BURN("BURN");
 
 }
 

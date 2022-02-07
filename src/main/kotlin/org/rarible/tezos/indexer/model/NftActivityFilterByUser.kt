@@ -11,23 +11,12 @@ import javax.validation.Valid
  */
 data class NftActivityFilterByUser(
 
-    @field:JsonProperty("@type", required = true) val atType: NftActivityFilterByUser.AtType,
+    @field:JsonProperty("@type", required = true)
+    override val type: NftActivityFilter.Type,
 
     @field:Valid
-    @field:JsonProperty("types", required = true) val types: kotlin.collections.List<NftActivityFilterUserType>,
+    @field:JsonProperty("types", required = true) val types: List<NftActivityFilterUserType>,
 
-    @field:JsonProperty("users", required = true) val users: kotlin.collections.List<kotlin.String>
-) {
-
-    /**
-    * 
-    * Values: byUser
-    */
-    enum class AtType(val value: kotlin.String) {
-    
-        @JsonProperty("by_user") byUser("by_user");
-    
-    }
-
-}
+    @field:JsonProperty("users", required = true) val users: List<String>
+) : NftActivityFilter(type)
 

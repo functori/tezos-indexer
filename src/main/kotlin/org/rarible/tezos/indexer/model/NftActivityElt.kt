@@ -10,25 +10,25 @@ import javax.validation.Valid
  * @param owner 
  * @param contract 
  * @param tokenId 
- * @param &#x60;value&#x60; 
+ * @param value
  * @param transactionHash 
  * @param blockHash 
  * @param blockNumber 
  */
 data class NftActivityElt(
 
-    @field:JsonProperty("owner", required = true) val owner: kotlin.String,
+    @field:JsonProperty("owner", required = true) val owner: String,
 
-    @field:JsonProperty("contract", required = true) val contract: kotlin.String,
+    @field:JsonProperty("contract", required = true) val contract: String,
 
-    @field:JsonProperty("tokenId", required = true) val tokenId: kotlin.String,
+    @field:JsonProperty("tokenId", required = true) val tokenId: String,
 
     @field:Valid
     @field:JsonProperty("value", required = true) val `value`: java.math.BigDecimal,
 
-    @field:JsonProperty("transactionHash", required = true) val transactionHash: kotlin.String,
+    @field:JsonProperty("transactionHash", required = true) val transactionHash: String,
 
-    @field:JsonProperty("blockHash", required = true) val blockHash: kotlin.String,
+    @field:JsonProperty("blockHash", required = true) val blockHash: String,
 
     @get:Min(0)
     @get:Max(9007199254740992)

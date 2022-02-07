@@ -2,29 +2,37 @@ package org.rarible.tezos.client.tzkt
 
 import org.junit.jupiter.api.Test
 import org.rarible.tezos.client.tzkt.db.TzKTDBClient
+import org.rarible.tezos.client.tzkt.models.TokenBalances.tokenId
 import org.rarible.tezos.client.tzkt.repositories.TokenRepository
-import org.rarible.tezos.indexer.filters.GetFTBalanceFilter
+import java.math.BigDecimal
 
 class TezosTzktDBClientApplicationTests {
+
+	val dbClient: TzKTDBClient = TzKTDBClient()
 
 	@Test
 	fun contextLoads() {
 	}
 
 	@Test
-	fun getTokens(){
-		var db = TzKTDBClient()
-		val repo = TokenRepository()
-		repo.queryTokens("","","");
+	fun getTokenBalancesWithExistingBalance(){
+		val owner = "KT1HbQepzV1nVGg8QVznG7z4RcHseD5kwqBn"
+		val contract = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton"
+		val tokenId = "486654"
+		val result = TokenRepository.queryTokenBalances(contract, owner,tokenId);
+		assert(result != null)
+		assert(result!!.owner == owner)
+		assert(result!!.contract == contract)
+		assert(result!!.balance >= BigDecimal(0))
 	}
 
 	@Test
-	fun getTokenBalances(){
-		var db = TzKTDBClient()
-		val repo = TokenRepository()
-		val filter = GetFTBalanceFilter("KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton","KT1HbQepzV1nVGg8QVznG7z4RcHseD5kwqBn","486654")
-		val t = repo.queryTokenBalances(filter,"","");
-		println(t)
+	fun getTokenBalancesWithNonExistingBalance(){
+		val owner = "KT1HbQepzV1nVGg8QVznG7z4RcHseD5kwqBn"
+		val contract = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton"
+		val tokenId = "486654"
+		val result = TokenRepository.queryTokenBalances(owner, contract, tokenId);
+		assert(result == null)
 	}
 
 }

@@ -3,47 +3,37 @@ package org.rarible.tezos.client.tzkt.repositories
 import org.jetbrains.exposed.sql.Query
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.rarible.tezos.client.tzkt.db.TzKTDBClient
-import org.rarible.tezos.client.tzkt.repositories.model.TokenBalances
-import org.rarible.tezos.client.tzkt.repositories.model.Tokens
-import org.rarible.tezos.indexer.filters.GetFTBalanceFilter
+import org.rarible.tezos.client.tzkt.models.TokenBalances
+import org.rarible.tezos.client.tzkt.models.TokenBalances.balance
 import org.rarible.tezos.indexer.model.FTBalance
 import java.math.BigDecimal
 
 class TokenRepository {
-    fun queryTokens(filter: String, pagination: String, fields: String) {
-        transaction {
-            val query = Tokens.selectAll().limit(10, offset = 1).forEach { println(it[Tokens.id]) }
-        }
-    }
-
-    fun queryTokenBalances(filter: GetFTBalanceFilter, pagination: String, fields: String): List<FTBalance>? {
-        val balances: MutableList<FTBalance> = mutableListOf()
-        if(filter.tokenId.isNullOrEmpty()){
+    companion object {
+        fun queryTokenBalances(contract: String, owner: String, tokenId: String?): FTBalance? {
+            var balance: FTBalance? = null
+            var result: Query? = null
             transaction {
-                TokenBalances.select{
-                    (TokenBalances.owner eq filter.owner) and (TokenBalances.contract eq filter.contract)
-                }.limit(10, offset = 0).forEach {
-                    balances.plus(
-                        FTBalance(it[TokenBalances.contract],it[TokenBalances.owner],
-                            BigDecimal(it[TokenBalances.balance]))
+                result = if (tokenId.isNullOrEmpty()) {
+                    TokenBalances.select {
+                        (TokenBalances.owner eq owner) and (TokenBalances.contract eq contract)
+                    }
+                } else {
+                    TokenBalances.select {
+                        (TokenBalances.owner eq owner) and (TokenBalances.contract eq contract) and (TokenBalances.tokenId eq tokenId)
+                    }
+                }
+
+                if (result != null && result!!.count() > 0) {
+                    val balanceResult = result!!.first()
+                    balance = FTBalance(
+                        balanceResult[TokenBalances.contract], balanceResult[TokenBalances.owner],
+                        BigDecimal(balanceResult[TokenBalances.balance])
                     )
                 }
             }
-        } else {
-            transaction {
-                TokenBalances.select{
-                    (TokenBalances.owner eq filter.owner) and (TokenBalances.contract eq filter.contract) and (TokenBalances.tokenId eq filter.tokenId)
-                }.limit(10, offset = 0).forEach {
-                    balances.add(
-                        FTBalance(it[TokenBalances.contract],it[TokenBalances.owner],
-                            BigDecimal(it[TokenBalances.balance]))
-                        )
-                }
-            }
+            return balance
         }
-        return balances
     }
 }

@@ -1,6 +1,8 @@
 package org.rarible.tezos.indexer.api
 
 
+import org.rarible.tezos.client.tzkt.models.TokenBalances.balance
+import org.rarible.tezos.client.tzkt.repositories.TokenRepository
 import org.rarible.tezos.indexer.model.ActivitySort
 import org.rarible.tezos.indexer.model.FTBalance
 import org.rarible.tezos.indexer.model.InlineResponse200
@@ -38,17 +40,25 @@ import javax.validation.constraints.Min
 @RequestMapping("\${api.base-path:}")
 class V01ApiController() {
 
-
     @RequestMapping(
         method = [RequestMethod.GET],
         value = ["/v0.1/balances/{contract}/{owner}"],
         produces = ["application/json"]
     )
-    fun ftBalance( @PathVariable("contract") contract: kotlin.String
-, @PathVariable("owner") owner: kotlin.String
-, @RequestParam(value = "tokenId", required = false) tokenId: kotlin.String?
+    fun ftBalance( @PathVariable("contract") contract: String
+, @PathVariable("owner") owner: String
+, @RequestParam(value = "tokenId", required = false) tokenId: String?
 ): ResponseEntity<FTBalance> {
-        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+        var balance: FTBalance? = null
+        try {
+            balance = TokenRepository.queryTokenBalances(contract, owner, tokenId)
+        } catch (e: Exception){
+            throw InternalErrorException(e.message!!)
+        }
+        if(balance == null){
+            throw NotFoundException("TOKEN_NOT_FOUND")
+        }
+        return ResponseEntity(TokenRepository.queryTokenBalances(contract, owner, tokenId), HttpStatus.OK)
     }
 
 
@@ -57,7 +67,7 @@ class V01ApiController() {
         value = ["/v0.1/collections/{collection}/generate_token_id"],
         produces = ["application/json"]
     )
-    fun generateNftTokenId( @PathVariable("collection") collection: kotlin.String
+    fun generateNftTokenId( @PathVariable("collection") collection: String
 ): ResponseEntity<NftTokenId> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -68,8 +78,8 @@ class V01ApiController() {
         value = ["/v0.1/order/orders/currencies/byBidOrdersOfItem"],
         produces = ["application/json"]
     )
-    fun getCurrenciesByBidOrdersOfItem( @RequestParam(value = "contract", required = false) contract: kotlin.String?
-, @RequestParam(value = "tokenId", required = false) tokenId: kotlin.String?
+    fun getCurrenciesByBidOrdersOfItem( @RequestParam(value = "contract", required = false) contract: String?
+, @RequestParam(value = "tokenId", required = false) tokenId: String?
 ): ResponseEntity<OrderCurrencies> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -80,8 +90,8 @@ class V01ApiController() {
         value = ["/v0.1/order/orders/currencies/bySellOrdersOfItem"],
         produces = ["application/json"]
     )
-    fun getCurrenciesBySellOrdersOfItem( @RequestParam(value = "contract", required = false) contract: kotlin.String?
-, @RequestParam(value = "tokenId", required = false) tokenId: kotlin.String?
+    fun getCurrenciesBySellOrdersOfItem( @RequestParam(value = "contract", required = false) contract: String?
+, @RequestParam(value = "tokenId", required = false) tokenId: String?
 ): ResponseEntity<OrderCurrencies> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -95,7 +105,7 @@ class V01ApiController() {
     )
     fun getNftActivities( @RequestParam(value = "sort", required = false) sort: ActivitySort?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 , @Valid @RequestBody(required = false) nftActivityFilter: NftActivityFilter?
 ): ResponseEntity<NftActivities> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
@@ -107,12 +117,12 @@ class V01ApiController() {
         value = ["/v0.1/items/all"],
         produces = ["application/json"]
     )
-    fun getNftAllItems( @RequestParam(value = "lastUpdateFrom", required = false) lastUpdateFrom: kotlin.String?
-, @RequestParam(value = "lastUpdateTo", required = false) lastUpdateTo: kotlin.String?
+    fun getNftAllItems( @RequestParam(value = "lastUpdateFrom", required = false) lastUpdateFrom: String?
+, @RequestParam(value = "lastUpdateTo", required = false) lastUpdateTo: String?
 , @RequestParam(value = "showDeleted", required = false) showDeleted: kotlin.Boolean?
 , @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftItems> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -124,7 +134,7 @@ class V01ApiController() {
         produces = ["application/json"]
     )
     fun getNftAllOwnerships(@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftOwnerships> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -135,7 +145,7 @@ class V01ApiController() {
         value = ["/v0.1/collections/{collection}"],
         produces = ["application/json"]
     )
-    fun getNftCollectionById( @PathVariable("collection") collection: kotlin.String
+    fun getNftCollectionById( @PathVariable("collection") collection: String
 ): ResponseEntity<NftCollection> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -146,7 +156,7 @@ class V01ApiController() {
         value = ["/v0.1/items/{itemId}"],
         produces = ["application/json"]
     )
-    fun getNftItemById( @PathVariable("itemId") itemId: kotlin.String
+    fun getNftItemById( @PathVariable("itemId") itemId: String
 , @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
 ): ResponseEntity<NftItem> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
@@ -158,7 +168,7 @@ class V01ApiController() {
         value = ["/v0.1/items/{itemId}/meta"],
         produces = ["application/json"]
     )
-    fun getNftItemMetaById( @PathVariable("itemId") itemId: kotlin.String
+    fun getNftItemMetaById( @PathVariable("itemId") itemId: String
 ): ResponseEntity<NftItemMeta> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -169,7 +179,7 @@ class V01ApiController() {
         value = ["/v0.1/items/{itemId}/royalties"],
         produces = ["application/json"]
     )
-    fun getNftItemRoyalties( @PathVariable("itemId") itemId: kotlin.String
+    fun getNftItemRoyalties( @PathVariable("itemId") itemId: String
 ): ResponseEntity<NftItemRoyalties> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -180,10 +190,10 @@ class V01ApiController() {
         value = ["/v0.1/items/byCollection"],
         produces = ["application/json"]
     )
-    fun getNftItemsByCollection( @RequestParam(value = "collection", required = false) collection: kotlin.String?
+    fun getNftItemsByCollection( @RequestParam(value = "collection", required = false) collection: String?
 , @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftItems> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -194,10 +204,10 @@ class V01ApiController() {
         value = ["/v0.1/items/byCreator"],
         produces = ["application/json"]
     )
-    fun getNftItemsByCreator( @RequestParam(value = "creator", required = false) creator: kotlin.String?
+    fun getNftItemsByCreator( @RequestParam(value = "creator", required = false) creator: String?
 , @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftItems> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -208,10 +218,10 @@ class V01ApiController() {
         value = ["/v0.1/items/byOwner"],
         produces = ["application/json"]
     )
-    fun getNftItemsByOwner( @RequestParam(value = "owner", required = false) owner: kotlin.String?
+    fun getNftItemsByOwner( @RequestParam(value = "owner", required = false) owner: String?
 , @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftItems> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -222,7 +232,7 @@ class V01ApiController() {
         value = ["/v0.1/ownerships/{ownershipId}"],
         produces = ["application/json"]
     )
-    fun getNftOwnershipById( @PathVariable("ownershipId") ownershipId: kotlin.String
+    fun getNftOwnershipById( @PathVariable("ownershipId") ownershipId: String
 ): ResponseEntity<NftOwnership> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -233,10 +243,10 @@ class V01ApiController() {
         value = ["/v0.1/ownerships/byItem"],
         produces = ["application/json"]
     )
-    fun getNftOwnershipByItem( @RequestParam(value = "contract", required = false) contract: kotlin.String?
-, @RequestParam(value = "tokenId", required = false) tokenId: kotlin.String?
+    fun getNftOwnershipByItem( @RequestParam(value = "contract", required = false) contract: String?
+, @RequestParam(value = "tokenId", required = false) tokenId: String?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftOwnerships> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -250,7 +260,7 @@ class V01ApiController() {
     )
     fun getOrderActivities( @RequestParam(value = "sort", required = false) sort: ActivitySort?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 , @Valid @RequestBody(required = false) orderActivityFilter: OrderActivityFilter?
 ): ResponseEntity<OrderActivities> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
@@ -262,16 +272,16 @@ class V01ApiController() {
         value = ["/v0.1/orders/bids/byItem"],
         produces = ["application/json"]
     )
-    fun getOrderBidsByItem( @RequestParam(value = "contract", required = false) contract: kotlin.String?
-, @RequestParam(value = "tokenId", required = false) tokenId: kotlin.String?
-, @RequestParam(value = "maker", required = false) maker: kotlin.String?
-, @RequestParam(value = "origin", required = false) origin: kotlin.String?
-, @RequestParam(value = "currencyId", required = false) currencyId: kotlin.String?
+    fun getOrderBidsByItem( @RequestParam(value = "contract", required = false) contract: String?
+, @RequestParam(value = "tokenId", required = false) tokenId: String?
+, @RequestParam(value = "maker", required = false) maker: String?
+, @RequestParam(value = "origin", required = false) origin: String?
+, @RequestParam(value = "currencyId", required = false) currencyId: String?
 , @RequestParam(value = "status", required = false) status: kotlin.collections.List<OrderStatus>?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "startDate", required = false) startDate: kotlin.Int?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "endDate", required = false) endDate: kotlin.Int?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<OrderPagination> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -282,10 +292,10 @@ class V01ApiController() {
         value = ["/v0.1/orders/bids/byMaker"],
         produces = ["application/json"]
     )
-    fun getOrderBidsByMaker( @RequestParam(value = "maker", required = false) maker: kotlin.String?
-, @RequestParam(value = "origin", required = false) origin: kotlin.String?
+    fun getOrderBidsByMaker( @RequestParam(value = "maker", required = false) maker: String?
+, @RequestParam(value = "origin", required = false) origin: String?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<OrderPagination> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -296,7 +306,7 @@ class V01ApiController() {
         value = ["/v0.1/orders/{hash}"],
         produces = ["application/json"]
     )
-    fun getOrderByHash( @PathVariable("hash") hash: kotlin.String
+    fun getOrderByHash( @PathVariable("hash") hash: String
 ): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -319,11 +329,11 @@ class V01ApiController() {
         value = ["/v0.1/orders/all"],
         produces = ["application/json"]
     )
-    fun getOrdersAll( @RequestParam(value = "origin", required = false) origin: kotlin.String?
+    fun getOrdersAll( @RequestParam(value = "origin", required = false) origin: String?
 , @RequestParam(value = "sort", required = false) sort: OrderSort?
 , @RequestParam(value = "status", required = false) status: kotlin.collections.List<OrderStatus>?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<OrderPagination> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -334,16 +344,16 @@ class V01ApiController() {
         value = ["/v0.1/orders/sell/byItem"],
         produces = ["application/json"]
     )
-    fun getSellOrderByItem( @RequestParam(value = "contract", required = false) contract: kotlin.String?
-, @RequestParam(value = "tokenId", required = false) tokenId: kotlin.String?
-, @RequestParam(value = "maker", required = false) maker: kotlin.String?
-, @RequestParam(value = "origin", required = false) origin: kotlin.String?
-, @RequestParam(value = "currencyId", required = false) currencyId: kotlin.String?
+    fun getSellOrderByItem( @RequestParam(value = "contract", required = false) contract: String?
+, @RequestParam(value = "tokenId", required = false) tokenId: String?
+, @RequestParam(value = "maker", required = false) maker: String?
+, @RequestParam(value = "origin", required = false) origin: String?
+, @RequestParam(value = "currencyId", required = false) currencyId: String?
 , @RequestParam(value = "status", required = false) status: kotlin.collections.List<OrderStatus>?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "startDate", required = false) startDate: kotlin.Int?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "endDate", required = false) endDate: kotlin.Int?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<OrderPagination> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -354,9 +364,9 @@ class V01ApiController() {
         value = ["/v0.1/orders/sell"],
         produces = ["application/json"]
     )
-    fun getSellOrders( @RequestParam(value = "origin", required = false) origin: kotlin.String?
+    fun getSellOrders( @RequestParam(value = "origin", required = false) origin: String?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<OrderPagination> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -367,10 +377,10 @@ class V01ApiController() {
         value = ["/v0.1/orders/sell/byCollection"],
         produces = ["application/json"]
     )
-    fun getSellOrdersByCollection( @RequestParam(value = "collection", required = false) collection: kotlin.String?
-, @RequestParam(value = "origin", required = false) origin: kotlin.String?
+    fun getSellOrdersByCollection( @RequestParam(value = "collection", required = false) collection: String?
+, @RequestParam(value = "origin", required = false) origin: String?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<OrderPagination> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -381,10 +391,10 @@ class V01ApiController() {
         value = ["/v0.1/orders/sell/byMaker"],
         produces = ["application/json"]
     )
-    fun getSellOrdersByMaker( @RequestParam(value = "maker", required = false) maker: kotlin.String?
-, @RequestParam(value = "origin", required = false) origin: kotlin.String?
+    fun getSellOrdersByMaker( @RequestParam(value = "maker", required = false) maker: String?
+, @RequestParam(value = "origin", required = false) origin: String?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<OrderPagination> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -395,7 +405,7 @@ class V01ApiController() {
         value = ["/v0.1/items/{itemId}/reset"],
         produces = ["application/json"]
     )
-    fun resetNftItemMetaById( @PathVariable("itemId") itemId: kotlin.String
+    fun resetNftItemMetaById( @PathVariable("itemId") itemId: String
 ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -407,7 +417,7 @@ class V01ApiController() {
         produces = ["application/json"]
     )
     fun searchNftAllCollections(@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftCollections> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -418,9 +428,9 @@ class V01ApiController() {
         value = ["/v0.1/collections/byOwner"],
         produces = ["application/json"]
     )
-    fun searchNftCollectionsByOwner( @RequestParam(value = "owner", required = false) owner: kotlin.String?
+    fun searchNftCollectionsByOwner( @RequestParam(value = "owner", required = false) owner: String?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: kotlin.Int?
-, @RequestParam(value = "continuation", required = false) continuation: kotlin.String?
+, @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftCollections> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }

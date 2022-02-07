@@ -10,6 +10,7 @@ import javax.validation.ConstraintViolationException
 sealed class ApiException(msg: String, val code: Int) : Exception(msg)
 
 class NotFoundException(msg: String, code: Int = HttpStatus.NOT_FOUND.value()) : ApiException(msg, code)
+class InternalErrorException(msg: String, code: Int = HttpStatus.INTERNAL_SERVER_ERROR.value()) : ApiException(msg, code)
 
 
 @ControllerAdvice

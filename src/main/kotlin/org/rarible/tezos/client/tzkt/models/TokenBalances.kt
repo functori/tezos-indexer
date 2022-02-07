@@ -20,30 +20,33 @@
 
 package org.rarible.tezos.client.tzkt.models
 
+import com.fasterxml.jackson.annotation.JsonProperty
 
 import com.squareup.moshi.Json
+import org.jetbrains.exposed.dao.View
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.Table
+import java.math.BigDecimal
+import javax.validation.Valid
 
 /**
  * 
  *
- * @param alias Name of the project behind the account or account description
- * @param address Public key hash of the account
- * @param publicKey Base58 representation of account's public key, revealed by the account
+ * @param id Internal TzKT id.   **[sortable]**
+ * @param account Owner account.   Click on the field to expand more details.
+ * @param token Token info.   Click on the field to expand more details.
+ * @param balance Balance (raw value, not divided by `decimals`).   **[sortable]**
+ * @param transfersCount Total number of transfers, affecting the token balance.   **[sortable]**
+ * @param firstLevel Level of the block where the token balance was first changed.   **[sortable]**
+ * @param firstTime Timestamp of the block where the token balance was first changed.
+ * @param lastLevel Level of the block where the token balance was last changed.   **[sortable]**
+ * @param lastTime Timestamp of the block where the token balance was last changed.
  */
 
-data class ManagerInfo (
-
-    /* Name of the project behind the account or account description */
-    @Json(name = "alias")
-    val alias: kotlin.String? = null,
-
-    /* Public key hash of the account */
-    @Json(name = "address")
-    val address: kotlin.String? = null,
-
-    /* Base58 representation of account's public key, revealed by the account */
-    @Json(name = "publicKey")
-    val publicKey: kotlin.String? = null
-
-)
+object TokenBalances : Table("\"token_balances\"") {
+    val contract: Column<String> = text("contract")
+    val owner: Column<String> = text("owner")
+    val tokenId: Column<String> = text("token_id")
+    val balance: Column<String> = text("balance")
+}
 

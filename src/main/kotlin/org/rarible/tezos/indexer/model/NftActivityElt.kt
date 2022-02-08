@@ -32,8 +32,6 @@ data class NftActivityElt(
 
     @get:Min(0)
     @get:Max(9007199254740992)
-    @field:JsonProperty("blockNumber", required = true) val blockNumber: kotlin.Int
-) {
-
-}
+    @field:JsonProperty("blockNumber", required = true) val blockNumber: Int
+)
 

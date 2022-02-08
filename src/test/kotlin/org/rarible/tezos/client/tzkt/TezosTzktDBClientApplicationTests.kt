@@ -2,7 +2,9 @@ package org.rarible.tezos.client.tzkt
 
 import org.junit.jupiter.api.Test
 import org.rarible.tezos.client.tzkt.db.TzKTDBClient
+import org.rarible.tezos.client.tzkt.models.TokenBalances.owner
 import org.rarible.tezos.client.tzkt.models.TokenBalances.tokenId
+import org.rarible.tezos.client.tzkt.repositories.NFTActivityRepository
 import org.rarible.tezos.client.tzkt.repositories.TokenRepository
 import java.math.BigDecimal
 
@@ -33,6 +35,13 @@ class TezosTzktDBClientApplicationTests {
 		val tokenId = "486654"
 		val result = TokenRepository.queryTokenBalances(owner, contract, tokenId);
 		assert(result == null)
+	}
+
+	@Test
+	fun getAllNFTActivities(){
+		val typeList = listOf("BURN", "MINT", "TRANSFER")
+		val result = NFTActivityRepository.queryAllNFTActivities(typeList);
+		assert(result.isNotEmpty())
 	}
 
 }

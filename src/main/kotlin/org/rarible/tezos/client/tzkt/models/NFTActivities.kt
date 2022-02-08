@@ -1,0 +1,17 @@
+package org.rarible.tezos.client.tzkt.models
+
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.Table
+
+object NFTActivities : Table("\"nft_activities\"") {
+    val type: Column<String> = text("type")
+    val from: Column<String> = text("from")
+    val to: Column<String> = text("to")
+    val contract: Column<String> = text("contract")
+    val tokenId: Column<String> = text("token_id")
+    val value: Column<String> = text("value")
+    val txHash: Column<String> = text("tx_hash")
+    val blockHash: Column<String> = text("block_hash")
+    val blockNumber: Column<Int> = integer("block_number")
+    val logIndex: Column<Int> = integer("log_index")
+}

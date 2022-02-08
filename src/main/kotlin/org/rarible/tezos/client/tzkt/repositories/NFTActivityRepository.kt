@@ -1,39 +1,58 @@
 package org.rarible.tezos.client.tzkt.repositories
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.jetbrains.exposed.sql.Query
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.rarible.tezos.client.tzkt.models.NFTActivities
 import org.rarible.tezos.client.tzkt.models.TokenBalances
-import org.rarible.tezos.client.tzkt.models.TokenBalances.balance
-import org.rarible.tezos.indexer.model.FTBalance
+import org.rarible.tezos.client.tzkt.models.TokenBalances.contract
+import org.rarible.tezos.client.tzkt.models.TokenBalances.tokenId
+import org.rarible.tezos.indexer.model.NftActivityElt
+import org.rarible.tezos.indexer.model.NftActivityFilterAllType
 import java.math.BigDecimal
+import javax.validation.Valid
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
 
 class NFTActivityRepository {
     companion object {
-        fun queryTokenBalances(contract: String, owner: String, tokenId: String?): FTBalance? {
-            var balance: FTBalance? = null
-            var result: Query? = null
-            transaction {
-                result = if (tokenId.isNullOrEmpty()) {
-                    TokenBalances.select {
-                        (TokenBalances.owner eq owner) and (TokenBalances.contract eq contract)
-                    }
-                } else {
-                    TokenBalances.select {
-                        (TokenBalances.owner eq owner) and (TokenBalances.contract eq contract) and (TokenBalances.tokenId eq tokenId)
-                    }
-                }
+        fun queryAllNFTActivities(types: List<String>): MutableList<NftActivityElt> {
+            var result: MutableList<NftActivityElt> = mutableListOf()
 
-                if (result != null && result!!.count() > 0) {
-                    val balanceResult = result!!.first()
-                    balance = FTBalance(
-                        balanceResult[TokenBalances.contract], balanceResult[TokenBalances.owner],
-                        BigDecimal(balanceResult[TokenBalances.balance])
+            transaction {
+                NFTActivities.select {
+                    (NFTActivities.type inList types)
+                }.limit(10).forEach {
+                    result.add(
+                        NftActivityElt(
+                            it[NFTActivities.to],
+                            it[NFTActivities.contract],
+                            it[NFTActivities.tokenId],
+                            BigDecimal(it[NFTActivities.value]),
+                            it[NFTActivities.txHash],
+                            it[NFTActivities.blockHash],
+                            it[NFTActivities.blockNumber].toInt()
+                        )
                     )
                 }
             }
-            return balance
+            return result
+        }
+
+        fun queryNFTActivitiesByUser(contract: String, owner: String, tokenId: String?) {
+
+        }
+
+        fun queryNFTActivitiesByItem(contract: String, owner: String, tokenId: String?) {
+
+        }
+
+        fun queryNFTActivitiesByCollection(contract: String, owner: String, tokenId: String?) {
+
         }
     }
 }

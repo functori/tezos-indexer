@@ -5,8 +5,14 @@ import org.junit.jupiter.api.assertThrows
 import org.rarible.tezos.client.tzkt.db.TzKTDBClient
 import org.rarible.tezos.indexer.api.NotFoundException
 import org.rarible.tezos.indexer.api.V01ApiController
+import org.rarible.tezos.indexer.model.ActivitySort
+import org.rarible.tezos.indexer.model.activities.ActivityType
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilter
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAll
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAllType
 import org.springframework.boot.test.context.SpringBootTest
 import java.math.BigDecimal
+import java.time.Instant
 
 @SpringBootTest
 class TezosIndexerApplicationTests {
@@ -114,5 +120,17 @@ class TezosIndexerApplicationTests {
             )
         }
 	}
+
+    @Test
+    fun getAllActivites() {
+        val apiController = V01ApiController()
+            apiController.getNftActivities(
+                ActivitySort.LATESTFIRST,
+                100,
+                "${Instant.parse("2022-01-28T23:22:58Z").toEpochMilli()}_opHX6rj8F4VUtVAeEZavyPus6FcZM6CDDCnWJuQ2B7XkhuzN4F9",
+                NftActivityFilterAll(listOf(NftActivityFilterAllType.BURN, NftActivityFilterAllType.MINT, NftActivityFilterAllType.TRANSFER), NftActivityFilter.Type.all )
+            )
+
+    }
 
 }

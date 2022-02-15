@@ -1,4 +1,4 @@
-package org.rarible.tezos.indexer.model
+package org.rarible.tezos.indexer.model.activities.filters
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.Valid
@@ -12,7 +12,7 @@ import javax.validation.Valid
 data class NftActivityFilterByUser(
 
     @field:JsonProperty("@type", required = true)
-    override val type: NftActivityFilter.Type,
+    override val type: Type,
 
     @field:Valid
     @field:JsonProperty("types", required = true) val types: List<NftActivityFilterUserType>,

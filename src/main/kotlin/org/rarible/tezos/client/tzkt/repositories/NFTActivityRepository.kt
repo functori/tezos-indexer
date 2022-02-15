@@ -16,6 +16,10 @@ import org.rarible.tezos.indexer.model.activities.NftActivityElt
 import org.rarible.tezos.indexer.model.activities.NftBaseActivityElt
 import org.rarible.tezos.indexer.model.activities.NftMintBurnActivityElt
 import org.rarible.tezos.indexer.model.activities.NftTransferActivityElt
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAll
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAllType
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByItem
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterUserType
 import java.math.BigDecimal
 import java.time.Instant
 
@@ -134,10 +138,10 @@ class NFTActivityRepository {
             return query
         }
 
-        fun queryAllNFTActivities(types: List<String>, continuation: String?, size: Int?, sort: ActivitySort?): MutableList<NftActivityElt> {
+        fun queryAllNFTActivities(types: List<NftActivityFilterAllType>, continuation: String?, size: Int?, sort: ActivitySort?): List<NftActivityElt> {
             var result: MutableList<NftActivityElt> = mutableListOf()
             var query =  NFTActivities.select{
-                (type inList types)
+                (type inList types.map{ it.value })
             }
 
             query = applyFilters(query, continuation, size, sort)
@@ -152,28 +156,28 @@ class NFTActivityRepository {
             return result
         }
 
-        fun queryNFTActivitiesByUser(users: List<String>, types: List<String>, continuation: String?, size: Int?, sort: ActivitySort?): MutableList<NftActivityElt> {
+        fun queryNFTActivitiesByUser(users: List<String>, types: List<NftActivityFilterUserType>, continuation: String?, size: Int?, sort: ActivitySort?): List<NftActivityElt> {
             var result: MutableList<NftActivityElt> = mutableListOf()
             var requestTypes: MutableSet<String> = mutableSetOf()
             types.forEach{
                 when(it){
-                    NftActivity.NFTActivityType.transferFrom.value,NftActivity.NFTActivityType.transferTo.value ->{
+                    NftActivityFilterUserType.TRANSFERTO,NftActivityFilterUserType.TRANSFERFROM ->{
                         requestTypes.add(NftActivity.NFTActivityType.transfer.value)
                     }
-                    NftActivity.NFTActivityType.mint.value -> requestTypes.add(NftActivity.NFTActivityType.mint.value)
-                    NftActivity.NFTActivityType.burn.value -> requestTypes.add(NftActivity.NFTActivityType.burn.value)
+                    NftActivityFilterUserType.MINT -> requestTypes.add(NftActivity.NFTActivityType.mint.value)
+                    NftActivityFilterUserType.BURN -> requestTypes.add(NftActivity.NFTActivityType.burn.value)
                 }
             }
             var query =  NFTActivities.select{
                 (type inList requestTypes)
             }
-            if(types.contains(NftActivity.NFTActivityType.transferFrom.value) && !types.contains(NftActivity.NFTActivityType.transferTo.value)){
+            if(types.contains(NftActivityFilterUserType.TRANSFERFROM) && !types.contains(NftActivityFilterUserType.TRANSFERTO)){
                 query.andWhere { (NFTActivities.from inList users)}
             }
-            else if(!types.contains(NftActivity.NFTActivityType.transferFrom.value) && types.contains(NftActivity.NFTActivityType.transferTo.value)){
+            else if(!types.contains(NftActivityFilterUserType.TRANSFERFROM) && types.contains(NftActivityFilterUserType.TRANSFERTO)){
                 query.andWhere { (NFTActivities.to inList users) }
             }
-            else if(types.contains(NftActivity.NFTActivityType.transferFrom.value) && types.contains(NftActivity.NFTActivityType.transferTo.value)){
+            else if(types.contains(NftActivityFilterUserType.TRANSFERFROM) && types.contains(NftActivityFilterUserType.TRANSFERTO)){
                 query.andWhere { (NFTActivities.from inList users) or (NFTActivities.to inList users) }
             }
 
@@ -190,11 +194,11 @@ class NFTActivityRepository {
             return result
         }
 
-        fun queryNFTActivitiesByItem(contract: String, tokenId: String?, types: List<String>, continuation: String?, size: Int?, sort: ActivitySort?): MutableList<NftActivityElt> {
+        fun queryNFTActivitiesByItem(contract: String, tokenId: String?, types: List<NftActivityFilterAllType>, continuation: String?, size: Int?, sort: ActivitySort?): List<NftActivityElt> {
             var result: MutableList<NftActivityElt> = mutableListOf()
 
             var query =  NFTActivities.select{
-                (type inList types) and (NFTActivities.contract eq contract)
+                (type inList types.map { it.value }) and (NFTActivities.contract eq contract)
             }
             if(!tokenId.isNullOrEmpty()){
                 query.andWhere { (NFTActivities.tokenId eq tokenId)}

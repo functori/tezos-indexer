@@ -1,7 +1,6 @@
 package org.rarible.tezos.indexer.model.activities
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.rarible.tezos.indexer.model.NftActivityFilter
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.Valid

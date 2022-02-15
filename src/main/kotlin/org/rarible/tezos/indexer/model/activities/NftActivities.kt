@@ -11,9 +11,9 @@ import javax.validation.Valid
 data class NftActivities(
 
     @field:Valid
-    @field:JsonProperty("items", required = true) val items: List<NftActivity>,
+    @field:JsonProperty("items", required = true) var items: List<NftActivityElt>,
 
-    @field:JsonProperty("continuation") val continuation: String? = null
+    @field:JsonProperty("continuation") var continuation: String? = null
 ) {
 
 }

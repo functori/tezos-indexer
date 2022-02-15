@@ -1,16 +1,18 @@
 package org.rarible.tezos.indexer.api
 
 
+import org.rarible.tezos.client.tzkt.models.NFTActivities
+import org.rarible.tezos.client.tzkt.repositories.NFTActivityRepository
 import org.rarible.tezos.client.tzkt.repositories.TokenRepository
 import org.rarible.tezos.indexer.model.ActivitySort
 import org.rarible.tezos.indexer.model.FTBalance
 import org.rarible.tezos.indexer.model.InlineResponse200
 import org.rarible.tezos.indexer.model.activities.NftActivities
-import org.rarible.tezos.indexer.model.NftActivityFilter
-import org.rarible.tezos.indexer.model.NftActivityFilterAll
-import org.rarible.tezos.indexer.model.NftActivityFilterByCollection
-import org.rarible.tezos.indexer.model.NftActivityFilterByItem
-import org.rarible.tezos.indexer.model.NftActivityFilterByUser
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilter
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAll
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByCollection
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByItem
+import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByUser
 import org.rarible.tezos.indexer.model.NftCollection
 import org.rarible.tezos.indexer.model.NftCollections
 import org.rarible.tezos.indexer.model.NftItem
@@ -30,6 +32,7 @@ import org.rarible.tezos.indexer.model.OrderPagination
 import org.rarible.tezos.indexer.model.OrderSort
 import org.rarible.tezos.indexer.model.OrderStatus
 import org.rarible.tezos.indexer.model.SignatureValidationForm
+import org.rarible.tezos.indexer.model.activities.NftActivityElt
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -117,23 +120,25 @@ class V01ApiController() {
 , @RequestParam(value = "continuation", required = false) continuation: String?
 , @Valid @RequestBody(required = false) nftActivityFilter: NftActivityFilter?
 ): ResponseEntity<NftActivities> {
-        val continuationArgs = continuation?.split('_')
-        val timestamp = continuationArgs?.get(0)
-        val hash = continuationArgs?.get(1)
+        var activities = NftActivities(emptyList())
+
         when(nftActivityFilter){
             is NftActivityFilterAll -> {
-
+                activities.items = NFTActivityRepository.queryAllNFTActivities(nftActivityFilter.types, continuation, size, sort)
             }
             is NftActivityFilterByCollection -> {
+                activities.items = NFTActivityRepository.queryNFTActivitiesByItem(nftActivityFilter.contract, null, nftActivityFilter.types, continuation, size, sort)
 
             }
             is NftActivityFilterByItem -> {
+                activities.items = NFTActivityRepository.queryNFTActivitiesByItem(nftActivityFilter.contract, nftActivityFilter.tokenId, nftActivityFilter.types, continuation, size, sort)
 
             }
             is NftActivityFilterByUser -> {
-
+                activities.items = NFTActivityRepository.queryNFTActivitiesByUser(nftActivityFilter.users, nftActivityFilter.types, continuation, size, sort)
             }
         }
+        activities.continuation = "${activities.items.last().date}_${activities.items.last().id}"
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

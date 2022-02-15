@@ -13,7 +13,8 @@
             COALESCE(transaction."OpHash", origination."OpHash") AS "tx_hash",
             block."Hash" AS "block_hash",
             transfer."Level" AS "block_number",
-            transfer."Id" AS "log_index"
+            transfer."Id" AS "log_index",
+            block."Timestamp" AS "date"
            FROM "TokenTransfers" transfer
              LEFT JOIN "Tokens" token ON token."Id" = transfer."TokenId"
              LEFT JOIN "Accounts" contract ON contract."Id" = token."ContractId"
@@ -32,5 +33,6 @@
     items."tx_hash",
     items."block_hash",
     items."block_number",
+    items."date",
     items."log_index"
    FROM items;

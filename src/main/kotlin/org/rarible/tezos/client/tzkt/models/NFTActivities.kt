@@ -2,6 +2,8 @@ package org.rarible.tezos.client.tzkt.models
 
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.javatime.timestamp
+import java.time.Instant
 
 object NFTActivities : Table("\"nft_activities\"") {
     val type: Column<String> = text("type")
@@ -13,5 +15,5 @@ object NFTActivities : Table("\"nft_activities\"") {
     val txHash: Column<String> = text("tx_hash")
     val blockHash: Column<String> = text("block_hash")
     val blockNumber: Column<Int> = integer("block_number")
-    val logIndex: Column<Int> = integer("log_index")
+    val date: Column<Instant> = timestamp("date")
 }

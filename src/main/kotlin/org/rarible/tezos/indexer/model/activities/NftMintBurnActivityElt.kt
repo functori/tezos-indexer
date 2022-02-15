@@ -1,21 +1,28 @@
-package org.rarible.tezos.indexer.model
+package org.rarible.tezos.indexer.model.activities
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.rarible.tezos.indexer.model.NftActivityFilter
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.Valid
 
 /**
  * 
+ * @param atType 
  * @param owner 
  * @param contract 
  * @param tokenId 
- * @param value
+ * @param value;
  * @param transactionHash 
  * @param blockHash 
  * @param blockNumber 
+ * @param elt 
+ * @param from 
  */
-data class NftActivityElt(
+data class NftMintBurnActivityElt(
+
+    @field:JsonProperty("@type", required = true)
+    override val type: NFTActivityType,
 
     @field:JsonProperty("owner", required = true) val owner: String,
 
@@ -32,6 +39,7 @@ data class NftActivityElt(
 
     @get:Min(0)
     @get:Max(9007199254740992)
-    @field:JsonProperty("blockNumber", required = true) val blockNumber: Int
-)
+    @field:JsonProperty("blockNumber", required = true) val blockNumber: Int,
+): NftActivity(type) {
+}
 

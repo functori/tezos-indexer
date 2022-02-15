@@ -5,7 +5,7 @@ import org.rarible.tezos.client.tzkt.repositories.TokenRepository
 import org.rarible.tezos.indexer.model.ActivitySort
 import org.rarible.tezos.indexer.model.FTBalance
 import org.rarible.tezos.indexer.model.InlineResponse200
-import org.rarible.tezos.indexer.model.NftActivities
+import org.rarible.tezos.indexer.model.activities.NftActivities
 import org.rarible.tezos.indexer.model.NftActivityFilter
 import org.rarible.tezos.indexer.model.NftCollection
 import org.rarible.tezos.indexer.model.NftCollections

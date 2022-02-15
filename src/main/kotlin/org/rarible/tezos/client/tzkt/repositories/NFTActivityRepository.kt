@@ -1,43 +1,89 @@
 package org.rarible.tezos.client.tzkt.repositories
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import org.jetbrains.exposed.sql.Query
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.rarible.tezos.client.tzkt.models.NFTActivities
-import org.rarible.tezos.client.tzkt.models.TokenBalances
-import org.rarible.tezos.client.tzkt.models.TokenBalances.contract
-import org.rarible.tezos.client.tzkt.models.TokenBalances.tokenId
-import org.rarible.tezos.indexer.model.NftActivityElt
-import org.rarible.tezos.indexer.model.NftActivityFilterAllType
+import org.rarible.tezos.indexer.model.activities.NftActivity
+import org.rarible.tezos.indexer.model.activities.NftActivityElt
+import org.rarible.tezos.indexer.model.activities.NftBaseActivityElt
+import org.rarible.tezos.indexer.model.activities.NftMintBurnActivityElt
+import org.rarible.tezos.indexer.model.activities.NftTransferActivityElt
 import java.math.BigDecimal
-import javax.validation.Valid
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
+import java.time.Instant
+import java.time.OffsetDateTime
 
 class NFTActivityRepository {
     companion object {
         fun queryAllNFTActivities(types: List<String>): MutableList<NftActivityElt> {
             var result: MutableList<NftActivityElt> = mutableListOf()
-
             transaction {
                 NFTActivities.select {
                     (NFTActivities.type inList types)
                 }.limit(10).forEach {
-                    result.add(
-                        NftActivityElt(
-                            it[NFTActivities.to],
-                            it[NFTActivities.contract],
-                            it[NFTActivities.tokenId],
-                            BigDecimal(it[NFTActivities.value]),
-                            it[NFTActivities.txHash],
-                            it[NFTActivities.blockHash],
-                            it[NFTActivities.blockNumber].toInt()
-                        )
-                    )
+                    println(it[NFTActivities.type])
+                    when (it[NFTActivities.type]) {
+                        NftActivity.NFTActivityType.mint.value -> {
+                            result.add(
+                                NftActivityElt(
+                                    it[NFTActivities.txHash],
+                                    it[NFTActivities.date],
+                                    "RARIBLE",
+                                    NftMintBurnActivityElt(
+                                        NftActivity.NFTActivityType.mint,
+                                        it[NFTActivities.to],
+                                        it[NFTActivities.contract],
+                                        it[NFTActivities.tokenId],
+                                        BigDecimal(it[NFTActivities.value]),
+                                        it[NFTActivities.txHash],
+                                        it[NFTActivities.blockHash],
+                                        it[NFTActivities.blockNumber]
+                                    )
+                                )
+                            )
+                        }
+                        NftActivity.NFTActivityType.burn.value -> {
+                            result.add(
+                                NftActivityElt(
+                                    it[NFTActivities.txHash],
+                                    it[NFTActivities.date],
+                                    "RARIBLE",
+                                    NftMintBurnActivityElt(
+                                        NftActivity.NFTActivityType.burn,
+                                        it[NFTActivities.to],
+                                        it[NFTActivities.contract],
+                                        it[NFTActivities.tokenId],
+                                        BigDecimal(it[NFTActivities.value]),
+                                        it[NFTActivities.txHash],
+                                        it[NFTActivities.blockHash],
+                                        it[NFTActivities.blockNumber]
+                                    )
+                                )
+                            )
+                        }
+                        NftActivity.NFTActivityType.transfer.value -> {
+                            result.add(
+                                NftActivityElt(
+                                    it[NFTActivities.txHash],
+                                    it[NFTActivities.date],
+                                    "RARIBLE",
+                                    NftTransferActivityElt(
+                                        NftActivity.NFTActivityType.transfer,
+                                        NftBaseActivityElt(
+                                            it[NFTActivities.to],
+                                            it[NFTActivities.contract],
+                                            it[NFTActivities.tokenId],
+                                            BigDecimal(it[NFTActivities.value]),
+                                            it[NFTActivities.txHash],
+                                            it[NFTActivities.blockHash],
+                                            it[NFTActivities.blockNumber]
+                                        ),
+                                        it[NFTActivities.from],
+                                    )
+                                )
+                            )
+                        }
+                    }
+
                 }
             }
             return result

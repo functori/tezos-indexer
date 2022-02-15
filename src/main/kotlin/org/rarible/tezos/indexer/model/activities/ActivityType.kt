@@ -1,6 +1,7 @@
-package org.rarible.tezos.indexer.model
+package org.rarible.tezos.indexer.model.activities
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.rarible.tezos.indexer.model.OrderActType
 import javax.validation.Valid
 
 /**
@@ -11,7 +12,7 @@ import javax.validation.Valid
 data class ActivityType(
 
     @field:Valid
-    @field:JsonProperty("nftType") val nftType: NftActType? = null,
+    @field:JsonProperty("nftType") val nftType: NftActivity? = null,
 
     @field:Valid
     @field:JsonProperty("orderType") val orderType: OrderActType? = null

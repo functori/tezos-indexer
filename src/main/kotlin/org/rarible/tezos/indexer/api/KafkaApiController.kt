@@ -1,6 +1,6 @@
 package org.rarible.tezos.indexer.api
 
-import org.rarible.tezos.indexer.model.ActivityType
+import org.rarible.tezos.indexer.model.activities.ActivityType
 import org.rarible.tezos.indexer.model.NftCollectionEvent
 import org.rarible.tezos.indexer.model.NftItemEvent
 import org.rarible.tezos.indexer.model.NftOwnershipEvent

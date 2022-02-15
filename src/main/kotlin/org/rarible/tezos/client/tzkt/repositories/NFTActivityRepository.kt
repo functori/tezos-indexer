@@ -1,8 +1,8 @@
 package org.rarible.tezos.client.tzkt.repositories
 
+import org.jetbrains.exposed.sql.Query
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.inList
+import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.or
@@ -10,19 +10,22 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.rarible.tezos.client.tzkt.models.NFTActivities
 import org.rarible.tezos.client.tzkt.models.NFTActivities.type
-import org.rarible.tezos.client.tzkt.models.TokenBalances.owner
+import org.rarible.tezos.indexer.model.ActivitySort
 import org.rarible.tezos.indexer.model.activities.NftActivity
 import org.rarible.tezos.indexer.model.activities.NftActivityElt
 import org.rarible.tezos.indexer.model.activities.NftBaseActivityElt
 import org.rarible.tezos.indexer.model.activities.NftMintBurnActivityElt
 import org.rarible.tezos.indexer.model.activities.NftTransferActivityElt
 import java.math.BigDecimal
+import java.time.Instant
 
 class NFTActivityRepository {
     companion object {
-        class NFTActivityRepositoryException(msg: String, val code: Int) : Exception(msg)
 
-        fun processActivity(activity: ResultRow): NftActivityElt? {
+        class NFTActivityRepositoryException(msg: String, val code: Int) : Exception(msg)
+        private val defaultSize: Int = 50
+
+        private fun processActivity(activity: ResultRow): NftActivityElt? {
             var result: NftActivityElt? = null
             when (activity[type]) {
                 NftActivity.NFTActivityType.mint.value -> {
@@ -89,12 +92,58 @@ class NFTActivityRepository {
             return result
         }
 
-        fun queryAllNFTActivities(types: List<String>): MutableList<NftActivityElt> {
+        private fun applyFilters(query: Query, continuation: String?, size: Int?, sort: ActivitySort?): Query {
+            if(continuation != null){
+                val continuationArgs = continuation.split('_')
+                if(continuationArgs.size != 2){
+                    throw NFTActivityRepositoryException("Continuation pattern must be TIMESTAMP_HASH", 500)
+                }
+                val timestamp = continuationArgs[0].toLong()
+                val hash = continuationArgs[1]
+                if(sort != null && sort == ActivitySort.LATESTFIRST){
+                    query.andWhere {
+                        (NFTActivities.txHash less  hash) and (NFTActivities.date less Instant.ofEpochMilli(timestamp))
+                    }
+                } else {
+                    query.andWhere {
+                        (NFTActivities.txHash greater hash) and (NFTActivities.date greater Instant.ofEpochMilli(timestamp))
+                    }
+                }
+
+            }
+
+            if(size != null){
+                if(size <= 0 || size > 1000){
+                    throw NFTActivityRepositoryException("Size can't be <= 0 or > 1000", 500)
+                }
+                query.limit(size)
+            } else {
+                query.limit(defaultSize)
+            }
+
+            if(sort != null){
+                if(sort == ActivitySort.LATESTFIRST){
+                    query.orderBy(Pair(NFTActivities.date, SortOrder.DESC), Pair(NFTActivities.txHash, SortOrder.DESC))
+                } else {
+                    query.orderBy(Pair(NFTActivities.date, SortOrder.ASC), Pair(NFTActivities.txHash, SortOrder.ASC))
+                }
+            } else {
+                query.orderBy(Pair(NFTActivities.date, SortOrder.ASC), Pair(NFTActivities.txHash, SortOrder.ASC))
+            }
+
+            return query
+        }
+
+        fun queryAllNFTActivities(types: List<String>, continuation: String?, size: Int?, sort: ActivitySort?): MutableList<NftActivityElt> {
             var result: MutableList<NftActivityElt> = mutableListOf()
+            var query =  NFTActivities.select{
+                (type inList types)
+            }
+
+            query = applyFilters(query, continuation, size, sort)
+
             transaction {
-                NFTActivities.select {
-                    (type inList types)
-                }.limit(10).forEach {
+                query.forEach {
                     var activity: NftActivityElt? =
                         processActivity(it) ?: throw NFTActivityRepositoryException("Could not parse activity: $it", 500)
                     result.add(activity!!)
@@ -103,7 +152,7 @@ class NFTActivityRepository {
             return result
         }
 
-        fun queryNFTActivitiesByUser(users: List<String>, types: List<String>): MutableList<NftActivityElt> {
+        fun queryNFTActivitiesByUser(users: List<String>, types: List<String>, continuation: String?, size: Int?, sort: ActivitySort?): MutableList<NftActivityElt> {
             var result: MutableList<NftActivityElt> = mutableListOf()
             var requestTypes: MutableSet<String> = mutableSetOf()
             types.forEach{
@@ -115,20 +164,23 @@ class NFTActivityRepository {
                     NftActivity.NFTActivityType.burn.value -> requestTypes.add(NftActivity.NFTActivityType.burn.value)
                 }
             }
-            var sqlExpression =  NFTActivities.select{
+            var query =  NFTActivities.select{
                 (type inList requestTypes)
             }
             if(types.contains(NftActivity.NFTActivityType.transferFrom.value) && !types.contains(NftActivity.NFTActivityType.transferTo.value)){
-                sqlExpression.andWhere { (NFTActivities.from inList users)}
+                query.andWhere { (NFTActivities.from inList users)}
             }
             else if(!types.contains(NftActivity.NFTActivityType.transferFrom.value) && types.contains(NftActivity.NFTActivityType.transferTo.value)){
-                sqlExpression.andWhere { (NFTActivities.to inList users) }
+                query.andWhere { (NFTActivities.to inList users) }
             }
             else if(types.contains(NftActivity.NFTActivityType.transferFrom.value) && types.contains(NftActivity.NFTActivityType.transferTo.value)){
-                sqlExpression.andWhere { (NFTActivities.from inList users) or (NFTActivities.to inList users) }
+                query.andWhere { (NFTActivities.from inList users) or (NFTActivities.to inList users) }
             }
+
+            query = applyFilters(query, continuation, size, sort)
+
             transaction {
-                sqlExpression.limit(100).forEach {
+                query.forEach {
                     var activity: NftActivityElt? =
                         processActivity(it) ?: throw NFTActivityRepositoryException("Could not parse activity: $it", 500)
                     result.add(activity!!)
@@ -138,18 +190,20 @@ class NFTActivityRepository {
             return result
         }
 
-        fun queryNFTActivitiesByItem(contract: String, tokenId: String?, types: List<String>): MutableList<NftActivityElt> {
+        fun queryNFTActivitiesByItem(contract: String, tokenId: String?, types: List<String>, continuation: String?, size: Int?, sort: ActivitySort?): MutableList<NftActivityElt> {
             var result: MutableList<NftActivityElt> = mutableListOf()
 
-            var sqlExpression =  NFTActivities.select{
+            var query =  NFTActivities.select{
                 (type inList types) and (NFTActivities.contract eq contract)
             }
             if(!tokenId.isNullOrEmpty()){
-                sqlExpression.andWhere { (NFTActivities.tokenId eq tokenId)}
+                query.andWhere { (NFTActivities.tokenId eq tokenId)}
             }
 
+            query = applyFilters(query, continuation, size, sort)
+
             transaction {
-                sqlExpression.limit(100).forEach {
+                query.limit(100).forEach {
                     var activity: NftActivityElt? =
                         processActivity(it) ?: throw NFTActivityRepositoryException("Could not parse activity: $it", 500)
                     result.add(activity!!)

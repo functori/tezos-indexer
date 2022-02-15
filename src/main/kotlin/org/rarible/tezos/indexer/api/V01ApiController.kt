@@ -7,6 +7,10 @@ import org.rarible.tezos.indexer.model.FTBalance
 import org.rarible.tezos.indexer.model.InlineResponse200
 import org.rarible.tezos.indexer.model.activities.NftActivities
 import org.rarible.tezos.indexer.model.NftActivityFilter
+import org.rarible.tezos.indexer.model.NftActivityFilterAll
+import org.rarible.tezos.indexer.model.NftActivityFilterByCollection
+import org.rarible.tezos.indexer.model.NftActivityFilterByItem
+import org.rarible.tezos.indexer.model.NftActivityFilterByUser
 import org.rarible.tezos.indexer.model.NftCollection
 import org.rarible.tezos.indexer.model.NftCollections
 import org.rarible.tezos.indexer.model.NftItem
@@ -113,6 +117,23 @@ class V01ApiController() {
 , @RequestParam(value = "continuation", required = false) continuation: String?
 , @Valid @RequestBody(required = false) nftActivityFilter: NftActivityFilter?
 ): ResponseEntity<NftActivities> {
+        val continuationArgs = continuation?.split('_')
+        val timestamp = continuationArgs?.get(0)
+        val hash = continuationArgs?.get(1)
+        when(nftActivityFilter){
+            is NftActivityFilterAll -> {
+
+            }
+            is NftActivityFilterByCollection -> {
+
+            }
+            is NftActivityFilterByItem -> {
+
+            }
+            is NftActivityFilterByUser -> {
+
+            }
+        }
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -124,8 +145,8 @@ class V01ApiController() {
     )
     fun getNftAllItems( @RequestParam(value = "lastUpdateFrom", required = false) lastUpdateFrom: String?
 , @RequestParam(value = "lastUpdateTo", required = false) lastUpdateTo: String?
-, @RequestParam(value = "showDeleted", required = false) showDeleted: kotlin.Boolean?
-, @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
+, @RequestParam(value = "showDeleted", required = false) showDeleted: Boolean?
+, @RequestParam(value = "includeMeta", required = false) includeMeta: Boolean?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: Int?
 , @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftItems> {
@@ -162,7 +183,7 @@ class V01ApiController() {
         produces = ["application/json"]
     )
     fun getNftItemById( @PathVariable("itemId") itemId: String
-, @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
+, @RequestParam(value = "includeMeta", required = false) includeMeta: Boolean?
 ): ResponseEntity<NftItem> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -196,7 +217,7 @@ class V01ApiController() {
         produces = ["application/json"]
     )
     fun getNftItemsByCollection( @RequestParam(value = "collection", required = false) collection: String?
-, @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
+, @RequestParam(value = "includeMeta", required = false) includeMeta: Boolean?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: Int?
 , @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftItems> {
@@ -210,7 +231,7 @@ class V01ApiController() {
         produces = ["application/json"]
     )
     fun getNftItemsByCreator( @RequestParam(value = "creator", required = false) creator: String?
-, @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
+, @RequestParam(value = "includeMeta", required = false) includeMeta: Boolean?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: Int?
 , @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftItems> {
@@ -224,7 +245,7 @@ class V01ApiController() {
         produces = ["application/json"]
     )
     fun getNftItemsByOwner( @RequestParam(value = "owner", required = false) owner: String?
-, @RequestParam(value = "includeMeta", required = false) includeMeta: kotlin.Boolean?
+, @RequestParam(value = "includeMeta", required = false) includeMeta: Boolean?
 ,@Min(0) @Max(9007199254740992)  @RequestParam(value = "size", required = false) size: Int?
 , @RequestParam(value = "continuation", required = false) continuation: String?
 ): ResponseEntity<NftItems> {
@@ -470,7 +491,7 @@ class V01ApiController() {
         consumes = ["application/json"]
     )
     fun validate( @Valid @RequestBody(required = false) signatureValidationForm: SignatureValidationForm?
-): ResponseEntity<kotlin.Boolean> {
+): ResponseEntity<Boolean> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }

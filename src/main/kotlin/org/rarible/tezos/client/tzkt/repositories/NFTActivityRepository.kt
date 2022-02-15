@@ -138,12 +138,25 @@ class NFTActivityRepository {
             return result
         }
 
-        fun queryNFTActivitiesByItem(contract: String, owner: String, tokenId: String?) {
+        fun queryNFTActivitiesByItem(contract: String, tokenId: String?, types: List<String>): MutableList<NftActivityElt> {
+            var result: MutableList<NftActivityElt> = mutableListOf()
 
-        }
+            var sqlExpression =  NFTActivities.select{
+                (type inList types) and (NFTActivities.contract eq contract)
+            }
+            if(!tokenId.isNullOrEmpty()){
+                sqlExpression.andWhere { (NFTActivities.tokenId eq tokenId)}
+            }
 
-        fun queryNFTActivitiesByCollection(contract: String, owner: String, tokenId: String?) {
+            transaction {
+                sqlExpression.limit(100).forEach {
+                    var activity: NftActivityElt? =
+                        processActivity(it) ?: throw NFTActivityRepositoryException("Could not parse activity: $it", 500)
+                    result.add(activity!!)
+                }
+            }
 
+            return result
         }
     }
 }

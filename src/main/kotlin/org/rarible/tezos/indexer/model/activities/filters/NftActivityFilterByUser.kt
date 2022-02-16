@@ -12,7 +12,7 @@ import javax.validation.Valid
 data class NftActivityFilterByUser(
 
     @field:JsonProperty("@type", required = true)
-    override val type: Type,
+    override val type: Type = Type.byUser,
 
     @field:Valid
     @field:JsonProperty("types", required = true) val types: List<NftActivityFilterUserType>,

@@ -1,7 +1,6 @@
 package org.rarible.tezos.indexer.api
 
 
-import org.rarible.tezos.client.tzkt.models.NFTActivities
 import org.rarible.tezos.client.tzkt.repositories.NFTActivityRepository
 import org.rarible.tezos.client.tzkt.repositories.TokenRepository
 import org.rarible.tezos.indexer.model.ActivitySort
@@ -15,10 +14,10 @@ import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByIte
 import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByUser
 import org.rarible.tezos.indexer.model.NftCollection
 import org.rarible.tezos.indexer.model.NftCollections
-import org.rarible.tezos.indexer.model.NftItem
-import org.rarible.tezos.indexer.model.NftItemMeta
-import org.rarible.tezos.indexer.model.NftItemRoyalties
-import org.rarible.tezos.indexer.model.NftItems
+import org.rarible.tezos.indexer.model.items.NftItem
+import org.rarible.tezos.indexer.model.items.NftItemMeta
+import org.rarible.tezos.indexer.model.items.NftItemRoyalties
+import org.rarible.tezos.indexer.model.items.NftItems
 import org.rarible.tezos.indexer.model.NftOwnership
 import org.rarible.tezos.indexer.model.NftOwnerships
 import org.rarible.tezos.indexer.model.NftTokenId
@@ -32,7 +31,6 @@ import org.rarible.tezos.indexer.model.OrderPagination
 import org.rarible.tezos.indexer.model.OrderSort
 import org.rarible.tezos.indexer.model.OrderStatus
 import org.rarible.tezos.indexer.model.SignatureValidationForm
-import org.rarible.tezos.indexer.model.activities.NftActivityElt
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated

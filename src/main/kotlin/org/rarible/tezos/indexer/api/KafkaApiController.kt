@@ -2,7 +2,7 @@ package org.rarible.tezos.indexer.api
 
 import org.rarible.tezos.indexer.model.activities.ActivityType
 import org.rarible.tezos.indexer.model.NftCollectionEvent
-import org.rarible.tezos.indexer.model.NftItemEvent
+import org.rarible.tezos.indexer.model.items.NftItemEvent
 import org.rarible.tezos.indexer.model.NftOwnershipEvent
 import org.rarible.tezos.indexer.model.OrderEvent
 import org.springframework.http.HttpStatus

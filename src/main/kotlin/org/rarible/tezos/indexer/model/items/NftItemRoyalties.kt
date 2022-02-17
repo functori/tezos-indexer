@@ -1,6 +1,7 @@
-package org.rarible.tezos.indexer.model
+package org.rarible.tezos.indexer.model.items
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.rarible.tezos.indexer.model.Part
 import javax.validation.Valid
 
 /**

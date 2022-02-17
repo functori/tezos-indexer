@@ -19,7 +19,7 @@ import java.math.BigDecimal
 import java.time.Instant
 
 @SpringBootTest
-class TezosIndexerApplicationTests {
+class TezosIndexerGetBalanceTests {
 
     val dbClient: TzKTDBClient = TzKTDBClient()
 
@@ -124,49 +124,5 @@ class TezosIndexerApplicationTests {
             )
         }
 	}
-
-    @Test
-    fun getAllActivites() {
-        val apiController = V01ApiController()
-            apiController.getNftActivities(
-                ActivitySort.LATESTFIRST,
-                100,
-                "${Instant.parse("2022-01-28T23:22:58Z").toEpochMilli()}_opHX6rj8F4VUtVAeEZavyPus6FcZM6CDDCnWJuQ2B7XkhuzN4F9",
-                NftActivityFilterAll( NftActivityFilter.Type.all, listOf(NftActivityFilterAllType.BURN, NftActivityFilterAllType.MINT, NftActivityFilterAllType.TRANSFER))
-            )
-    }
-
-    @Test
-    fun getActivitesByUser() {
-        val apiController = V01ApiController()
-        apiController.getNftActivities(
-            ActivitySort.LATESTFIRST,
-            100,
-            "${Instant.parse("2022-01-28T23:22:58Z").toEpochMilli()}_opHX6rj8F4VUtVAeEZavyPus6FcZM6CDDCnWJuQ2B7XkhuzN4F9",
-            NftActivityFilterByUser(NftActivityFilter.Type.byUser, listOf(NftActivityFilterUserType.BURN, NftActivityFilterUserType.MINT, NftActivityFilterUserType.TRANSFERTO, NftActivityFilterUserType.TRANSFERFROM), listOf("tz1Zs2WDRv9549rnHkjAjdMaWXVnreixXVKD"))
-        )
-    }
-
-    @Test
-    fun getActivitesByCollection() {
-        val apiController = V01ApiController()
-        apiController.getNftActivities(
-            ActivitySort.LATESTFIRST,
-            100,
-            "${Instant.parse("2022-01-28T23:22:58Z").toEpochMilli()}_opHX6rj8F4VUtVAeEZavyPus6FcZM6CDDCnWJuQ2B7XkhuzN4F9",
-            NftActivityFilterByCollection(NftActivityFilter.Type.byCollection, listOf(NftActivityFilterAllType.BURN, NftActivityFilterAllType.MINT, NftActivityFilterAllType.TRANSFER), "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton")
-        )
-    }
-
-    @Test
-    fun getActivitesByItem() {
-        val apiController = V01ApiController()
-        apiController.getNftActivities(
-            ActivitySort.LATESTFIRST,
-            100,
-            "${Instant.parse("2022-01-28T23:22:58Z").toEpochMilli()}_opHX6rj8F4VUtVAeEZavyPus6FcZM6CDDCnWJuQ2B7XkhuzN4F9",
-            NftActivityFilterByItem(NftActivityFilter.Type.byItem, listOf(NftActivityFilterAllType.BURN, NftActivityFilterAllType.MINT, NftActivityFilterAllType.TRANSFER), "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton", "486654")
-        )
-    }
 
 }

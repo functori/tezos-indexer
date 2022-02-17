@@ -1,4 +1,4 @@
-package org.rarible.tezos.indexer.model
+package org.rarible.tezos.indexer.model.items
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.Valid
@@ -16,7 +16,7 @@ data class NftItemEvent(
 
     @field:JsonProperty("itemId", required = true) val itemId: kotlin.String,
 
-    @field:JsonProperty("type", required = true) val type: NftItemEvent.Type,
+    @field:JsonProperty("type", required = true) val type: Type,
 
     @field:Valid
     @field:JsonProperty("item", required = true) val item: NftItem

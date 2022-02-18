@@ -3,6 +3,7 @@ package org.rarible.tezos
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.rarible.tezos.client.tzkt.db.TzKTDBClient
+import org.rarible.tezos.client.tzkt.models.NFTItems.id
 import org.rarible.tezos.indexer.api.NotFoundException
 import org.rarible.tezos.indexer.api.V01ApiController
 import org.rarible.tezos.indexer.model.ActivitySort
@@ -41,36 +42,33 @@ class TezosIndexerGetItemsTests {
     }
 
     @Test
-    fun getNFTItemsByUser() {
+    fun getNFTItemsByOwner() {
         val apiController = V01ApiController()
-        apiController.getNftActivities(
-            ActivitySort.LATESTFIRST,
-            100,
-            "${Instant.parse("2022-01-28T23:22:58Z").toEpochMilli()}_opHX6rj8F4VUtVAeEZavyPus6FcZM6CDDCnWJuQ2B7XkhuzN4F9",
-            NftActivityFilterByUser(NftActivityFilter.Type.byUser, listOf(NftActivityFilterUserType.BURN, NftActivityFilterUserType.MINT, NftActivityFilterUserType.TRANSFERTO, NftActivityFilterUserType.TRANSFERFROM), listOf("tz1Zs2WDRv9549rnHkjAjdMaWXVnreixXVKD"))
-        )
+        apiController.getNftItemsByOwner(owner = "tz1burnburnburnburnburnburnburjAYjjX", includeMeta = true, size = 100, continuation = null)
     }
 
     @Test
-    fun getActivitesByCollection() {
+    fun getNFTItemsByCreator() {
         val apiController = V01ApiController()
-        apiController.getNftActivities(
-            ActivitySort.LATESTFIRST,
-            100,
-            "${Instant.parse("2022-01-28T23:22:58Z").toEpochMilli()}_opHX6rj8F4VUtVAeEZavyPus6FcZM6CDDCnWJuQ2B7XkhuzN4F9",
-            NftActivityFilterByCollection(NftActivityFilter.Type.byCollection, listOf(NftActivityFilterAllType.BURN, NftActivityFilterAllType.MINT, NftActivityFilterAllType.TRANSFER), "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton")
-        )
+        apiController.getNftItemsByOwner(owner = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton", includeMeta = true, size = 100, continuation = null)
     }
 
     @Test
-    fun getActivitesByItem() {
+    fun getNFTItemsByCollection() {
         val apiController = V01ApiController()
-        apiController.getNftActivities(
-            ActivitySort.LATESTFIRST,
-            100,
-            "${Instant.parse("2022-01-28T23:22:58Z").toEpochMilli()}_opHX6rj8F4VUtVAeEZavyPus6FcZM6CDDCnWJuQ2B7XkhuzN4F9",
-            NftActivityFilterByItem(NftActivityFilter.Type.byItem, listOf(NftActivityFilterAllType.BURN, NftActivityFilterAllType.MINT, NftActivityFilterAllType.TRANSFER), "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton", "486654")
-        )
+        apiController.getNftItemsByCollection(collection = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton", includeMeta = true, size = 100, continuation = null)
+    }
+
+    @Test
+    fun getNFTItem() {
+        val apiController = V01ApiController()
+        apiController.getNftItemById(itemId = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654", includeMeta = true)
+    }
+
+    @Test
+    fun getNFTItemMetadata() {
+        val apiController = V01ApiController()
+        apiController.getNftItemMetaById(itemId = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654")
     }
 
 }

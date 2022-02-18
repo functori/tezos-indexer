@@ -58,5 +58,17 @@ class TezosTzktDBClientGetItemsTests {
 		}
 	}
 
+	@Test
+	fun getNFTItem(){
+		val result = NFTItemsRepository.queryNFTItem("KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654",true);
+		assert(result != null)
+	}
+
+	@Test
+	fun getNFTItemMeta(){
+		val result = NFTItemsRepository.queryNFTItemMeta("KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS:39879");
+		assert(result != null)
+	}
+
 
 }

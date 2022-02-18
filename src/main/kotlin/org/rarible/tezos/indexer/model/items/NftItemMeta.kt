@@ -73,7 +73,7 @@ data class NftItemMeta(
                         (value as ArrayNode).map{ attribute ->
                             if(attribute.contains("mimeType")){
                                 if(attribute.contains("uri")){
-                                    if(attribute.findValue("uri").textValue() in animationTypes){
+                                    if(attribute.findValue("mimeType").textValue() in animationTypes){
                                         nftMetadata.animation =  attribute.findValue("uri").textValue()
                                     }
                                 }

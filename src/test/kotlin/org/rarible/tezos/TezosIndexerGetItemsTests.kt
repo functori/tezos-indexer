@@ -26,117 +26,22 @@ class TezosIndexerGetItemsTests {
     fun contextLoads() {
     }
 
-    /**
-     * ********************
-     * Get FT Balance tests
-     * ********************
-     */
-    @Test
-    fun getFA1FTBalanceWithExistingBalanceTest() {
-        val apiController = V01ApiController()
-        val result = apiController.ftBalance(
-            "KT1G1cCRNBgQ48mVDjopHjEmTN5Sbtar8nn9",
-            "tz1burnburnburnburnburnburnburjAYjjX",
-            null
-        )
-		assert(result.statusCode.is2xxSuccessful)
-		assert(result.body!!.balance >= BigDecimal(0))
-	}
 
     @Test
-    fun getFA1FTBalanceWithNonExistingBalanceTest() {
+    fun getAllNFTItems() {
         val apiController = V01ApiController()
-        assertThrows<NotFoundException> {
-            apiController.ftBalance(
-                "KT1G1cCRNBgQ48mVDjopHjEmTN5Sbtar89n9",
-                "tz2LDByTzkpt7qBubspfyYiLYs6aKd321ztV",
-                null
-            )
-        }
-	}
-
-    @Test
-    fun getFA1FTBalanceWithWrongContractTest() {
-        val apiController = V01ApiController()
-        assertThrows<NotFoundException> {
-            apiController.ftBalance(
-				"KT1XXXXXXXn9",
-				"tz2LDByTzkpt7qBubspfyYiLYs6aKd321ztV",
-				null
-			)
-        }
+            apiController.getNftAllItems(
+                lastUpdateFrom =  null,
+                lastUpdateTo = null,
+                showDeleted =  true,
+                includeMeta = true,
+                size = 100,
+                continuation = null
+           )
     }
 
     @Test
-    fun getFA1FTBalanceWithWrongAddressTest() {
-        val apiController = V01ApiController()
-        val result = apiController.ftBalance(
-            "KT1G1cCRNBgQ48mVDjopHjEmTN5Sbtar8nn9",
-            "tz2LDByTzkpt7qBubspiLYs6aKd321ztXXX",
-            null
-        )
-        assert(result.statusCode.is2xxSuccessful)
-        assert(result.body!!.balance >= BigDecimal(0))
-
-    }
-
-    @Test
-    fun getFA2FTBalanceWithExistingBalanceTest() {
-        val apiController = V01ApiController()
-        val result = apiController.ftBalance("KT1JBNFcB5tiycHNdYGYCtR3kk6JaJysUCi8", "tz2LDByTzkpt7qBubspfyYiLYs6aKd321ztV", "0")
-		assert(result.statusCode.is2xxSuccessful)
-		assert(result.body!!.balance >= BigDecimal(0))
-	}
-
-    @Test
-    fun getFA2FTBalanceWithNonExistingBalanceTest() {
-        val apiController = V01ApiController()
-        val result = apiController.ftBalance(
-                "KT1JBNFcB5tiycHNdYGYCtR3kk6JaJysUCi8",
-                "tz1burnburnburnburnburnburnburjAYjjX",
-                "0"
-            )
-        assert(result.statusCode.is2xxSuccessful)
-        assert(result.body!!.balance >= BigDecimal(0))
-	}
-
-	@Test
-	fun getFA2FTBalanceWithWrongTokenIdTest() {
-		val apiController = V01ApiController()
-		assertThrows<NotFoundException> {
-			apiController.ftBalance(
-				"KT1G1cCRNBgQ48mVDjopHjEmTN5Sbtar8nn9",
-				"tz2LDByTzkpt7qBubspiLYs6aKd321ztXXX",
-				"X"
-			)
-		}
-	}
-
-	@Test
-	fun getFA2FTBalanceWithNonExistingTokenIdTest() {
-		val apiController = V01ApiController()
-        assertThrows<NotFoundException> {
-            apiController.ftBalance(
-                "KT1G1cCRNBgQ48mVDjopHjEmTN5Sbtar8nn9",
-                "tz2LDByTzkpt7qBubspfyYiLYs6aKd321ztV",
-                "1"
-            )
-        }
-	}
-
-    @Test
-    fun getAllActivites() {
-        val apiController = V01ApiController()
-            apiController.getNftActivities(
-                ActivitySort.LATESTFIRST,
-                100,
-                "${Instant.parse("2022-01-28T23:22:58Z").toEpochMilli()}_opHX6rj8F4VUtVAeEZavyPus6FcZM6CDDCnWJuQ2B7XkhuzN4F9",
-                NftActivityFilterAll( NftActivityFilter.Type.all, listOf(NftActivityFilterAllType.BURN, NftActivityFilterAllType.MINT, NftActivityFilterAllType.TRANSFER))
-            )
-    }
-
-    @Test
-    fun getActivitesByUser() {
+    fun getNFTItemsByUser() {
         val apiController = V01ApiController()
         apiController.getNftActivities(
             ActivitySort.LATESTFIRST,

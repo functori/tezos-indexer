@@ -1,8 +1,5 @@
 package org.rarible.tezos.client.tzkt.repositories
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import org.jetbrains.exposed.sql.Query
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SortOrder
@@ -12,8 +9,10 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.rarible.tezos.client.tzkt.models.NFTItems
+import org.rarible.tezos.client.tzkt.models.NFTItems.id
 import org.rarible.tezos.indexer.model.Part
 import org.rarible.tezos.indexer.model.items.NftItem
+import org.rarible.tezos.indexer.model.items.NftItemMeta
 import org.rarible.tezos.indexer.model.items.NftItemMeta.Companion.parseNFTMetadata
 import java.time.Instant
 
@@ -25,7 +24,7 @@ class NFTItemsRepository {
 
         private fun processItem(item: ResultRow, includeMeta: Boolean?): NftItem? {
             return NftItem(
-                id = item[NFTItems.id],
+                id = item[id],
                 contract = item[NFTItems.contract],
                 tokenId = item[NFTItems.tokenId],
                 creators = listOf(
@@ -39,7 +38,7 @@ class NFTItemsRepository {
                 mintedAt = item[NFTItems.mintedAt],
                 deleted = (item[NFTItems.supply] == item[NFTItems.burned]),
                 onchainRoyalties = false,
-                meta = if(includeMeta == true){parseNFTMetadata(item[NFTItems.meta])} else null
+                meta = if(includeMeta == true && !item[NFTItems.meta].isNullOrEmpty()){parseNFTMetadata(item[NFTItems.meta])} else null
             )
         }
 
@@ -82,7 +81,7 @@ class NFTItemsRepository {
                 query.limit(defaultSize)
             }
 
-            query.orderBy(Pair(NFTItems.date, SortOrder.DESC), Pair(NFTItems.id, SortOrder.DESC))
+            query.orderBy(Pair(NFTItems.date, SortOrder.DESC), Pair(id, SortOrder.DESC))
 
             return query
         }
@@ -168,6 +167,50 @@ class NFTItemsRepository {
                             500
                         )
                     result.add(item!!)
+                }
+            }
+            return result
+        }
+
+        fun queryNFTItem(id: String, includeMeta: Boolean?): NftItem? {
+            var result: NftItem? = null
+            var query =  NFTItems.select {
+                NFTItems.id eq id
+            }
+
+            transaction {
+                query.forEach {
+                    var res = it
+                    if( res != null ){
+                        result =
+                            processItem(it, includeMeta) ?: throw NFTItemsRepositoryException(
+                                "Could not parse activity: $it",
+                                500
+                            )
+                    }
+
+                }
+            }
+            return result
+        }
+
+        fun queryNFTItemMeta(id: String): NftItemMeta? {
+            var result: NftItemMeta? = null
+            var query =  NFTItems.slice(NFTItems.meta).select {
+                NFTItems.id eq id
+            }
+
+            transaction {
+                query.forEach {
+                    var res = it[NFTItems.meta]
+                    if( res != null ){
+                        var item: NftItemMeta? =
+                            parseNFTMetadata(it[NFTItems.meta]) ?: throw NFTItemsRepositoryException(
+                                "Could not parse activity: $it",
+                                500
+                            )
+                        result = item
+                    }
                 }
             }
             return result

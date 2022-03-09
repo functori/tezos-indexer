@@ -1,22 +1,9 @@
 package org.rarible.tezos
 
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.rarible.tezos.client.tzkt.db.TzKTDBClient
-import org.rarible.tezos.client.tzkt.models.NFTItems.id
-import org.rarible.tezos.indexer.api.NotFoundException
 import org.rarible.tezos.indexer.api.V01ApiController
-import org.rarible.tezos.indexer.model.ActivitySort
-import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilter
-import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAll
-import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAllType
-import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByCollection
-import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByItem
-import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByUser
-import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterUserType
 import org.springframework.boot.test.context.SpringBootTest
-import java.math.BigDecimal
-import java.time.Instant
 
 @SpringBootTest
 class TezosIndexerGetItemsTests {

@@ -8,17 +8,15 @@ import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.rarible.tezos.client.tzkt.models.NFTActivities
-import org.rarible.tezos.client.tzkt.models.NFTActivities.type
+import org.rarible.tezos.client.tzkt.models.NFTActivityDTO
+import org.rarible.tezos.client.tzkt.models.NFTActivityDTO.type
 import org.rarible.tezos.indexer.model.ActivitySort
 import org.rarible.tezos.indexer.model.activities.NftActivity
 import org.rarible.tezos.indexer.model.activities.NftActivityElt
 import org.rarible.tezos.indexer.model.activities.NftBaseActivityElt
 import org.rarible.tezos.indexer.model.activities.NftMintBurnActivityElt
 import org.rarible.tezos.indexer.model.activities.NftTransferActivityElt
-import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAll
 import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAllType
-import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByItem
 import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterUserType
 import java.math.BigDecimal
 import java.time.Instant
@@ -35,18 +33,18 @@ class NFTActivityRepository {
                 NftActivity.NFTActivityType.mint.value -> {
                     result =
                         NftActivityElt(
-                            activity[NFTActivities.txHash],
-                            activity[NFTActivities.date],
+                            activity[NFTActivityDTO.txHash],
+                            activity[NFTActivityDTO.date],
                             "RARIBLE",
                             NftMintBurnActivityElt(
                                 NftActivity.NFTActivityType.mint,
-                                activity[NFTActivities.to],
-                                activity[NFTActivities.contract],
-                                activity[NFTActivities.tokenId],
-                                BigDecimal(activity[NFTActivities.value]),
-                                activity[NFTActivities.txHash],
-                                activity[NFTActivities.blockHash],
-                                activity[NFTActivities.blockNumber]
+                                activity[NFTActivityDTO.to],
+                                activity[NFTActivityDTO.contract],
+                                activity[NFTActivityDTO.tokenId],
+                                BigDecimal(activity[NFTActivityDTO.value]),
+                                activity[NFTActivityDTO.txHash],
+                                activity[NFTActivityDTO.blockHash],
+                                activity[NFTActivityDTO.blockNumber]
                             )
                         )
 
@@ -54,18 +52,18 @@ class NFTActivityRepository {
                 NftActivity.NFTActivityType.burn.value -> {
                     result =
                         NftActivityElt(
-                            activity[NFTActivities.txHash],
-                            activity[NFTActivities.date],
+                            activity[NFTActivityDTO.txHash],
+                            activity[NFTActivityDTO.date],
                             "RARIBLE",
                             NftMintBurnActivityElt(
                                 NftActivity.NFTActivityType.burn,
-                                activity[NFTActivities.to],
-                                activity[NFTActivities.contract],
-                                activity[NFTActivities.tokenId],
-                                BigDecimal(activity[NFTActivities.value]),
-                                activity[NFTActivities.txHash],
-                                activity[NFTActivities.blockHash],
-                                activity[NFTActivities.blockNumber]
+                                activity[NFTActivityDTO.to],
+                                activity[NFTActivityDTO.contract],
+                                activity[NFTActivityDTO.tokenId],
+                                BigDecimal(activity[NFTActivityDTO.value]),
+                                activity[NFTActivityDTO.txHash],
+                                activity[NFTActivityDTO.blockHash],
+                                activity[NFTActivityDTO.blockNumber]
                             )
                         )
 
@@ -73,21 +71,21 @@ class NFTActivityRepository {
                 NftActivity.NFTActivityType.transfer.value -> {
                     result =
                         NftActivityElt(
-                            activity[NFTActivities.txHash],
-                            activity[NFTActivities.date],
+                            activity[NFTActivityDTO.txHash],
+                            activity[NFTActivityDTO.date],
                             "RARIBLE",
                             NftTransferActivityElt(
                                 NftActivity.NFTActivityType.transfer,
                                 NftBaseActivityElt(
-                                    activity[NFTActivities.to],
-                                    activity[NFTActivities.contract],
-                                    activity[NFTActivities.tokenId],
-                                    BigDecimal(activity[NFTActivities.value]),
-                                    activity[NFTActivities.txHash],
-                                    activity[NFTActivities.blockHash],
-                                    activity[NFTActivities.blockNumber]
+                                    activity[NFTActivityDTO.to],
+                                    activity[NFTActivityDTO.contract],
+                                    activity[NFTActivityDTO.tokenId],
+                                    BigDecimal(activity[NFTActivityDTO.value]),
+                                    activity[NFTActivityDTO.txHash],
+                                    activity[NFTActivityDTO.blockHash],
+                                    activity[NFTActivityDTO.blockNumber]
                                 ),
-                                activity[NFTActivities.from],
+                                activity[NFTActivityDTO.from],
                             )
                         )
 
@@ -106,11 +104,11 @@ class NFTActivityRepository {
                 val hash = continuationArgs[1]
                 if(sort != null && sort == ActivitySort.LATESTFIRST){
                     query.andWhere {
-                        (NFTActivities.txHash less  hash) and (NFTActivities.date less Instant.ofEpochMilli(timestamp))
+                        (NFTActivityDTO.txHash less  hash) and (NFTActivityDTO.date less Instant.ofEpochMilli(timestamp))
                     }
                 } else {
                     query.andWhere {
-                        (NFTActivities.txHash greater hash) and (NFTActivities.date greater Instant.ofEpochMilli(timestamp))
+                        (NFTActivityDTO.txHash greater hash) and (NFTActivityDTO.date greater Instant.ofEpochMilli(timestamp))
                     }
                 }
 
@@ -127,12 +125,12 @@ class NFTActivityRepository {
 
             if(sort != null){
                 if(sort == ActivitySort.LATESTFIRST){
-                    query.orderBy(Pair(NFTActivities.date, SortOrder.DESC), Pair(NFTActivities.txHash, SortOrder.DESC))
+                    query.orderBy(Pair(NFTActivityDTO.date, SortOrder.DESC), Pair(NFTActivityDTO.txHash, SortOrder.DESC))
                 } else {
-                    query.orderBy(Pair(NFTActivities.date, SortOrder.ASC), Pair(NFTActivities.txHash, SortOrder.ASC))
+                    query.orderBy(Pair(NFTActivityDTO.date, SortOrder.ASC), Pair(NFTActivityDTO.txHash, SortOrder.ASC))
                 }
             } else {
-                query.orderBy(Pair(NFTActivities.date, SortOrder.ASC), Pair(NFTActivities.txHash, SortOrder.ASC))
+                query.orderBy(Pair(NFTActivityDTO.date, SortOrder.ASC), Pair(NFTActivityDTO.txHash, SortOrder.ASC))
             }
 
             return query
@@ -140,7 +138,7 @@ class NFTActivityRepository {
 
         fun queryAllNFTActivities(types: List<NftActivityFilterAllType>, continuation: String?, size: Int?, sort: ActivitySort?): List<NftActivityElt> {
             var result: MutableList<NftActivityElt> = mutableListOf()
-            var query =  NFTActivities.select{
+            var query =  NFTActivityDTO.select{
                 (type inList types.map{ it.value })
             }
 
@@ -168,17 +166,17 @@ class NFTActivityRepository {
                     NftActivityFilterUserType.BURN -> requestTypes.add(NftActivity.NFTActivityType.burn.value)
                 }
             }
-            var query =  NFTActivities.select{
+            var query =  NFTActivityDTO.select{
                 (type inList requestTypes)
             }
             if(types.contains(NftActivityFilterUserType.TRANSFERFROM) && !types.contains(NftActivityFilterUserType.TRANSFERTO)){
-                query.andWhere { (NFTActivities.from inList users)}
+                query.andWhere { (NFTActivityDTO.from inList users)}
             }
             else if(!types.contains(NftActivityFilterUserType.TRANSFERFROM) && types.contains(NftActivityFilterUserType.TRANSFERTO)){
-                query.andWhere { (NFTActivities.to inList users) }
+                query.andWhere { (NFTActivityDTO.to inList users) }
             }
             else if(types.contains(NftActivityFilterUserType.TRANSFERFROM) && types.contains(NftActivityFilterUserType.TRANSFERTO)){
-                query.andWhere { (NFTActivities.from inList users) or (NFTActivities.to inList users) }
+                query.andWhere { (NFTActivityDTO.from inList users) or (NFTActivityDTO.to inList users) }
             }
 
             query = applyFilters(query, continuation, size, sort)
@@ -197,11 +195,11 @@ class NFTActivityRepository {
         fun queryNFTActivitiesByItem(contract: String, tokenId: String?, types: List<NftActivityFilterAllType>, continuation: String?, size: Int?, sort: ActivitySort?): List<NftActivityElt> {
             var result: MutableList<NftActivityElt> = mutableListOf()
 
-            var query =  NFTActivities.select{
-                (type inList types.map { it.value }) and (NFTActivities.contract eq contract)
+            var query =  NFTActivityDTO.select{
+                (type inList types.map { it.value }) and (NFTActivityDTO.contract eq contract)
             }
             if(!tokenId.isNullOrEmpty()){
-                query.andWhere { (NFTActivities.tokenId eq tokenId)}
+                query.andWhere { (NFTActivityDTO.tokenId eq tokenId)}
             }
 
             query = applyFilters(query, continuation, size, sort)

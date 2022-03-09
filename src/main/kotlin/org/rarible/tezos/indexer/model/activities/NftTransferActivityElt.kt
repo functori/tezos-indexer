@@ -1,9 +1,9 @@
 package org.rarible.tezos.indexer.model.activities
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.rarible.tezos.client.tzkt.models.NFTActivities.blockHash
-import org.rarible.tezos.client.tzkt.models.NFTActivities.blockNumber
-import org.rarible.tezos.client.tzkt.models.TokenBalances.owner
+import org.rarible.tezos.client.tzkt.models.NFTActivityDTO.blockHash
+import org.rarible.tezos.client.tzkt.models.NFTActivityDTO.blockNumber
+import org.rarible.tezos.client.tzkt.models.TokenBalanceDTO.owner
 import javax.validation.Valid
 
 /**

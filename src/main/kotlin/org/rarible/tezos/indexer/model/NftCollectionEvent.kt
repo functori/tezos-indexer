@@ -1,6 +1,7 @@
 package org.rarible.tezos.indexer.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.rarible.tezos.indexer.model.collections.NftCollection
 import javax.validation.Valid
 
 /**

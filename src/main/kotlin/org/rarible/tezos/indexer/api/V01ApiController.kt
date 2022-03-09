@@ -12,8 +12,8 @@ import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterAll
 import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByCollection
 import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByItem
 import org.rarible.tezos.indexer.model.activities.filters.NftActivityFilterByUser
-import org.rarible.tezos.indexer.model.NftCollection
-import org.rarible.tezos.indexer.model.NftCollections
+import org.rarible.tezos.indexer.model.collections.NftCollection
+import org.rarible.tezos.indexer.model.collections.NftCollections
 import org.rarible.tezos.indexer.model.items.NftItem
 import org.rarible.tezos.indexer.model.items.NftItemMeta
 import org.rarible.tezos.indexer.model.items.NftItemRoyalties

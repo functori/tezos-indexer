@@ -1,4 +1,4 @@
-package org.rarible.tezos.indexer.model
+package org.rarible.tezos.indexer.model.collections
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

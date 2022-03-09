@@ -8,8 +8,8 @@ import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.rarible.tezos.client.tzkt.models.NFTItems
-import org.rarible.tezos.client.tzkt.models.NFTItems.id
+import org.rarible.tezos.client.tzkt.models.NFTItemDTO
+import org.rarible.tezos.client.tzkt.models.NFTItemDTO.id
 import org.rarible.tezos.indexer.model.Part
 import org.rarible.tezos.indexer.model.items.NftItem
 import org.rarible.tezos.indexer.model.items.NftItemMeta
@@ -25,20 +25,20 @@ class NFTItemsRepository {
         private fun processItem(item: ResultRow, includeMeta: Boolean?): NftItem? {
             return NftItem(
                 id = item[id],
-                contract = item[NFTItems.contract],
-                tokenId = item[NFTItems.tokenId],
+                contract = item[NFTItemDTO.contract],
+                tokenId = item[NFTItemDTO.tokenId],
                 creators = listOf(
-                    Part(item[NFTItems.creators], 10000)
+                    Part(item[NFTItemDTO.creators], 10000)
                 ),
-                supply = item[NFTItems.supply],
+                supply = item[NFTItemDTO.supply],
                 lazySupply = "0",
-                owners = item[NFTItems.owners].split(",").toList(),
+                owners = item[NFTItemDTO.owners].split(",").toList(),
                 royalties = emptyList(),
-                date = item[NFTItems.date],
-                mintedAt = item[NFTItems.mintedAt],
-                deleted = (item[NFTItems.supply] == item[NFTItems.burned]),
+                date = item[NFTItemDTO.date],
+                mintedAt = item[NFTItemDTO.mintedAt],
+                deleted = (item[NFTItemDTO.supply] == item[NFTItemDTO.burned]),
                 onchainRoyalties = false,
-                meta = if(includeMeta == true && !item[NFTItems.meta].isNullOrEmpty()){parseNFTMetadata(item[NFTItems.meta])} else null
+                meta = if(includeMeta == true && !item[NFTItemDTO.meta].isNullOrEmpty()){parseNFTMetadata(item[NFTItemDTO.meta])} else null
             )
         }
 
@@ -54,18 +54,18 @@ class NFTItemsRepository {
                 val timestamp = continuationArgs[0].toLong()
                 val id = continuationArgs[1]
                 query.andWhere {
-                    (NFTItems.date less Instant.ofEpochMilli(timestamp)) and (NFTItems.id less id)
+                    (NFTItemDTO.date less Instant.ofEpochMilli(timestamp)) and (NFTItemDTO.id less id)
                 }
             }
 
             if(lastUpdateFrom != null){
                 query.andWhere {
-                    (NFTItems.date greater Instant.parse(lastUpdateFrom))
+                    (NFTItemDTO.date greater Instant.parse(lastUpdateFrom))
                 }
             }
             if(lastUpdateTo != null) {
                 query.andWhere {
-                    (NFTItems.date less Instant.parse(lastUpdateTo))
+                    (NFTItemDTO.date less Instant.parse(lastUpdateTo))
                 }
             }
 
@@ -81,19 +81,19 @@ class NFTItemsRepository {
                 query.limit(defaultSize)
             }
 
-            query.orderBy(Pair(NFTItems.date, SortOrder.DESC), Pair(id, SortOrder.DESC))
+            query.orderBy(Pair(NFTItemDTO.date, SortOrder.DESC), Pair(id, SortOrder.DESC))
 
             return query
         }
 
         fun queryAllNFTItems(lastUpdateFrom: String?, lastUpdateTo: String?, showDeleted: Boolean?, includeMeta: Boolean?, size: Int?, continuation: String?): List<NftItem> {
             var result: MutableList<NftItem> = mutableListOf()
-            var query =  NFTItems.selectAll()
+            var query =  NFTItemDTO.selectAll()
 
             query = applyFilters(query, lastUpdateFrom, lastUpdateTo, continuation, size)
 
             if(showDeleted == false){
-                query.andWhere { NFTItems.supply neq NFTItems.burned }
+                query.andWhere { NFTItemDTO.supply neq NFTItemDTO.burned }
             }
 
             transaction {
@@ -111,8 +111,8 @@ class NFTItemsRepository {
 
         fun queryNFTItemsByCollection(collection: String, includeMeta: Boolean?, size: Int?, continuation: String?): List<NftItem> {
             var result: MutableList<NftItem> = mutableListOf()
-            var query =  NFTItems.select {
-                NFTItems.contract eq collection
+            var query =  NFTItemDTO.select {
+                NFTItemDTO.contract eq collection
             }
 
             query = applyFilters(query, null, null, continuation, size)
@@ -132,8 +132,8 @@ class NFTItemsRepository {
 
         fun queryNFTItemsByCreator(creator: String, includeMeta: Boolean?, size: Int?, continuation: String?): List<NftItem> {
             var result: MutableList<NftItem> = mutableListOf()
-            var query =  NFTItems.select {
-                NFTItems.creators like "%$creator%"
+            var query =  NFTItemDTO.select {
+                NFTItemDTO.creators like "%$creator%"
             }
 
             query = applyFilters(query, null, null, continuation, size)
@@ -153,8 +153,8 @@ class NFTItemsRepository {
 
         fun queryNFTItemsByOwner(owner: String, includeMeta: Boolean?, size: Int?, continuation: String?): List<NftItem> {
             var result: MutableList<NftItem> = mutableListOf()
-            var query =  NFTItems.select {
-                NFTItems.owners like "%$owner%"
+            var query =  NFTItemDTO.select {
+                NFTItemDTO.owners like "%$owner%"
             }
 
             query = applyFilters(query, null, null, continuation, size)
@@ -174,8 +174,8 @@ class NFTItemsRepository {
 
         fun queryNFTItem(id: String, includeMeta: Boolean?): NftItem? {
             var result: NftItem? = null
-            var query =  NFTItems.select {
-                NFTItems.id eq id
+            var query =  NFTItemDTO.select {
+                NFTItemDTO.id eq id
             }
 
             transaction {
@@ -196,16 +196,16 @@ class NFTItemsRepository {
 
         fun queryNFTItemMeta(id: String): NftItemMeta? {
             var result: NftItemMeta? = null
-            var query =  NFTItems.slice(NFTItems.meta).select {
-                NFTItems.id eq id
+            var query =  NFTItemDTO.slice(NFTItemDTO.meta).select {
+                NFTItemDTO.id eq id
             }
 
             transaction {
                 query.forEach {
-                    var res = it[NFTItems.meta]
+                    var res = it[NFTItemDTO.meta]
                     if( res != null ){
                         var item: NftItemMeta? =
-                            parseNFTMetadata(it[NFTItems.meta]) ?: throw NFTItemsRepositoryException(
+                            parseNFTMetadata(it[NFTItemDTO.meta]) ?: throw NFTItemsRepositoryException(
                                 "Could not parse activity: $it",
                                 500
                             )

@@ -1,7 +1,6 @@
 package org.rarible.tezos.indexer.model.activities.filters
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.rarible.tezos.client.tzkt.models.NFTActivities.type
 import javax.validation.Valid
 
 /**

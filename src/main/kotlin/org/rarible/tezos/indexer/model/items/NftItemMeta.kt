@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.module.kotlin.contains
-import org.rarible.tezos.client.tzkt.models.NFTActivities.type
 import javax.validation.Valid
 
 /**

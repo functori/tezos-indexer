@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.timestamp
 import java.time.Instant
 
-object NFTActivities : Table("\"nft_activities\"") {
+object NFTActivityDTO : Table("\"nft_activities\"") {
     val type: Column<String> = text("type")
     val from: Column<String> = text("from")
     val to: Column<String> = text("to")

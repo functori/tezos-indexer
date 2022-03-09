@@ -1,4 +1,4 @@
-package org.rarible.tezos.indexer.model
+package org.rarible.tezos.indexer.model.collections
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 */
 enum class NftCollectionType(val value: kotlin.String) {
 
-    @JsonProperty("NFT") nFT("NFT"),
+    @JsonProperty("NFT") nft("NFT"),
 
-    @JsonProperty("MT") mT("MT");
+    @JsonProperty("MT") mt("MT");
 
 }
 

@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.javatime.timestamp
 import org.rarible.tezos.client.tzkt.db.jsonb
 import java.time.Instant
 
-object NFTItems : Table("\"nft_items\"") {
+object NFTItemDTO : Table("\"nft_items\"") {
     val id: Column<String> = text("id")
     val contract: Column<String> = text("contract")
     val tokenId: Column<String> = text("tokenId")

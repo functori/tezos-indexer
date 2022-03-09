@@ -1,4 +1,4 @@
-package org.rarible.tezos.indexer.model
+package org.rarible.tezos.indexer.model.collections
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.Max
@@ -15,12 +15,12 @@ data class NftCollections(
 
     @get:Min(0)
     @get:Max(9007199254740992)
-    @field:JsonProperty("total", required = true) val total: kotlin.Int,
+    @field:JsonProperty("total", required = true) val total: Int,
 
     @field:Valid
-    @field:JsonProperty("collections", required = true) val collections: kotlin.collections.List<NftCollection>,
+    @field:JsonProperty("collections", required = true) val collections: List<NftCollection>,
 
-    @field:JsonProperty("continuation") val continuation: kotlin.String? = null
+    @field:JsonProperty("continuation") val continuation: String? = null
 ) {
 
 }

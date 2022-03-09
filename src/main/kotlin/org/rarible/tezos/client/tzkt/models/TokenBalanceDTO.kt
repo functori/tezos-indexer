@@ -20,14 +20,8 @@
 
 package org.rarible.tezos.client.tzkt.models
 
-import com.fasterxml.jackson.annotation.JsonProperty
-
-import com.squareup.moshi.Json
-import org.jetbrains.exposed.dao.View
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
-import java.math.BigDecimal
-import javax.validation.Valid
 
 /**
  * 
@@ -43,7 +37,7 @@ import javax.validation.Valid
  * @param lastTime Timestamp of the block where the token balance was last changed.
  */
 
-object TokenBalances : Table("\"token_balances\"") {
+object TokenBalanceDTO : Table("\"token_balances\"") {
     val contract: Column<String> = text("contract")
     val owner: Column<String> = text("owner")
     val tokenId: Column<String> = text("token_id")

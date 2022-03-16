@@ -1,9 +1,7 @@
 rootProject.name = "tezos-indexer"
-include("core")
-
-rootProject.name = "tezos-indexer"
 
 include(
     "core",
-    "api"
+    "api",
+    "listener"
 )

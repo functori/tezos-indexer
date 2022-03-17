@@ -9,4 +9,5 @@ dependencies {
 	implementation("com.rarible.core:rarible-core-kafka:$raribleCommonVersion")
 	implementation("com.rarible.core:rarible-core-telemetry-starter:$raribleCommonVersion")
 	implementation("com.rarible.core:rarible-core-apm-starter:$raribleCommonVersion")
+	implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
 }

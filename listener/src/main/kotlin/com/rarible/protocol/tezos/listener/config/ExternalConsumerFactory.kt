@@ -4,8 +4,8 @@ import com.rarible.core.daemon.DaemonWorkerProperties
 import com.rarible.core.daemon.sequential.ConsumerWorker
 import com.rarible.core.kafka.RaribleKafkaConsumer
 import com.rarible.protocol.tezos.listener.handler.BatchedConsumerWorker
-import com.rarible.protocol.tezos.listener.handler.ExternalEventHandler
-import com.rarible.protocol.tezos.listener.handler.ExternalEventHandlerWrapper
+import com.rarible.protocol.tezos.listener.handler.external.ExternalEventHandler
+import com.rarible.protocol.tezos.listener.handler.external.ExternalEventHandlerWrapper
 import io.micrometer.core.instrument.MeterRegistry
 import org.springframework.stereotype.Component
 
@@ -15,17 +15,16 @@ class ExternalConsumerFactory(
 ) {
 
     companion object {
-        const val WRAPPED = "external"
+        const val EXTERNAL = "external"
     }
 
     fun <T> createExternalEventConsumer(
         consumer: RaribleKafkaConsumer<T>,
         handler: ExternalEventHandler<T>,
         daemon: DaemonWorkerProperties,
-        workerCount: Int
+        workers: Map<String, Int>
     ): BatchedConsumerWorker<T> {
-        val workers = mapOf(WRAPPED to 1)
-        return createExternalBatchedConsumerWorker(consumer, handler, daemon, workers, WRAPPED)
+        return createExternalBatchedConsumerWorker(consumer, handler, daemon, workers, EXTERNAL)
     }
 
     fun <T> createExternalBatchedConsumerWorker(

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ArrayNode
-import com.fasterxml.jackson.module.kotlin.contains
 import javax.validation.Valid
 
 /**
@@ -57,21 +56,21 @@ data class NftItemMeta(
                     "attributes" -> {
                         nftMetadata.attributes =  (value as ArrayNode).map{ attribute ->
                             val currentAttribute = NftItemAttribute()
-                            if(attribute.contains("name"))
+                            if(attribute.has("name"))
                                 currentAttribute.key = attribute.findValue("name").textValue()
-                            if(attribute.contains("value"))
+                            if(attribute.has("value"))
                                 currentAttribute.value = attribute.findValue("value").textValue()
-                            if(attribute.contains("type"))
+                            if(attribute.has("type"))
                                 currentAttribute.type = attribute.findValue("type").textValue()
-                            if(attribute.contains("format"))
+                            if(attribute.has("format"))
                                 currentAttribute.format = attribute.findValue("format").textValue()
                              currentAttribute
                         }
                     }
                     "formats" -> {
                         (value as ArrayNode).map{ attribute ->
-                            if(attribute.contains("mimeType")){
-                                if(attribute.contains("uri")){
+                            if(attribute.has("mimeType")){
+                                if(attribute.has("uri")){
                                     if(attribute.findValue("mimeType").textValue() in animationTypes){
                                         nftMetadata.animation =  attribute.findValue("uri").textValue()
                                     }

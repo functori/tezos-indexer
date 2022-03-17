@@ -1,4 +1,4 @@
-package com.rarible.protocol.tezos.listener.handler
+package com.rarible.protocol.tezos.listener.handler.external
 
 import com.rarible.core.daemon.sequential.ConsumerEventHandler
 import org.slf4j.LoggerFactory

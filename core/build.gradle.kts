@@ -1,5 +1,5 @@
 val tezosOpenapiVersion: String by project
 
 dependencies {
-    implementation("com.rarible.protocol.tezos:rarible-tezos-openapi:$tezosOpenapiVersion")
+    api("com.rarible.protocol.tezos:protocol-tezos-model:$tezosOpenapiVersion")
 }

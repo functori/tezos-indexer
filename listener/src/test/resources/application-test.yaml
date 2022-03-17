@@ -1,0 +1,12 @@
+common:
+  kafka-replica-set: ${kafka.hosts}
+
+rarible:
+  core:
+    apm:
+      agent:
+        enabled: false
+
+testcontainers:
+  reuse:
+    enable: true

@@ -32,7 +32,7 @@ class TestTezosConfiguration {
             clientId = "test.tezos.external.orders",
             valueSerializerClass = JsonSerializer::class.java,
             valueClass = TezosOrderEventDto::class.java,
-            defaultTopic = properties.externalTopic,
+            defaultTopic = properties.consumer.orderTopic,
             bootstrapServers = KafkaTestExtension.kafkaContainer.kafkaBoostrapServers()
         )
     }

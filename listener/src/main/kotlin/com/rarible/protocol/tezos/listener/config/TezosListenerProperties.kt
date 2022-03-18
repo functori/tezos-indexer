@@ -9,16 +9,18 @@ import org.springframework.boot.context.properties.ConstructorBinding
 data class TezosListenerProperties(
     val consumer: ConsumerProperties,
     val producer: ProducerProperties,
-    val monitoringWorker: DaemonWorkerProperties = DaemonWorkerProperties(),
-    val externalTopic: String
+    val monitoringWorker: DaemonWorkerProperties = DaemonWorkerProperties()
 )
 
 data class ConsumerProperties(
     val brokerReplicaSet: String,
-    val workers: Map<String, Int>
+    val workers: Map<String, Int>,
+    val orderTopic: String
 )
 
 data class ProducerProperties(
     val brokerReplicaSet: String,
+    val username: String? = null,
+    val password: String? = null,
     val orderTopic: String
 )

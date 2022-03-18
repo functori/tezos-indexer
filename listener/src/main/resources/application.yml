@@ -36,12 +36,11 @@ rarible:
         enabled: true
 
 listener:
-  externalTopic: tezos-events
   consumer:
     broker-replica-set: ${kafka.hosts}
     workers:
       external: 4
+    orderTopic: tezos-events
   producer:
     broker-replica-set: ${kafka.hosts}
     orderTopic: protocol.tezos.orders
-

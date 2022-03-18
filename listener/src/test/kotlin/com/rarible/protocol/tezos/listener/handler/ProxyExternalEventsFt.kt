@@ -1,12 +1,12 @@
-package com.rarible.protocol.tezos.listener
+package com.rarible.protocol.tezos.listener.handler
 
 import com.rarible.core.kafka.KafkaMessage
 import com.rarible.core.test.data.randomString
 import com.rarible.core.test.wait.Wait
 import com.rarible.protocol.tezos.core.model.TezosOrderEventDto
-import kotlinx.coroutines.delay
+import com.rarible.protocol.tezos.listener.AbstractListenerTest
+import com.rarible.protocol.tezos.listener.randomTezosOrderDto
 import org.assertj.core.api.Assertions
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.util.*
 

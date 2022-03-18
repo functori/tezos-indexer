@@ -10,7 +10,7 @@ import io.micrometer.core.instrument.MeterRegistry
 import org.springframework.stereotype.Component
 
 @Component
-class ExternalConsumerFactory(
+class ConsumerFactory(
     private val meterRegistry: MeterRegistry
 ) {
 

@@ -18,6 +18,15 @@ class ProducerConfiguration(
     private val env = applicationEnvironmentInfo.name
     private val producerBrokerReplicaSet = properties.producer.brokerReplicaSet
 
+    private fun properties(username: String?, password: String?): Map<String, String> {
+        return if (username != null && password != null) mapOf(
+            "security.protocol" to "SASL_PLAINTEXT",
+            "sasl.mechanism" to "PLAIN",
+            "sasl.jaas.config" to "org.apache.kafka.common.security.plain.PlainLoginModule required " +
+                    "username=\"$username\" password=\"$password\";"
+        ) else emptyMap()
+    }
+
     @Bean
     fun orderEventProducer(): RaribleKafkaProducer<TezosOrderSafeEventDto> {
         val orderTopic = properties.producer.orderTopic
@@ -30,8 +39,8 @@ class ProducerConfiguration(
             valueSerializerClass = JsonSerializer::class.java,
             valueClass = type,
             defaultTopic = topic,
-            bootstrapServers = producerBrokerReplicaSet
+            bootstrapServers = producerBrokerReplicaSet,
+            properties = properties(properties.producer.username, properties.producer.password)
         )
     }
-
 }

@@ -4,8 +4,8 @@ import com.rarible.core.application.ApplicationEnvironmentInfo
 import com.rarible.core.kafka.RaribleKafkaConsumer
 import com.rarible.core.kafka.json.JsonDeserializer
 import com.rarible.protocol.tezos.core.model.TezosOrderEventDto
-import com.rarible.protocol.tezos.listener.handler.external.ExternalEventHandler
 import com.rarible.protocol.tezos.listener.handler.KafkaConsumerWorker
+import com.rarible.protocol.tezos.listener.handler.external.ExternalEventHandler
 import org.apache.kafka.clients.consumer.OffsetResetStrategy
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -14,10 +14,10 @@ import java.util.*
 
 @Configuration
 @EnableConfigurationProperties(value = [TezosListenerProperties::class])
-class TezosListenerConfiguration(
+class ConsumerConfiguration(
     private val listenerProperties: TezosListenerProperties,
     applicationEnvironmentInfo: ApplicationEnvironmentInfo,
-    private val consumerFactory: ExternalConsumerFactory
+    private val consumerFactory: ConsumerFactory
 ) {
 
     private val env = applicationEnvironmentInfo.name
@@ -32,7 +32,7 @@ class TezosListenerConfiguration(
             valueDeserializerClass = JsonDeserializer::class.java,
             valueClass = TezosOrderEventDto::class.java,
             consumerGroup = consumerGroup("external.order"),
-            defaultTopic = listenerProperties.externalTopic,
+            defaultTopic = listenerProperties.consumer.orderTopic,
             bootstrapServers = listenerProperties.consumer.brokerReplicaSet,
             offsetResetStrategy = OffsetResetStrategy.EARLIEST
         )

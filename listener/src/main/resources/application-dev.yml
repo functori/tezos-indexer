@@ -1,0 +1,5 @@
+application:
+  environment: dev
+
+listener:
+  enable: false

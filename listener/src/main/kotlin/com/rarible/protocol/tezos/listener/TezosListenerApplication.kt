@@ -11,10 +11,14 @@ import org.springframework.context.annotation.Import
 @Import(CommonConfiguration::class)
 class TezosListenerApplication(
 	private val kafkaConsumers: List<KafkaConsumerWorker<*>>
-) : CommandLineRunner {
+) : CommandLineRunner, AutoCloseable {
 
 	override fun run(vararg args: String?) {
 		kafkaConsumers.forEach { it.start() }
+	}
+
+	override fun close() {
+		kafkaConsumers.forEach { it.close() }
 	}
 }
 

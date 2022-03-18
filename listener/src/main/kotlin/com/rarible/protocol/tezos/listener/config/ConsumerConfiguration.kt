@@ -7,12 +7,14 @@ import com.rarible.protocol.tezos.core.model.TezosOrderEventDto
 import com.rarible.protocol.tezos.listener.handler.KafkaConsumerWorker
 import com.rarible.protocol.tezos.listener.handler.external.ExternalEventHandler
 import org.apache.kafka.clients.consumer.OffsetResetStrategy
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.util.*
 
 @Configuration
+@ConditionalOnProperty(name = ["listener.enable"], havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(value = [TezosListenerProperties::class])
 class ConsumerConfiguration(
     private val listenerProperties: TezosListenerProperties,

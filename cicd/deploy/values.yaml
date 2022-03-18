@@ -1,0 +1,21 @@
+tezos-indexer:
+  image:
+    repository: tezos-indexer-listener
+  blockchain: tezos
+  environments:
+    APPLICATION_ENVIRONMENT: '{{ include "service.appEnv" $ }}'
+    CONSUL_ROOT_PATH: '{{ include "service.appEnv" $ }}/protocol/tezos-indexer'
+    SPRING_PROFILES_ACTIVE: 'consul,{{ include "service.appEnv" $ }}'
+  nodeSelector:
+    node.labels.rarible.job: true
+  endpointMode: dnsrr
+  updateConfig:
+    order: stop-first
+  resources:
+    jvm:
+      xmx_megabytes: 256
+      max_direct_memory_megabytes: 64
+  networks:
+    common:
+      - '{{ include "service.appEnv" $ }}-backend'
+      - internet

@@ -4,11 +4,13 @@ import com.rarible.core.application.ApplicationEnvironmentInfo
 import com.rarible.core.kafka.RaribleKafkaProducer
 import com.rarible.core.kafka.json.JsonSerializer
 import com.rarible.protocol.tezos.dto.TezosOrderSafeEventDto
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
+@ConditionalOnProperty(name = ["listener.enable"], havingValue = "true", matchIfMissing = false)
 @EnableConfigurationProperties(value = [TezosListenerProperties::class])
 class ProducerConfiguration(
     private val properties: TezosListenerProperties,

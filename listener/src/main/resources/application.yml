@@ -36,6 +36,7 @@ rarible:
         enabled: true
 
 listener:
+  enable: true
   consumer:
     broker-replica-set: ${kafka.hosts}
     workers:

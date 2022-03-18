@@ -1,21 +1,25 @@
 package com.rarible.protocol.tezos.listener.handler.external
 
-import com.rarible.core.kafka.KafkaMessage
 import com.rarible.core.kafka.RaribleKafkaProducer
-import com.rarible.protocol.tezos.convertOrder
+import com.rarible.protocol.tezos.convertOrderEvent
+import com.rarible.protocol.tezos.core.config.CommonProperties
 import com.rarible.protocol.tezos.core.model.TezosOrderEventDto
 import com.rarible.protocol.tezos.dto.TezosOrderSafeEventDto
-import com.rarible.protocol.tezos.listener.config.KafkaEventFactory.orderEvent
+import com.rarible.protocol.tezos.listener.config.KafkaEventFactory.kafkaMsg
 import org.springframework.stereotype.Component
-import java.util.*
 
 @Component
 class ExternalOrderEventHandler(
-    val producer: RaribleKafkaProducer<TezosOrderSafeEventDto>
+    val producer: RaribleKafkaProducer<TezosOrderSafeEventDto>,
+    val commonProps: CommonProperties
 ) : ExternalEventHandler<TezosOrderEventDto> {
 
     override suspend fun handle(event: TezosOrderEventDto) {
-        val event = orderEvent(convertOrder(event))
-        producer.send(event).ensureSuccess()
+        val event = convertOrderEvent(event)
+
+        // TODO: filter ignorable contracts
+
+        val msg = kafkaMsg(event)
+        producer.send(msg).ensureSuccess()
     }
 }

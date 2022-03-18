@@ -9,7 +9,7 @@ object KafkaEventFactory {
         "protocol.union.order.event.version" to "1.0.2" // TODO: Get from TezosEventTopicProvider.VERSION
     )
 
-    fun orderEvent(dto: TezosOrderSafeEventDto): KafkaMessage<TezosOrderSafeEventDto> {
+    fun kafkaMsg(dto: TezosOrderSafeEventDto): KafkaMessage<TezosOrderSafeEventDto> {
         return KafkaMessage(
             key = dto.orderId!!,
             value = dto,

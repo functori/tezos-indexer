@@ -4,7 +4,9 @@ import com.rarible.core.kafka.KafkaMessage
 import com.rarible.core.kafka.RaribleKafkaConsumer
 import com.rarible.core.kafka.RaribleKafkaProducer
 import com.rarible.core.test.ext.KafkaTest
+import com.rarible.protocol.tezos.core.model.TezosActivityEventDto
 import com.rarible.protocol.tezos.core.model.TezosOrderEventDto
+import com.rarible.protocol.tezos.dto.TezosActivitySafeDto
 import com.rarible.protocol.tezos.dto.TezosOrderSafeEventDto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
@@ -36,21 +38,32 @@ import java.util.concurrent.LinkedBlockingQueue
 abstract class AbstractListenerTest {
 
     @Autowired
-    lateinit var externalProducer: RaribleKafkaProducer<TezosOrderEventDto>
+    lateinit var externalOrderProducer: RaribleKafkaProducer<TezosOrderEventDto>
+
+    @Autowired
+    lateinit var externalActivityProducer: RaribleKafkaProducer<TezosActivityEventDto>
 
     @Autowired
     lateinit var orderConsumer: RaribleKafkaConsumer<TezosOrderSafeEventDto>
     var orderEvents: Queue<KafkaMessage<TezosOrderSafeEventDto>>? = null
     private var orderJob: Deferred<Unit>? = null
 
+    @Autowired
+    lateinit var activityConsumer: RaribleKafkaConsumer<TezosActivitySafeDto>
+    var activityEvents: Queue<KafkaMessage<TezosActivitySafeDto>>? = null
+    private var activityJob: Deferred<Unit>? = null
+
     fun <T> runWithKafka(block: suspend CoroutineScope.() -> T): T = runBlocking {
         orderEvents = LinkedBlockingQueue()
+        activityEvents = LinkedBlockingQueue()
         orderJob = async { orderConsumer.receiveAutoAck().collect { orderEvents?.add(it) } }
+        activityJob = async { activityConsumer.receiveAutoAck().collect { activityEvents?.add(it) } }
 
         val result = try {
             block()
         } finally {
             orderJob?.cancelAndJoin()
+            activityJob?.cancelAndJoin()
         }
         result
     }
@@ -59,6 +72,11 @@ abstract class AbstractListenerTest {
     fun findOrderUpdates(orderId: String): List<KafkaMessage<TezosOrderSafeEventDto>> {
         return filterByValueType(orderEvents as Queue<KafkaMessage<Any>>, TezosOrderSafeEventDto::class.java)
             .filter { it.value.orderId == orderId }
+    }
+
+    fun findActivityUpdates(id: String): List<KafkaMessage<TezosActivitySafeDto>> {
+        return filterByValueType(activityEvents as Queue<KafkaMessage<Any>>, TezosActivitySafeDto::class.java)
+            .filter { it.value.orderType?.id == id }
     }
 
     private fun <T> filterByValueType(messages: Queue<KafkaMessage<Any>>, type: Class<T>): Collection<KafkaMessage<T>> {

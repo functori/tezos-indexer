@@ -3,7 +3,9 @@ package com.rarible.protocol.tezos.listener.config
 import com.rarible.core.application.ApplicationEnvironmentInfo
 import com.rarible.core.kafka.RaribleKafkaProducer
 import com.rarible.core.kafka.json.JsonSerializer
+import com.rarible.protocol.tezos.dto.TezosActivitySafeDto
 import com.rarible.protocol.tezos.dto.TezosOrderSafeEventDto
+import com.rarible.protocol.tezos.dto.TezosOwnershipSafeEventDto
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -33,6 +35,12 @@ class ProducerConfiguration(
     fun orderEventProducer(): RaribleKafkaProducer<TezosOrderSafeEventDto> {
         val orderTopic = properties.producer.orderTopic
         return createProducer("order", orderTopic, TezosOrderSafeEventDto::class.java)
+    }
+
+    @Bean
+    fun activityEventProducer(): RaribleKafkaProducer<TezosActivitySafeDto> {
+        val orderTopic = properties.producer.activityTopic
+        return createProducer("activity", orderTopic, TezosActivitySafeDto::class.java)
     }
 
     private fun <T> createProducer(clientSuffix: String, topic: String, type: Class<T>): RaribleKafkaProducer<T> {

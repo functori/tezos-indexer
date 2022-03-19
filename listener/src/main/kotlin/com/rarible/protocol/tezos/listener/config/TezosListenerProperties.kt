@@ -15,12 +15,14 @@ data class TezosListenerProperties(
 data class ConsumerProperties(
     val brokerReplicaSet: String,
     val workers: Map<String, Int>,
-    val orderTopic: String
+    val orderTopic: String,
+    val activityTopic: String
 )
 
 data class ProducerProperties(
     val brokerReplicaSet: String,
     val username: String? = null,
     val password: String? = null,
-    val orderTopic: String
+    val orderTopic: String,
+    val activityTopic: String
 )

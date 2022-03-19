@@ -42,6 +42,8 @@ listener:
     workers:
       external: 4
     orderTopic: tezos-events
+    activityTopic: tezos-activities
   producer:
     broker-replica-set: ${kafka.hosts}
     orderTopic: protocol.tezos.orders
+    activityTopic: protocol.tezos.activity

@@ -1,4 +1,4 @@
-@Library('shared-library@v20211117-1') _
+@Library('shared-library@experiment/gradle-improvements') _
 
 def pipelineConfig = [
     "services": [

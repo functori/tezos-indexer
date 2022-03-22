@@ -1,8 +1,8 @@
 apiVersion: v2
-name: protocol
+name: protocol-tezos
 version: 0.1.0
 dependencies:
 - name: rarible-helm-chart
-  alias: tezos-listener
+  alias: tezos-indexer-listener
   repository: file://../resources/helm/rarible
   version: 0.1.0

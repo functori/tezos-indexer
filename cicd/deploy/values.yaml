@@ -1,4 +1,4 @@
-tezos-listener:
+tezos-indexer-listener:
   image:
     repository: tezos-indexer-listener
   blockchain: tezos

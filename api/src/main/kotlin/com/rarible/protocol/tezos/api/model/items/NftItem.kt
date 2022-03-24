@@ -2,7 +2,6 @@ package com.rarible.protocol.tezos.api.model.items
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.rarible.protocol.tezos.api.model.Part
-import java.time.Instant
 import javax.validation.Valid
 
 /**
@@ -22,7 +21,6 @@ import javax.validation.Valid
  * @param meta
  */
 data class NftItem(
-
     @field:JsonProperty("id", required = true) val id: String,
 
     @field:JsonProperty("contract", required = true) val contract: String,
@@ -41,9 +39,9 @@ data class NftItem(
     @field:Valid
     @field:JsonProperty("royalties", required = true) val royalties: List<Part>,
 
-    @field:JsonProperty("date", required = true) val date: Instant,
+    @field:JsonProperty("date", required = true) val date: java.time.OffsetDateTime,
 
-    @field:JsonProperty("mintedAt", required = true) val mintedAt: Instant,
+    @field:JsonProperty("mintedAt", required = true) val mintedAt: java.time.OffsetDateTime,
 
     @field:JsonProperty("deleted", required = true) val deleted: Boolean,
 

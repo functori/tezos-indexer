@@ -15,6 +15,7 @@ import com.rarible.protocol.tezos.api.model.items.NftItem
 import com.rarible.protocol.tezos.api.model.items.NftItemMeta
 import com.rarible.protocol.tezos.api.model.items.NftItemMeta.Companion.parseNFTMetadata
 import java.time.Instant
+import java.time.OffsetDateTime
 
 class NFTItemsRepository {
     companion object {
@@ -34,8 +35,8 @@ class NFTItemsRepository {
                 lazySupply = "0",
                 owners = item[NFTItemDTO.owners].split(",").toList(),
                 royalties = emptyList(),
-                date = item[NFTItemDTO.date],
-                mintedAt = item[NFTItemDTO.mintedAt],
+                date = OffsetDateTime.parse(item[NFTItemDTO.date].toString()),
+                mintedAt = OffsetDateTime.parse(item[NFTItemDTO.mintedAt].toString()),
                 deleted = (item[NFTItemDTO.supply] == item[NFTItemDTO.burned]),
                 onchainRoyalties = false,
                 meta = if(includeMeta == true && !item[NFTItemDTO.meta].isNullOrEmpty()){parseNFTMetadata(item[NFTItemDTO.meta])} else null

@@ -18,11 +18,10 @@ import com.rarible.protocol.tezos.api.model.items.NftItem
 import com.rarible.protocol.tezos.api.model.items.NftItemMeta
 import com.rarible.protocol.tezos.api.model.items.NftItemRoyalties
 import com.rarible.protocol.tezos.api.model.items.NftItems
-import com.rarible.protocol.tezos.api.util.tzkt.api.utils.Converter
 import com.rarible.protocol.tezos.api.util.tzkt.api.models.TokenBalance
 import com.rarible.protocol.tezos.api.util.tzkt.api.services.BigMapsApi
 import com.rarible.protocol.tezos.api.util.tzkt.api.services.TokensApi
-import com.rarible.protocol.tezos.api.util.tzkt.api.utils.Utils
+import com.rarible.protocol.tezos.api.util.tzkt.api.utils.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -227,16 +226,14 @@ class V01ApiController() {
         val bApi = BigMapsApi()
         val list = itemId.split(':')
         val contract = list[0]
-        println(contract)
         val tokenId = list[1]
-        println(tokenId)
-
+        println("$contract:$tokenId")
         val tokens = tApi.tokensGetTokens(contract, tokenId, limit = 1, offset = null, sort = null)
         val token = tokens[0]
-        val royalties = Utils.getRoyalties(bApi, contract, tokenId)
-        val creator = Utils.getCreator(tApi, contract, tokenId, royalties)
+        val royalties = getRoyalties(bApi, contract, tokenId)
+        val creator = getCreator(tApi, contract, tokenId, royalties)
         val tokenBalances = tApi.tokensGetTokenBalances(contract, tokenId)
-        val item = Converter.nftItemOfToken(token, royalties, creator, tokenBalances)
+        val item = nftItemOfToken(token, royalties, creator, tokenBalances)
         return ResponseEntity(item, HttpStatus.OK)
     }
 

@@ -3,17 +3,11 @@ package org.rarible.tezos.client.tzkt
 import com.rarible.protocol.tezos.api.controller.V01ApiController
 import org.junit.jupiter.api.Test
 import com.rarible.protocol.tezos.api.util.tzkt.db.TzKTDBClient
-import com.rarible.protocol.tezos.api.util.tzkt.repositories.NFTActivityRepository
 import com.rarible.protocol.tezos.api.util.tzkt.repositories.NFTItemsRepository
-import com.rarible.protocol.tezos.api.util.tzkt.repositories.TokenRepository
-import com.rarible.protocol.tezos.api.model.ActivitySort
-import com.rarible.protocol.tezos.api.model.activities.NftActivity
-import com.rarible.protocol.tezos.api.model.activities.NftMintBurnActivityElt
-import com.rarible.protocol.tezos.api.model.activities.NftTransferActivityElt
-import com.rarible.protocol.tezos.api.model.activities.filters.NftActivityFilterAllType
-import com.rarible.protocol.tezos.api.model.activities.filters.NftActivityFilterUserType
-import java.math.BigDecimal
-import java.time.Instant
+import com.rarible.protocol.tezos.api.model.items.NftItem
+import com.rarible.protocol.tezos.api.util.OldAPI
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 
 class TezosTzktDBClientGetItemsTests {
 
@@ -62,7 +56,12 @@ class TezosTzktDBClientGetItemsTests {
 	@Test
 	fun getNFTItem2() {
 		val apiController = V01ApiController()
-		apiController.getNftItemById2(itemId = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654", includeMeta = true)
+		val test_api = OldAPI()
+		val item = apiController.getNftItemById2(itemId = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654", includeMeta = true)
+		val item2 = test_api.getNftItem("KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654")
+		println(item.toString())
+		println(item2.toString())
+		assert(item == ResponseEntity<NftItem>(item2, HttpStatus.OK))
 	}
 
 

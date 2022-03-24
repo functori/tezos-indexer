@@ -227,12 +227,14 @@ class V01ApiController() {
         val list = itemId.split(':')
         val contract = list[0]
         val tokenId = list[1]
-        println("$contract:$tokenId")
         val tokens = tApi.tokensGetTokens(contract, tokenId, limit = 1, offset = null, sort = null)
         val token = tokens[0]
         val royalties = getRoyalties(bApi, contract, tokenId)
+        println(royalties)
         val creator = getCreator(tApi, contract, tokenId, royalties)
+        println(royalties)
         val tokenBalances = tApi.tokensGetTokenBalances(contract, tokenId)
+        println(royalties)
         val item = nftItemOfToken(token, royalties, creator, tokenBalances)
         return ResponseEntity(item, HttpStatus.OK)
     }

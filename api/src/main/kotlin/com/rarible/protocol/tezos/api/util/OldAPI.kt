@@ -41,6 +41,6 @@ class OldAPI(basePath: String = defaultBasePath) : ApiClient(basePath) {
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
     fun getNftItem(id: String) : NftItem {
-        return get<NftItem>("/items", mutableMapOf())
+        return get<NftItem>("/items/$id", mutableMapOf())
     }
 }

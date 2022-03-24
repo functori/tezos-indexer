@@ -58,6 +58,7 @@ class TezosTzktDBClientGetItemsTests {
 		val apiController = V01ApiController()
 		val test_api = OldAPI()
 		val item = apiController.getNftItemById2(itemId = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654", includeMeta = true)
+		//val item = apiController.getNftItemById2(itemId = "KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS:36492", includeMeta = true)
 		val item2 = test_api.getNftItem("KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654")
 		println(item.toString())
 		println(item2.toString())

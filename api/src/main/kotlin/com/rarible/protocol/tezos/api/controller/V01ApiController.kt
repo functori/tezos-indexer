@@ -1,13 +1,11 @@
 package com.rarible.protocol.tezos.api.controller
 
+import com.rarible.protocol.tezos.api.model.*
 import com.rarible.protocol.tezos.api.util.tzkt.repositories.NFTActivityRepository
 import com.rarible.protocol.tezos.api.util.tzkt.repositories.NFTItemsRepository
 import com.rarible.protocol.tezos.api.util.tzkt.repositories.TokenRepository
 import org.rarible.tezos.indexer.api.InternalErrorException
 import org.rarible.tezos.indexer.api.NotFoundException
-import com.rarible.protocol.tezos.api.model.ActivitySort
-import com.rarible.protocol.tezos.api.model.FTBalance
-import com.rarible.protocol.tezos.api.model.InlineResponse200
 import com.rarible.protocol.tezos.api.model.activities.NftActivities
 import com.rarible.protocol.tezos.api.model.activities.filters.NftActivityFilter
 import com.rarible.protocol.tezos.api.model.activities.filters.NftActivityFilterAll
@@ -20,19 +18,11 @@ import com.rarible.protocol.tezos.api.model.items.NftItem
 import com.rarible.protocol.tezos.api.model.items.NftItemMeta
 import com.rarible.protocol.tezos.api.model.items.NftItemRoyalties
 import com.rarible.protocol.tezos.api.model.items.NftItems
-import com.rarible.protocol.tezos.api.model.NftOwnership
-import com.rarible.protocol.tezos.api.model.NftOwnerships
-import com.rarible.protocol.tezos.api.model.NftTokenId
-import com.rarible.protocol.tezos.api.model.Order
-import com.rarible.protocol.tezos.api.model.OrderActivities
-import com.rarible.protocol.tezos.api.model.OrderActivityFilter
-import com.rarible.protocol.tezos.api.model.OrderCurrencies
-import com.rarible.protocol.tezos.api.model.OrderForm
-import com.rarible.protocol.tezos.api.model.OrderIds
-import com.rarible.protocol.tezos.api.model.OrderPagination
-import com.rarible.protocol.tezos.api.model.OrderSort
-import com.rarible.protocol.tezos.api.model.OrderStatus
-import com.rarible.protocol.tezos.api.model.SignatureValidationForm
+import com.rarible.protocol.tezos.api.util.tzkt.api.utils.Converter
+import com.rarible.protocol.tezos.api.util.tzkt.api.models.TokenBalance
+import com.rarible.protocol.tezos.api.util.tzkt.api.services.BigMapsApi
+import com.rarible.protocol.tezos.api.util.tzkt.api.services.TokensApi
+import com.rarible.protocol.tezos.api.util.tzkt.api.utils.Utils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -221,6 +211,32 @@ class V01ApiController() {
         @RequestParam(value = "includeMeta", required = false) includeMeta: Boolean?
     ): ResponseEntity<NftItem> {
         val item = NFTItemsRepository.queryNFTItem(itemId, includeMeta)
+        return ResponseEntity(item, HttpStatus.OK)
+    }
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/v0.1/items2/{itemId}"],
+        produces = ["application/json"]
+    )
+    fun getNftItemById2(
+        @PathVariable("itemId") itemId: String,
+        @RequestParam(value = "includeMeta", required = false) includeMeta: Boolean?
+    ): ResponseEntity<NftItem> {
+        val tApi = TokensApi()
+        val bApi = BigMapsApi()
+        val list = itemId.split(':')
+        val contract = list[0]
+        println(contract)
+        val tokenId = list[1]
+        println(tokenId)
+
+        val tokens = tApi.tokensGetTokens(contract, tokenId, limit = 1, offset = null, sort = null)
+        val token = tokens[0]
+        val royalties = Utils.getRoyalties(bApi, contract, tokenId)
+        val creator = Utils.getCreator(tApi, contract, tokenId, royalties)
+        val tokenBalances = tApi.tokensGetTokenBalances(contract, tokenId)
+        val item = Converter.nftItemOfToken(token, royalties, creator, tokenBalances)
         return ResponseEntity(item, HttpStatus.OK)
     }
 

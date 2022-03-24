@@ -1,5 +1,6 @@
 package org.rarible.tezos.client.tzkt
 
+import com.rarible.protocol.tezos.api.controller.V01ApiController
 import org.junit.jupiter.api.Test
 import com.rarible.protocol.tezos.api.util.tzkt.db.TzKTDBClient
 import com.rarible.protocol.tezos.api.util.tzkt.repositories.NFTActivityRepository
@@ -59,16 +60,18 @@ class TezosTzktDBClientGetItemsTests {
 	}
 
 	@Test
-	fun getNFTItem(){
-		val result = NFTItemsRepository.queryNFTItem("KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654",true);
-		assert(result != null)
+	fun getNFTItem2() {
+		val apiController = V01ApiController()
+		apiController.getNftItemById2(itemId = "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton:486654", includeMeta = true)
 	}
 
-	@Test
-	fun getNFTItemMeta(){
-		val result = NFTItemsRepository.queryNFTItemMeta("KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS:39879");
-		assert(result != null)
-	}
+
+
+//	@Test
+//	fun getNFTItemMeta(){
+//		val result = NFTItemsRepository.queryNFTItemMeta("KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS:39879");
+//		assert(result != null)
+//	}
 
 
 }

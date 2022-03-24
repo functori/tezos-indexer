@@ -18,14 +18,14 @@ class TezosIndexerGetItemsTests {
     @Test
     fun getAllNFTItems() {
         val apiController = V01ApiController()
-            apiController.getNftAllItems(
-                lastUpdateFrom =  null,
-                lastUpdateTo = null,
-                showDeleted =  true,
-                includeMeta = true,
-                size = 100,
-                continuation = null
-           )
+        apiController.getNftAllItems(
+            lastUpdateFrom =  null,
+            lastUpdateTo = null,
+            showDeleted =  true,
+            includeMeta = true,
+            size = 100,
+            continuation = null
+        )
     }
 
     @Test

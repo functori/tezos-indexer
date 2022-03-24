@@ -15,7 +15,7 @@ data class Part(
 
     @get:Min(0)
     @get:Max(2147483647)
-    @field:JsonProperty("value", required = true) val `value`: Int
+    @field:JsonProperty("value", required = true) var `value`: Int
 ) {
 
 }

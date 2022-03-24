@@ -27,7 +27,7 @@ data class TokenInfo (
     var id: kotlin.Int? = null,
     /* Contract, created the token. */
     @Json(name = "contract")
-    var contract: String? = null,
+    var contract: Alias? = null,
     /* Token id, unique within the contract. */
     @Json(name = "tokenId")
     var tokenId: kotlin.String? = null,

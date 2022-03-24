@@ -36,7 +36,7 @@ data class Token (
     var id: Int? = null,
     /* Contract, created the token. */
     @Json(name = "contract")
-    var contract: String? = null,
+    var contract: Alias? = null,
     /* Token id, unique within the contract.   **[sortable]** */
     @Json(name = "tokenId")
     var tokenId: String? = null,

@@ -140,7 +140,6 @@ class TokensApi(basePath: String = defaultBasePath) : ApiClient(basePath) {
             localVariableConfig,
             localVariableBody
         )
-
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as Array<Token>
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")

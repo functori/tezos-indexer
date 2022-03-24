@@ -19,15 +19,12 @@ class OldAPI(basePath: String = defaultBasePath) : ApiClient(basePath) {
         }
     }
 
-    @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getNftItem(id: String) : NftItem {
-        val query: MutableMap<String, List<String>> = mutableMapOf()
+    private fun <T>get(path: String, query: MutableMap<String, List<String>>) : T {
         val headers: MutableMap<String, String> = mutableMapOf()
-        val config = RequestConfig(RequestMethod.GET, "/v0.1/items/" + id, headers, query)
+        val config = RequestConfig(RequestMethod.GET, "/v0.1$path", headers, query)
         val response = request<NftItem>(config, null)
         return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as NftItem
+            ResponseType.Success -> (response as Success<*>).data as T
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
             ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
             ResponseType.ClientError -> {
@@ -39,5 +36,11 @@ class OldAPI(basePath: String = defaultBasePath) : ApiClient(basePath) {
                 throw ServerException("Server error : ${error.statusCode} ${error.message.orEmpty()}", error.statusCode, response)
             }
         }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getNftItem(id: String) : NftItem {
+        return get<NftItem>("/items", mutableMapOf())
     }
 }

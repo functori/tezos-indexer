@@ -9,7 +9,7 @@ import java.time.OffsetDateTime
 fun nftItemOfToken(token: Token, roy: Pair<List<Part>, Boolean>, creator : Part, tokenBalances : Array<TokenBalance>): NftItem {
     val contract = token.contract?.address!!
     val tokenId = token.tokenId!!
-    val id = contract + tokenId
+    val id = "$contract:$tokenId"
     val creators = listOf(creator)
     val supply = token.totalSupply!!
     val burned = token.totalBurned!!
@@ -19,5 +19,18 @@ fun nftItemOfToken(token: Token, roy: Pair<List<Part>, Boolean>, creator : Part,
     val mintedAt = token.firstTime!!
     val deleted = (supply.toInt() - burned.toInt()) == 0
     val onchainRoyalties = roy.second
-    return NftItem(id, contract, tokenId, creators, supply, lazySupply = "0", owners, royalties, date, mintedAt, deleted, onchainRoyalties)
+    return NftItem(
+        id,
+        contract,
+        tokenId,
+        creators,
+        supply,
+        lazySupply = "0",
+        owners,
+        royalties,
+        date,
+        mintedAt,
+        deleted,
+        onchainRoyalties
+    )
 }

@@ -1,5 +1,6 @@
 package com.rarible.protocol.tezos.api.util
 
+import com.rarible.protocol.tezos.api.model.NftOwnership
 import com.rarible.protocol.tezos.api.model.items.NftItem
 import com.rarible.protocol.tezos.api.util.tzkt.api.infrastructure.ApiClient
 import com.rarible.protocol.tezos.api.util.tzkt.api.infrastructure.ClientException
@@ -19,10 +20,10 @@ class OldAPI(basePath: String = defaultBasePath) : ApiClient(basePath) {
         }
     }
 
-    private fun <T>get(path: String, query: MutableMap<String, List<String>>) : T {
+    private inline fun <reified T>get(path: String, query: MutableMap<String, List<String>>) : T {
         val headers: MutableMap<String, String> = mutableMapOf()
         val config = RequestConfig(RequestMethod.GET, "/v0.1$path", headers, query)
-        val response = request<NftItem>(config, null)
+        val response = request<T>(config, null)
         return when (response.responseType) {
             ResponseType.Success -> (response as Success<*>).data as T
             ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
@@ -40,7 +41,21 @@ class OldAPI(basePath: String = defaultBasePath) : ApiClient(basePath) {
 
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getNftItem(id: String) : NftItem {
-        return get<NftItem>("/items/$id", mutableMapOf())
+    fun getNftItem(id: String, includeMeta: Boolean?) : NftItem {
+        val localVariableQuery = mutableMapOf<String, List<String>>()
+            .apply {
+                if (includeMeta != null) {
+                    put("includeMeta", listOf(includeMeta.toString()))
+                }
+            }
+        return get("/items/$id", localVariableQuery)
     }
+
+
+    @Suppress("UNCHECKED_CAST")
+    @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun getNftOwnership(id: String) : NftOwnership {
+        return get("/ownerships/$id", mutableMapOf())
+    }
+
 }

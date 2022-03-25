@@ -16,10 +16,8 @@ fun getRoyalties(api: BigMapsApi, contract: String, tokenId: String): Pair<List<
         // Rarible
         "KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS" -> {
             val bm = api.bigMapsGetKey(id = 55541, tokenId, null)
-            println(bm.value)
             val mapper = ObjectMapper().registerModule(KotlinModule())
             var parts = mapper.convertValue<List<TzKtPart>>(bm.value!!)
-            println(parts)
             val p = parts.map { Part(it.partAccount, it.partValue.toInt()) }
             return Pair(p, true)
         }
@@ -27,17 +25,12 @@ fun getRoyalties(api: BigMapsApi, contract: String, tokenId: String): Pair<List<
         // Hen
         "KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton" -> {
             val bm = api.bigMapsGetKey(id = 522, tokenId, null)
-            println(bm.value)
             val mapper = ObjectMapper().registerModule(KotlinModule())
             val hen = mapper.convertValue<HenIssuer>(bm.value!!)
-            println(hen)
-            val parts =
-                if (hen != null)
-                    listOf(Part(account = hen.issuer, value = hen.royalties.toInt() * 10))
-                else listOf()
+            val parts = listOf(Part(account = hen.issuer, value = hen.royalties.toInt() * 10))
             return Pair(parts, false)
         }
-        // FXHASH
+        // CUSTOM FXHASH
         // FROM metadata
         else -> throw InvalidClassException("Unknown royalties scheme")
     }

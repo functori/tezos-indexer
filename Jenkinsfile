@@ -3,7 +3,7 @@
 def pipelineConfig = [
     "stackName": "protocol-tezos",
     "services": [
-        [name: 'api', path: './api']
+        [name: 'api', path: './api'],
         [name: 'listener', path: './listener']
     ]
 ]

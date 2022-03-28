@@ -1,0 +1,16 @@
+common:
+  kafka-replica-set: ${kafka.hosts}
+
+rarible:
+  core:
+    apm:
+      agent:
+        enabled: false
+
+testcontainers:
+  reuse:
+    enable: true
+
+api:
+  dipdup:
+    host: https://rarible-hangzhounet.dipdup.net/v1/graphql

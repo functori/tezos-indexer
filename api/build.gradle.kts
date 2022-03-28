@@ -11,9 +11,10 @@ dependencies {
 	implementation(project(":core"))
 	api("com.rarible.protocol.tezos:protocol-tezos-indexer-api:$tezosOpenapiVersion")
 
-	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+//	implementation("org.springframework.boot:spring-boot-starter")
+//	implementation("org.springframework.boot:spring-boot-starter-web")
+//	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
@@ -28,8 +29,10 @@ dependencies {
 	implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
 	implementation("org.postgresql:postgresql")
 	implementation("com.expediagroup:graphql-kotlin-spring-client:5.3.2")
+
 	testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("com.rarible.protocol.tezos:protocol-tezos-indexer-client:$tezosOpenapiVersion")
 }
 
 tasks.test {

@@ -4,11 +4,13 @@ import com.rarible.protocol.tezos.indexer.client.FixedTezosIndexerServiceUriProv
 import com.rarible.protocol.tezos.indexer.client.NoopWebClientCustomizer
 import com.rarible.protocol.tezos.indexer.client.OrderControllerApi
 import com.rarible.protocol.tezos.indexer.client.TezosIndexerClientFactory
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.jupiter.api.AfterEach
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.ContextConfiguration
-import org.testcontainers.junit.jupiter.Testcontainers
 import java.net.URI
 import javax.annotation.PostConstruct
 
@@ -23,7 +25,7 @@ import javax.annotation.PostConstruct
     ]
 )
 @ActiveProfiles("test")
-@Testcontainers
+@Import(TestApiConfiguration::class)
 abstract class AbstractApiTest {
 
     @LocalServerPort
@@ -31,11 +33,19 @@ abstract class AbstractApiTest {
 
     protected lateinit var orderApi: OrderControllerApi
 
+    @Autowired
+    protected lateinit var mockSerser: MockWebServer
+
     @PostConstruct
     fun setup() {
         val urlProvider = FixedTezosIndexerServiceUriProvider(URI.create("http://127.0.0.1:$port"))
         val clientFactory = TezosIndexerClientFactory(urlProvider, NoopWebClientCustomizer())
         orderApi = clientFactory.createOrderApiClient()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        mockSerser.shutdown()
     }
 
 }

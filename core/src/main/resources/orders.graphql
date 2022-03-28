@@ -1,0 +1,11 @@
+query GetOrders($id: bigint!) {
+    marketplace_order(
+        order_by: {created_at: asc}
+        where: {id: {_gt: $id}}
+        limit: 10
+    ) {
+        maker
+        id
+    }
+}
+

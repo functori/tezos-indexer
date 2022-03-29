@@ -1,5 +1,8 @@
 package com.rarible.protocol.tezos.api.controller
 
+import com.rarible.protocol.tezos.api.model.items.NftItem
+import com.rarible.protocol.tezos.api.service.NftItemService
+import com.rarible.protocol.tezos.api.util.tzkt.api.utils.nftItemDtoOfNftItem
 import com.rarible.protocol.tezos.dto.NftItemDto
 import com.rarible.protocol.tezos.dto.NftItemMetaDto
 import com.rarible.protocol.tezos.dto.NftItemsDto
@@ -8,7 +11,9 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class NftItemController() : NftItemControllerApi {
+class NftItemController(
+    val itemService: NftItemService
+    ) : NftItemControllerApi {
     override suspend fun getNftAllItems(
         lastUpdateFrom: String?,
         lastUpdateTo: String?,
@@ -21,7 +26,7 @@ class NftItemController() : NftItemControllerApi {
     }
 
     override suspend fun getNftItemById(itemId: String, includeMeta: Boolean?): ResponseEntity<NftItemDto> {
-        TODO("Not yet implemented")
+        return ResponseEntity.ok(nftItemDtoOfNftItem(itemService.getById(itemId)))
     }
 
     override suspend fun getNftItemMetaById(itemId: String): ResponseEntity<NftItemMetaDto> {

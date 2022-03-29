@@ -21,7 +21,9 @@ import com.rarible.protocol.tezos.api.util.tzkt.api.infrastructure.RequestMethod
 import com.rarible.protocol.tezos.api.util.tzkt.api.infrastructure.ResponseType
 import com.rarible.protocol.tezos.api.util.tzkt.api.infrastructure.Success
 import com.rarible.protocol.tezos.api.util.tzkt.api.models.*
+import org.springframework.stereotype.Component
 
+@Component
 class TokensApi(basePath: String = defaultBasePath) : ApiClient(basePath) {
     companion object {
 

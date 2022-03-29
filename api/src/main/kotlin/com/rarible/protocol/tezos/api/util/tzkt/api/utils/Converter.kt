@@ -6,6 +6,39 @@ import com.rarible.protocol.tezos.api.model.items.NftItem
 import com.rarible.protocol.tezos.api.model.items.NftItemMeta
 import com.rarible.protocol.tezos.api.util.tzkt.api.models.Token
 import com.rarible.protocol.tezos.api.util.tzkt.api.models.TokenBalance
+import com.rarible.protocol.tezos.dto.NftItemAttributeDto
+import com.rarible.protocol.tezos.dto.NftItemDto
+import com.rarible.protocol.tezos.dto.NftItemMetaDto
+import com.rarible.protocol.tezos.dto.PartDto
+
+fun nftItemMetaDtoOfNftItemMeta(meta : NftItemMeta?) : NftItemMetaDto? {
+    if (meta == null) return null
+    else {
+        val name = meta.name
+        val animation = null
+        val attributes = listOf<NftItemAttributeDto>()
+        val description = meta.description
+        val image = meta.image
+        return NftItemMetaDto(name,animation,attributes,description, image)
+    }
+}
+
+fun nftItemDtoOfNftItem(item: NftItem) : NftItemDto {
+    return NftItemDto(
+        id = item.id,
+        contract = item.contract,
+        tokenId = item.tokenId.toBigInteger(),
+        creators = item.creators.map{PartDto(account=it.account, value=it.value)},
+        date = item.date.toInstant(),
+        mintedAt = item.mintedAt.toInstant(),
+        deleted = item.deleted,
+        supply = item.supply.toBigInteger(),
+        lazySupply = item.lazySupply.toBigInteger(),
+        owners = item.owners,
+        royalties = item.royalties.map{PartDto(account=it.account, value=it.value)},
+        meta = nftItemMetaDtoOfNftItemMeta(item.meta)
+    )
+}
 
 fun nftItemOfToken(token: Token, roy: Pair<List<Part>, Boolean>, creator : Part, tokenBalances : Array<TokenBalance>): NftItem {
     val contract = token.contract?.address!!

@@ -13,8 +13,9 @@ package com.rarible.protocol.tezos.api.util.tzkt.api.services
 
 import com.rarible.protocol.tezos.api.util.tzkt.api.infrastructure.*
 import com.rarible.protocol.tezos.api.util.tzkt.api.models.*
+import org.springframework.stereotype.Component
 
-
+@Component
 class BigMapsApi(basePath: String = defaultBasePath) : ApiClient(basePath) {
     companion object {
         @JvmStatic

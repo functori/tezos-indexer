@@ -12,6 +12,7 @@ dependencies {
 	api("com.rarible.protocol.tezos:protocol-tezos-indexer-api:$tezosOpenapiVersion")
 
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
+
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.squareup.moshi:moshi-kotlin:1.12.0")

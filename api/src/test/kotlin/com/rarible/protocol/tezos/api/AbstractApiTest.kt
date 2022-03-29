@@ -1,9 +1,7 @@
 package com.rarible.protocol.tezos.api
 
-import com.rarible.protocol.tezos.indexer.client.FixedTezosIndexerServiceUriProvider
-import com.rarible.protocol.tezos.indexer.client.NoopWebClientCustomizer
-import com.rarible.protocol.tezos.indexer.client.OrderControllerApi
-import com.rarible.protocol.tezos.indexer.client.TezosIndexerClientFactory
+import com.rarible.protocol.tezos.api.model.NftOwnership
+import com.rarible.protocol.tezos.indexer.client.*
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.jupiter.api.AfterEach
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,6 +30,8 @@ abstract class AbstractApiTest {
     protected var port: Int = 0
 
     protected lateinit var orderApi: OrderControllerApi
+    protected lateinit var itemApi : NftItemControllerApi
+//  protected lateinit var ownershipApi : NftOwnershipControllerApi
 
     @Autowired
     protected lateinit var mockSerser: MockWebServer
@@ -41,6 +41,8 @@ abstract class AbstractApiTest {
         val urlProvider = FixedTezosIndexerServiceUriProvider(URI.create("http://127.0.0.1:$port"))
         val clientFactory = TezosIndexerClientFactory(urlProvider, NoopWebClientCustomizer())
         orderApi = clientFactory.createOrderApiClient()
+        itemApi = clientFactory.createNftItemApiClient()
+//      ownershipApi= clientFactory.createNFtOwnershipApiClient()
     }
 
     @AfterEach

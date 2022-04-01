@@ -216,10 +216,17 @@ class ItemControllerIt : AbstractApiTest() {
 ]""".trimIndent()))
         val itemId = "KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS:36492"
         val item = itemApi.getNftItemById(itemId,true).awaitSingle()
-        println(item)
         assertThat(item).isNotNull
         assertThat(item.id).isEqualTo(itemId)
         assertThat(item.meta!!.name).isEqualTo("The adventures first, explanations take such a dreadful time.")
+    }
+
+    @Test
+    fun `should get items`() = runBlocking<Unit> {
+        // lastUpdateFrom, lastUpdateTo are not useful and should be removed
+        // continuation should be String?
+        val items = itemApi.getNftAllItems("", "", true, true, 30, "").awaitSingle()
+        assertThat(items.items.size == 30)
     }
 
 }

@@ -111,18 +111,24 @@ class TokensApi(basePath: String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun tokensGetTokens(contract: String?, tokenId: String?, sort: SortParameter?, offset: OffsetParameter?, limit: Int?) : Array<Token> {
+    fun tokensGetTokens(id : IdParameter?, contract: String?, tokenId: String?, sort: SortParameter?, offset: OffsetParameter?, limit: Int?) : Array<Token> {
         val localVariableBody: Any? = null
         val localVariableQuery = mutableMapOf<String, List<String>>()
             .apply {
+                if (id?.lt != null) {
+                    put("id.lt", listOf(id.lt.toString()))
+                }
                 if (contract != null) {
                     put("contract", listOf(contract.toString()))
                 }
                 if (tokenId != null) {
                     put("tokenId", listOf(tokenId.toString()))
                 }
-                if (sort != null) {
-                    put("sort", listOf(sort.toString()))
+                if (sort?.asc != null) {
+                    put("sort.asc", listOf(sort.asc.toString()))
+                }
+                if (sort?.desc != null) {
+                    put("sort.desc", listOf(sort.desc.toString()))
                 }
                 if (offset != null) {
                     put("offset", listOf(offset.toString()))
@@ -170,7 +176,7 @@ class TokensApi(basePath: String = defaultBasePath) : ApiClient(basePath) {
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun tokensGetTokenBalances(tokenPeriodContract: String?, tokenPeriodTokenId: String?, account: String?) : Array<TokenBalance> {
+    fun tokensGetTokenBalances(tokenPeriodContract: String?, tokenPeriodTokenId: String?, account: String?, id : IdParameter?, sort : SortParameter?, offset: OffsetParameter?, limit: Int?) : Array<TokenBalance> {
         val localVariableBody: Any? = null
         val localVariableQuery = mutableMapOf<String, List<String>>()
             .apply {
@@ -182,6 +188,21 @@ class TokensApi(basePath: String = defaultBasePath) : ApiClient(basePath) {
                 }
                 if (account != null) {
                     put("account", listOf(account.toString()))
+                }
+                if (id?.lt != null) {
+                    put("id.lt", listOf(id.lt.toString()))
+                }
+                if (sort?.asc != null) {
+                    put("sort.asc", listOf(sort.asc.toString()))
+                }
+                if (sort?.desc != null) {
+                    put("sort.desc", listOf(sort.desc.toString()))
+                }
+                if (offset != null) {
+                    put("offset", listOf(offset.toString()))
+                }
+                if (limit != null) {
+                    put("limit", listOf(limit.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

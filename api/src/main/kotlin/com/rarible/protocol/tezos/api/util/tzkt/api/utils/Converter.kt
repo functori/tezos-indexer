@@ -4,12 +4,11 @@ import com.rarible.protocol.tezos.api.model.NftOwnership
 import com.rarible.protocol.tezos.api.model.Part
 import com.rarible.protocol.tezos.api.model.items.NftItem
 import com.rarible.protocol.tezos.api.model.items.NftItemMeta
+import com.rarible.protocol.tezos.api.model.items.NftItems
+import com.rarible.protocol.tezos.api.model.items.NftOwnerships
 import com.rarible.protocol.tezos.api.util.tzkt.api.models.Token
 import com.rarible.protocol.tezos.api.util.tzkt.api.models.TokenBalance
-import com.rarible.protocol.tezos.dto.NftItemAttributeDto
-import com.rarible.protocol.tezos.dto.NftItemDto
-import com.rarible.protocol.tezos.dto.NftItemMetaDto
-import com.rarible.protocol.tezos.dto.PartDto
+import com.rarible.protocol.tezos.dto.*
 
 fun nftItemMetaDtoOfNftItemMeta(meta : NftItemMeta?) : NftItemMetaDto? {
     if (meta == null) return null
@@ -40,7 +39,15 @@ fun nftItemDtoOfNftItem(item: NftItem) : NftItemDto {
     )
 }
 
-fun nftItemOfToken(token: Token, roy: Pair<List<Part>, Boolean>, creator : Part, tokenBalances : Array<TokenBalance>): NftItem {
+fun nftItemsDtoOfNftItems(items: NftItems) : NftItemsDto {
+    return NftItemsDto(
+        items = items.items.map { nftItemDtoOfNftItem( it ) },
+        total = items.total,
+        continuation = items.continuation
+    )
+}
+
+fun nftItemOfToken(token: Token, roy: Pair<List<Part>, Boolean>, creator : Part, tokenBalances : Array<TokenBalance>, includeMeta : Boolean?) : NftItem {
     val contract = token.contract?.address!!
     val tokenId = token.tokenId!!
     val id = "$contract:$tokenId"
@@ -53,8 +60,9 @@ fun nftItemOfToken(token: Token, roy: Pair<List<Part>, Boolean>, creator : Part,
     val mintedAt = token.firstTime!!
     val deleted = (supply.toInt() - burned.toInt()) == 0
     val onchainRoyalties = roy.second
-    var meta = NftItemMeta(name=token.metadata?.name!!.toString())
-        return NftItem(
+    val meta =
+        if (includeMeta == true) NftItemMeta(name=token?.metadata?.name.toString()) else null
+    return NftItem(
         id,
         contract,
         tokenId,

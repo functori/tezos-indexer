@@ -39,7 +39,7 @@ class BigMapsApi(basePath: String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun bigMapsGetBigMaps(contract: String?, sort: SortParameter?, offset: OffsetParameter?, limit: Int?, micheline: MichelineParameter?) : Array<BigMap> {
+    fun bigMapsGetBigMaps(contract: String?, sort: IdParameter?, offset: OffsetParameter?, limit: Int?, micheline: MichelineParameter?) : Array<BigMap> {
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf<String, List<String>>()
             .apply {

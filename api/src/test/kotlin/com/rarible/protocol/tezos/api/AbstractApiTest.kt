@@ -31,7 +31,7 @@ abstract class AbstractApiTest {
 
     protected lateinit var orderApi: OrderControllerApi
     protected lateinit var itemApi : NftItemControllerApi
-//  protected lateinit var ownershipApi : NftOwnershipControllerApi
+//    protected lateinit var ownershipApi : NftOwnershipControllerApi
 
     @Autowired
     protected lateinit var mockSerser: MockWebServer
@@ -42,7 +42,7 @@ abstract class AbstractApiTest {
         val clientFactory = TezosIndexerClientFactory(urlProvider, NoopWebClientCustomizer())
         orderApi = clientFactory.createOrderApiClient()
         itemApi = clientFactory.createNftItemApiClient()
-//      ownershipApi= clientFactory.createNFtOwnershipApiClient()
+//        ownershipApi= clientFactory.createNFtOwnershipApiClient()
     }
 
     @AfterEach
